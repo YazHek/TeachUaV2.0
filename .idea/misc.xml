@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.25" />
+        <entry key="../../.gradle/caches/transforms-3/cc79d021f8876df91dd0f4ae07e2bd31/transformed/ImageSlideshow-0.1.0/res/drawable/default_selected_dot.xml" value="0.135" />
+        <entry key="app/src/main/res/drawable-anydpi/ic_arrow.xml" value="0.135" />
+        <entry key="app/src/main/res/drawable/banner_shadow.xml" value="0.135" />
+        <entry key="app/src/main/res/drawable/circle.xml" value="0.135" />
+        <entry key="app/src/main/res/drawable/main_background.xml" value="0.135" />
+        <entry key="app/src/main/res/drawable/selected_dot.xml" value="0.135" />
+        <entry key="app/src/main/res/drawable/side_nav_bar.xml" value="0.135" />
+        <entry key="app/src/main/res/drawable/spinner_background.xml" value="0.135" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/app_bar_main.xml" value="0.1900197347005208" />
+        <entry key="app/src/main/res/layout/banner_item.xml" value="0.27389272054036456" />
+        <entry key="app/src/main/res/layout/card_item.xml" value="0.15070921985815602" />
+        <entry key="app/src/main/res/layout/category_item.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/content_main.xml" value="0.2479268391927083" />
+        <entry key="app/src/main/res/layout/fragment_challange.xml" value="0.15520833333333334" />
+        <entry key="app/src/main/res/layout/fragment_clubs.xml" value="0.15070921985815602" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.2326995849609375" />
+        <entry key="app/src/main/res/layout/nav_header_main.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/toolbar.xml" value="0.2953125" />
+        <entry key="app/src/main/res/menu/activity_main_drawer.xml" value="0.3098958333333333" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

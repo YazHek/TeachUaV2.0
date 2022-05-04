@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/main_background"
+    style="@style/Theme.TeachUaV20.NoActionBar"
+    tools:context=".ui.clubs.ClubsFragment">
+
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/purple_700"
+            android:orientation="vertical"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+
+
+        <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_alignParentTop="true"
+                android:background="@color/toolbar_orange"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:titleTextColor="@color/white">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <EditText
+                        android:id="@+id/searchEdit"
+                        android:layout_width="176dp"
+                        android:layout_height="45dp"
+                        android:layout_marginTop="90dp"
+                        android:hint="Search club"
+                        android:imeOptions="actionSearch"
+                        android:inputType="text"
+                        android:textColor="@color/white"
+                        app:endIconMode="clear_text">
+
+                    </EditText>
+
+                    <ImageView
+                        android:id="@+id/clearEdit"
+                        android:layout_width="20dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/searchEdit"
+                        android:layout_alignRight="@id/searchEdit"
+                        android:layout_alignBottom="@id/searchEdit"
+                        android:background="@drawable/ic_clear"
+                        android:padding="5dp"
+                        android:visibility="invisible" />
+
+
+                    <ImageView
+                        android:id="@+id/searchBtn"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_marginStart="180dp"
+                        android:layout_marginTop="90dp"
+                        android:background="@drawable/ic_search" />
+
+
+                    <ImageView
+                        android:id="@+id/searchAdvBtn"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_marginStart="230dp"
+                        android:layout_marginTop="90dp"
+                        android:background="@drawable/ic_adv_search" />
+
+
+                    <Spinner
+                        android:id="@+id/spinner_cities"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="150dp"
+                        android:layout_marginBottom="70dp"
+                        android:spinnerMode="dropdown" />
+
+
+                </RelativeLayout>
+
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+
+        <!--        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
+        <!--            android:id="@+id/swipeRefresh"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="parent">-->
+
+        <TextView
+            android:id="@+id/error_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Error Loading Clubs"
+            android:textSize="20sp"
+            android:visibility="invisible"
+            app:layout_anchor="@+id/rcv"
+            app:layout_anchorGravity="center" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+
+        <!--        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
