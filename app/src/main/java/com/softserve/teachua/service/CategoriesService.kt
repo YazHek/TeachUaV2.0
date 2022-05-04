@@ -1,22 +1,26 @@
 package com.softserve.teachua.service
 
-import com.softserve.teachua.mapper.toCategory
-import com.softserve.teachua.model.CategoryModel
-import com.softserve.teachua.retrofit.Common
+import com.softserve.teachua.app.tools.Resource
+import com.softserve.teachua.app.tools.mapper.toCategory
+import com.softserve.teachua.data.model.CategoryModel
+import com.softserve.teachua.data.retrofit.Common
+import com.softserve.teachua.data.retrofit.RetrofitService
+import javax.inject.Inject
 
-class CategoriesService() {
+class CategoriesService @Inject constructor(
+    private val retrofitService: RetrofitService,
+) {
 
-    var retrofitService = Common.retrofitService
 
-    suspend fun getAllCategories(): List<CategoryModel> {
+    suspend fun getAllCategories(): Resource<List<CategoryModel>> {
 
-        lateinit var categories: List<CategoryModel>
         val categoriesResponse = retrofitService.getAllCategories()
-        if (categoriesResponse.isSuccessful) {
+        return if (categoriesResponse.isSuccessful) {
 
-            categories = checkNotNull(categoriesResponse.body()).map { it.toCategory() }
-        }
-        return categories
+            val categories = checkNotNull(categoriesResponse.body()).map { it.toCategory() }
+            Resource.success(categories)
+        } else
+            Resource.error()
 
     }
 }

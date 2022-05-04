@@ -7,18 +7,22 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.softserve.teachua.MainActivity
-import com.softserve.teachua.adapters.ClubsAdapter
-import com.softserve.teachua.adapters.ClubsLoadStateAdapter
+import com.softserve.teachua.app.adapters.ClubsAdapter
+import com.softserve.teachua.app.adapters.ClubsLoadStateAdapter
 import com.softserve.teachua.databinding.FragmentClubsBinding
-import com.softserve.teachua.dto.AdvancedSearchClubDto
-import com.softserve.teachua.dto.SearchClubDto
+import com.softserve.teachua.data.dto.AdvancedSearchClubDto
+import com.softserve.teachua.data.dto.SearchClubDto
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-
+@AndroidEntryPoint
 class ClubsFragment : Fragment() {
 
     private var _binding: FragmentClubsBinding? = null

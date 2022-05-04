@@ -14,7 +14,9 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.softserve.teachua.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -73,7 +75,7 @@ class MainActivity : AppCompatActivity() {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration =
-            AppBarConfiguration(setOf(R.id.nav_home, R.id.nav_slideshow, R.id.nav_gallery),
+            AppBarConfiguration(setOf(R.id.nav_home, R.id.nav_challenges, R.id.nav_gallery),
                 drawerLayout)
         // findViewById<Toolbar>(R.id.toolbar).setupWithNavController(navController, appBarConfiguration)
         setupActionBarWithNavController(navController, appBarConfiguration)

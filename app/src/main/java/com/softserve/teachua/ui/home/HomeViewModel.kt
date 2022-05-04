@@ -5,56 +5,49 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.denzcoskun.imageslider.models.SlideModel
-import com.softserve.teachua.model.BannerModel
-import com.softserve.teachua.model.CategoryModel
+import com.softserve.teachua.app.baseImageUrl
+import com.softserve.teachua.app.tools.Resource
+import com.softserve.teachua.data.model.BannerModel
+import com.softserve.teachua.data.model.CategoryModel
 import com.softserve.teachua.service.BannersService
 import com.softserve.teachua.service.CategoriesService
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeViewModel : ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    private val categoriesService: CategoriesService,
+    private val bannersService: BannersService,
+) : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "https://speak-ukrainian.org.ua/dev/"
-    }
-    val baseUrl: LiveData<String> = _text
+    private var _banners = MutableStateFlow<Resource<List<BannerModel>>>(Resource.loading())
 
-    private var _banners = MutableStateFlow<List<BannerModel>>(emptyList())
-
-    val banners: StateFlow<List<BannerModel>>
+    val banners: StateFlow<Resource<List<BannerModel>>>
         get() = _banners
 
-    private var _bans = MutableStateFlow<List<SlideModel>>(emptyList())
+//    private var _bans = MutableStateFlow<List<SlideModel>>(emptyList())
+//
+//    val bans: StateFlow<List<SlideModel>>
+//        get() = _bans
 
-    val bans: StateFlow<List<SlideModel>>
-        get() = _bans
+    private var _categories = MutableStateFlow<Resource<List<CategoryModel>>>(Resource.loading())
 
-    private var _categories = MutableStateFlow<List<CategoryModel>>(emptyList())
-
-    val categories: StateFlow<List<CategoryModel>>
+    val categories: StateFlow<Resource<List<CategoryModel>>>
         get() = _categories
 
     private val _staticMainImg = MutableLiveData<String>().apply {
-        value = baseUrl.value + "static/images/about/challenge_2.png"
+        value = baseImageUrl + "static/images/about/challenge_2.png"
     }
     val staticMainImg: LiveData<String>
         get() = _staticMainImg
 
-    fun loadBanners() = viewModelScope.launch { _banners.value = BannersService().getAllBanners() }
+
+    fun loadBanners() = viewModelScope.launch { _banners.value = bannersService.getAllBanners() }
 
     fun loadCategories() =
-        viewModelScope.launch { _categories.value = CategoriesService().getAllCategories() }
+        viewModelScope.launch { _categories.value = categoriesService.getAllCategories() }
 
-
-    fun loadBans() = viewModelScope.launch {
-        _banners.value = BannersService().getAllBanners()
-        for (ban in _banners.value) {
-
-            _bans.value.apply {
-                SlideModel("https://speak-ukrainian.org.ua/dev/" + ban.bannerPicture,
-                    ban.bannerTitle)
-            }
-        }
-    }
 }

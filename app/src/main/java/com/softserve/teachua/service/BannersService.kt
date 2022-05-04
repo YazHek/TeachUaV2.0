@@ -1,21 +1,29 @@
 package com.softserve.teachua.service
 
-import com.softserve.teachua.mapper.toBanner
-import com.softserve.teachua.model.BannerModel
-import com.softserve.teachua.retrofit.Common
+import com.softserve.teachua.app.tools.Resource
+import com.softserve.teachua.app.tools.mapper.toBanner
+import com.softserve.teachua.data.model.BannerModel
+import com.softserve.teachua.data.retrofit.Common
+import com.softserve.teachua.data.retrofit.RetrofitClient
+import com.softserve.teachua.data.retrofit.RetrofitService
+import retrofit2.Response
+import javax.inject.Inject
 
-class BannersService() {
-    var retrofitService = Common.retrofitService
 
-    suspend fun getAllBanners(): List<BannerModel> {
+class BannersService @Inject constructor(
+    private val retrofitService : RetrofitService
+) {
 
-        lateinit var  banners: List<BannerModel>
+
+    suspend fun getAllBanners(): Resource<List<BannerModel>> {
+
         val bannersResponse = retrofitService.getAllBanners()
-        if (bannersResponse.isSuccessful) {
-
-            banners = checkNotNull(bannersResponse.body()).map { it.toBanner() }
+        return if (bannersResponse.isSuccessful) {
+            val banners = checkNotNull(bannersResponse.body()).map { it.toBanner() }
+            Resource.success(banners)
+        } else {
+            Resource.error()
         }
-        return banners
 
     }
 }
