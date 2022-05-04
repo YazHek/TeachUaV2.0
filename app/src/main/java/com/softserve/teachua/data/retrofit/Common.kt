@@ -6,7 +6,7 @@ import retrofit2.Retrofit
 
 object Common {
 
-    val retrofitService: Retrofit
+    val retrofitService: RetrofitService
         get() = RetrofitClient().getClient()
 
 

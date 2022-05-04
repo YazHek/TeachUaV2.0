@@ -25,6 +25,7 @@ import com.softserve.teachua.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -68,8 +69,7 @@ class HomeFragment : Fragment() {
     private fun updateViewModel() {
 
         homeViewModel.viewModelScope.launch {
-
-            homeViewModel.banners.collect { initBanners() }
+            homeViewModel.banners.collectLatest { initBanners() }
         }
 
 
