@@ -20,7 +20,7 @@ class CategoriesAdapter(context: Context) :
     ListAdapter<CategoryModel, CategoriesAdapter.CategoriesViewHolder>(DiffCallback()) {
 
 
-    val layoutInflater = LayoutInflater.from(context)
+    val layoutInflater: LayoutInflater = LayoutInflater.from(context)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoriesViewHolder {
         return CategoriesViewHolder(layoutInflater

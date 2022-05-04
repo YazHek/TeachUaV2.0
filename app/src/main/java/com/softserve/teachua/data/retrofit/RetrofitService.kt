@@ -2,9 +2,12 @@ package com.softserve.teachua.data.retrofit
 
 import com.softserve.teachua.data.dto.BannersDto
 import com.softserve.teachua.data.dto.CategoriesDro
+import com.softserve.teachua.data.dto.ChallengeDto
 import com.softserve.teachua.data.dto.ClubsDto
+import okhttp3.internal.concurrent.Task
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface RetrofitService {
@@ -57,4 +60,13 @@ interface RetrofitService {
         @Query("page")
         page: Int? = 0,
     ): Response<ClubsDto>
+
+    @GET("challenge/{id}")
+    suspend fun getChallengeById(@Path("id") id : Int): Response<ChallengeDto>
+
+    @GET("challenges")
+    suspend fun getChallenges(): Response<List<ChallengeDto>>
+
+    @GET("challenge/task/{id}")
+    suspend fun getTask(@Path("id") id : Int):Response<Task>
 }

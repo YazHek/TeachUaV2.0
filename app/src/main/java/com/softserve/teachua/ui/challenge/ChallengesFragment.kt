@@ -1,4 +1,4 @@
-package com.softserve.teachua.ui.challange
+package com.softserve.teachua.ui.challenge
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,10 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.softserve.teachua.databinding.FragmentChallangeBinding
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.HiltAndroidApp
 
 @AndroidEntryPoint
-class SlideshowFragment : Fragment() {
+class ChallengesFragment : Fragment() {
 
     private var _binding: FragmentChallangeBinding? = null
 
@@ -26,7 +25,7 @@ class SlideshowFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val slideshowViewModel =
-            ViewModelProvider(this).get(SlideshowViewModel::class.java)
+            ViewModelProvider(this).get(ChallengesViewModel::class.java)
 
         _binding = FragmentChallangeBinding.inflate(inflater, container, false)
         val root: View = binding.root
