@@ -5,9 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isNotEmpty
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
@@ -19,21 +18,22 @@ import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.interfaces.ItemClickListener
 import com.denzcoskun.imageslider.models.SlideModel
 import com.softserve.teachua.MainActivity
-import com.softserve.teachua.adapters.CategoriesAdapter
+import com.softserve.teachua.app.adapters.CategoriesAdapter
+import com.softserve.teachua.app.baseImageUrl
+import com.softserve.teachua.app.tools.Resource
 import com.softserve.teachua.databinding.FragmentHomeBinding
-import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.app_bar_main.view.*
-import kotlinx.android.synthetic.main.toolbar.view.*
-import kotlinx.coroutines.delay
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var adapter: CategoriesAdapter
-    private lateinit var homeViewModel: HomeViewModel
+    private val homeViewModel: HomeViewModel by viewModels()
     private lateinit var bans: ImageSlider
     private lateinit var progressDialog: ProgressDialog
 
@@ -61,7 +61,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun createHomeViewModel() {
-        homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
         homeViewModel.loadBanners()
         homeViewModel.loadCategories()
     }
@@ -120,22 +119,24 @@ class HomeFragment : Fragment() {
         progressDialog.dismiss()
     }
 
-
     private fun initBanners() {
 
 
         val bansList = ArrayList<SlideModel>()
 
-        for (ban in homeViewModel.banners.value)
-            bansList.add(SlideModel(homeViewModel.baseUrl.value + ban.bannerPicture,
-                ban.bannerTitle + "\n\n" + ban.bannerSubtitle))
-        bans.setImageList(bansList, ScaleTypes.CENTER_CROP)
-        bans.setItemClickListener(object : ItemClickListener {
-            override fun onItemSelected(position: Int) {
-                println("pos " + position)
-            }
+        if (homeViewModel.banners.value.status == Resource.Status.SUCCESS){
+            for (ban in homeViewModel.banners.value.data!!)
+                bansList.add(SlideModel(
+                    baseImageUrl + ban.bannerPicture,
+                    ban.bannerTitle + "\n\n" + ban.bannerSubtitle))
+            bans.setImageList(bansList, ScaleTypes.CENTER_CROP)
+            bans.setItemClickListener(object : ItemClickListener {
+                override fun onItemSelected(position: Int) {
+                    println("pos " + position)
+                }
 
-        })
+            })
+        }
     }
 
     private fun updateToolbar() {
@@ -150,8 +151,4 @@ class HomeFragment : Fragment() {
     }
 
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        viewModelStore.clear()
-    }
 }

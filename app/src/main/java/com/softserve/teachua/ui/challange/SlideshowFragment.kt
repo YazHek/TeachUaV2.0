@@ -8,7 +8,10 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.softserve.teachua.databinding.FragmentChallangeBinding
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.HiltAndroidApp
 
+@AndroidEntryPoint
 class SlideshowFragment : Fragment() {
 
     private var _binding: FragmentChallangeBinding? = null

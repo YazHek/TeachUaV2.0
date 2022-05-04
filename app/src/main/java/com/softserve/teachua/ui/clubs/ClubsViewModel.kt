@@ -7,9 +7,9 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import com.softserve.teachua.dto.AdvancedSearchClubDto
-import com.softserve.teachua.dto.SearchClubDto
-import com.softserve.teachua.retrofit.Common
+import com.softserve.teachua.data.dto.AdvancedSearchClubDto
+import com.softserve.teachua.data.dto.SearchClubDto
+import com.softserve.teachua.data.retrofit.Common
 import com.softserve.teachua.service.ClubsPageSource
 
 class ClubsViewModel(

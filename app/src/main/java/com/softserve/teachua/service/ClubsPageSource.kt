@@ -2,11 +2,11 @@ package com.softserve.teachua.service
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.softserve.teachua.dto.AdvancedSearchClubDto
-import com.softserve.teachua.dto.SearchClubDto
-import com.softserve.teachua.mapper.toClub
-import com.softserve.teachua.model.ClubModel
-import com.softserve.teachua.retrofit.RetrofitService
+import com.softserve.teachua.data.dto.AdvancedSearchClubDto
+import com.softserve.teachua.data.dto.SearchClubDto
+import com.softserve.teachua.app.tools.mapper.toClub
+import com.softserve.teachua.data.model.ClubModel
+import com.softserve.teachua.data.retrofit.RetrofitService
 import retrofit2.HttpException
 
 class ClubsPageSource(
