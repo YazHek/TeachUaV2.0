@@ -1,29 +1,27 @@
 package com.softserve.teachua.data.retrofit
 
+import com.softserve.teachua.app.baseUrl
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object RetrofitClient {
+class RetrofitClient {
 
-    private var retrofit: Retrofit? = null
-
-
-    fun getClient(baseUrl: String): Retrofit {
+    fun getClient(): RetrofitService {
         val loggingInterceptor = HttpLoggingInterceptor()
         loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
 
         val okHttpClient = OkHttpClient().newBuilder()
             .addInterceptor(loggingInterceptor)
             .build()
-        if (retrofit == null) {
-            retrofit = Retrofit.Builder()
-                .baseUrl(baseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                //.client(okHttpClient)
-                .build()
-        }
-        return retrofit!!
+
+        return Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(RetrofitService::class.java)
+
     }
 }

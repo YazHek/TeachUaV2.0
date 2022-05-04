@@ -33,7 +33,7 @@ class DomainModule () {
     @Singleton
     @Provides
     fun providesRetrofitService():RetrofitService{
-        return RetrofitClient.getClient(baseUrl).create(RetrofitService::class.java)
+        return RetrofitClient().getClient()
     }
 
 }

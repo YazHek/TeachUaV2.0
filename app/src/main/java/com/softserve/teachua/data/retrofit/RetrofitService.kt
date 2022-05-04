@@ -9,16 +9,16 @@ import retrofit2.http.Query
 
 interface RetrofitService {
 
-    @GET("api/banners")
+    @GET("banners")
     suspend fun getAllBanners(
     ): Response<List<BannersDto>>
 
-    @GET("api/categories")
+    @GET("categories")
     suspend fun getAllCategories(
     ): Response<List<CategoriesDro>>
 
 
-    @GET("api/clubs/search?")
+    @GET("clubs/search?")
     suspend fun getAllClubs(
         @Query("clubName")
         clubName: String? = "",
@@ -34,7 +34,7 @@ interface RetrofitService {
 
 
     @JvmSuppressWildcards
-    @GET("api/clubs/search/advanced?")
+    @GET("clubs/search/advanced?")
     suspend fun getClubsByAdvancedSearch(
         @Query("name")
         name: String? = "",
