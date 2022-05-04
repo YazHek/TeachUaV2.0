@@ -21,7 +21,7 @@ class DomainModule () {
     @Singleton
     @Provides
     fun provideCategoriesService() : CategoriesService {
-        return CategoriesService()
+        return CategoriesService(providesRetrofitService())
     }
 
     @Singleton

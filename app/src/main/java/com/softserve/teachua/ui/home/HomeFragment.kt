@@ -81,10 +81,11 @@ class HomeFragment : Fragment() {
                 .into(binding.challengeImg)
 
 
-            homeViewModel.categories.collect { categories ->
-                adapter.submitList(categories)
-                if (homeViewModel.categories.value.isNotEmpty())
+            homeViewModel.categories.collectLatest { categories ->
+                adapter.submitList(categories.data)
+                if (homeViewModel.categories.value.status == Resource.Status.SUCCESS)
                     dismissProgressDialog()
+
             }
 
 
@@ -98,10 +99,8 @@ class HomeFragment : Fragment() {
         binding.categoriesList.layoutManager = layoutManager
         adapter = CategoriesAdapter(requireContext())
         binding.categoriesList.adapter = adapter
-        if (homeViewModel.categories.value.isEmpty()) {
-
+        if (homeViewModel.categories.value.status == Resource.Status.LOADING)
             showLoadingListDialog()
-        }
     }
 
     private fun showLoadingListDialog() {

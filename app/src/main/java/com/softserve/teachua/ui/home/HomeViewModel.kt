@@ -19,9 +19,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val categoriesService : CategoriesService,
-    private val bannersService: BannersService
-    ) : ViewModel() {
+    private val categoriesService: CategoriesService,
+    private val bannersService: BannersService,
+) : ViewModel() {
 
     private var _banners = MutableStateFlow<Resource<List<BannerModel>>>(Resource.loading())
 
@@ -33,9 +33,9 @@ class HomeViewModel @Inject constructor(
 //    val bans: StateFlow<List<SlideModel>>
 //        get() = _bans
 
-    private var _categories = MutableStateFlow<List<CategoryModel>>(emptyList())
+    private var _categories = MutableStateFlow<Resource<List<CategoryModel>>>(Resource.loading())
 
-    val categories: StateFlow<List<CategoryModel>>
+    val categories: StateFlow<Resource<List<CategoryModel>>>
         get() = _categories
 
     private val _staticMainImg = MutableLiveData<String>().apply {
