@@ -5,11 +5,13 @@ import retrofit2.Response
 
 //
 //
-//IS NOT USED RIGHT NOW
+//ALWAYS USE THIS
 //
 //
 @Suppress("UNREACHABLE_CODE")
 abstract class BaseDataSource{
+
+    //Function that handles exceptions and return data wrapped in resource
     protected suspend fun <T> getResult(call: suspend () -> Response<T>) : Resource<T> {
         try {
             val response = call()

@@ -15,10 +15,14 @@ internal fun BannersDto.toBanner(): BannerModel {
 
 }
 
-internal fun CategoriesDro.toCategory(): CategoryModel {
+internal fun List<BannersDto>.toBanner():List<BannerModel>{
+    return map{it.toBanner()}
+}
+
+internal fun CategoryDto.toCategory(): CategoryModel {
     return CategoryModel(
         categoryId = id,
-        categorySortby = sortby,
+        categorySortby = sortBy,
         categoryName = name,
         categoryDescription = description,
         categoryUrlLogo = urlLogo,
@@ -27,6 +31,10 @@ internal fun CategoriesDro.toCategory(): CategoryModel {
         categoryTagTextColor = tagTextColor
     )
 
+}
+
+internal fun List<CategoryDto>.toCategory():List<CategoryModel>{
+    return map{it.toCategory()}
 }
 
 internal fun ClubDescriptionDto.toClub(): ClubModel {
@@ -65,4 +73,23 @@ internal fun StationsDto.toStation(): StationModel {
         cityName = cityName,
         districtName = districtName
     )
+}
+
+internal fun ChallengeDto.toChallenge() : ChallengeModel{
+    return ChallengeModel(
+        id = id,
+        isActive = isActive,
+        name = name,
+        sortNumber = sortNumber,
+        title = title,
+        tasks = tasks,
+        picture = picture?:"",
+        description = description?:"",
+        registrationLink = registrationLink,
+        user = user
+    )
+}
+
+internal fun List<ChallengeDto>.toChallengeModelMap() : List<ChallengeModel>{
+    return map { it.toChallenge() }
 }

@@ -1,8 +1,8 @@
 package com.softserve.teachua.data.dto
 
-data class CategoriesDro(
+data class CategoryDto(
     var id: Int,
-    var sortby: Int,
+    var sortBy: Int,
     var name: String,
     var description: String,
     var urlLogo: String,
