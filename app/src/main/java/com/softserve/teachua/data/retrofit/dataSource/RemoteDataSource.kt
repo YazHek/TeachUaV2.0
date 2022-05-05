@@ -5,11 +5,18 @@ import javax.inject.Inject
 
 //
 //
-//IS NOT USED RIGHT NOW
+//ALWAYS USE THIS
 //
 //
 class RemoteDataSource @Inject constructor(private val retrofitService: RetrofitService) : BaseDataSource() {
 
+    suspend fun getChallengeById(id : Int) = getResult { retrofitService.getChallengeById(id) }
 
+    suspend fun getChallenges() = getResult { retrofitService.getChallenges() }
 
+    suspend fun getTask(id : Int) = getResult { retrofitService.getTask(id) }
+
+    suspend fun getAllBanners( ) = getResult { retrofitService.getAllBanners() }
+
+    suspend fun getAllCategories ( ) = getResult { retrofitService.getAllCategories() }
 }
