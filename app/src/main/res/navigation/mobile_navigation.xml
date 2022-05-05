@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/nav_challenges"
-        android:name="com.softserve.teachua.ui.challenge.ChallengesFragment"
+        android:name="com.softserve.teachua.ui.challenges.ChallengesFragment"
         android:label="@string/menu_challange"
         tools:layout="@layout/fragment_challange" />
 </navigation>

@@ -2,12 +2,13 @@ package com.softserve.teachua.ui.home
 
 import android.app.ProgressDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,12 +19,13 @@ import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.interfaces.ItemClickListener
 import com.denzcoskun.imageslider.models.SlideModel
 import com.softserve.teachua.MainActivity
-import com.softserve.teachua.R
 import com.softserve.teachua.app.adapters.CategoriesAdapter
 import com.softserve.teachua.app.baseImageUrl
 import com.softserve.teachua.app.tools.Resource
 import com.softserve.teachua.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.HiltAndroidApp
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -32,11 +34,11 @@ class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+
     private lateinit var adapter: CategoriesAdapter
     private val homeViewModel: HomeViewModel by viewModels()
     private lateinit var bans: ImageSlider
     private lateinit var progressDialog: ProgressDialog
-    lateinit var toolbar: Toolbar
 
 
     override fun onCreateView(
@@ -44,17 +46,18 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        createHomeViewModel()
-
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        //val toolbar = binding.root.tool.toolbar
-
-
+        progressDialog = ProgressDialog(requireContext())
+        adapter = CategoriesAdapter(requireContext())
         bans = binding.imageSlider
-        toolbar = binding.tb.toolbar
-        toolbar.visibility = View.GONE
+
+        homeViewModel.loadData()
+
+        Glide.with(requireContext())
+            .load(homeViewModel.staticMainImg)
+            .into(binding.challengeImg)
 
 
         initCategories()
@@ -63,50 +66,43 @@ class HomeFragment : Fragment() {
         return root
     }
 
-    private fun createHomeViewModel() {
-        homeViewModel.loadBanners()
-        homeViewModel.loadCategories()
-    }
 
     private fun updateViewModel() {
 
         homeViewModel.viewModelScope.launch {
-            homeViewModel.banners.collectLatest { initBanners() }
+            homeViewModel.banners.collectLatest {
+                if (homeViewModel.banners.value.status == Resource.Status.SUCCESS){
+                    initBanners()
+                }
+            }
         }
 
 
 
         homeViewModel.viewModelScope.launch {
-
-            Glide.with(requireContext())
-                .load(homeViewModel.staticMainImg.value)
-                .into(binding.challengeImg)
-
-
             homeViewModel.categories.collectLatest { categories ->
-                adapter.submitList(categories.data)
-                if (homeViewModel.categories.value.status == Resource.Status.SUCCESS)
+                if (homeViewModel.categories.value.status == Resource.Status.SUCCESS){
+                    adapter.submitList(categories.data)
                     dismissProgressDialog()
-
+                } else {
+                    adapter.submitList(emptyList())
+                }
             }
-
-
         }
-//
+
     }
 
     private fun initCategories() {
 
         val layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
         binding.categoriesList.layoutManager = layoutManager
-        adapter = CategoriesAdapter(requireContext())
         binding.categoriesList.adapter = adapter
         if (homeViewModel.categories.value.status == Resource.Status.LOADING)
             showLoadingListDialog()
+
     }
 
     private fun showLoadingListDialog() {
-        progressDialog = ProgressDialog(requireContext())
 
         progressDialog.setTitle("Loading List Of Clubs")
         progressDialog.setMessage("List of clubs is loading, please wait")
@@ -125,7 +121,7 @@ class HomeFragment : Fragment() {
 
         val bansList = ArrayList<SlideModel>()
 
-        if (homeViewModel.banners.value.status == Resource.Status.SUCCESS) {
+
             for (ban in homeViewModel.banners.value.data!!)
                 bansList.add(SlideModel(
                     baseImageUrl + ban.bannerPicture,
@@ -137,17 +133,15 @@ class HomeFragment : Fragment() {
                 }
 
             })
-        }
+
     }
 
     private fun updateToolbar() {
         lifecycleScope.launch {
             if ((requireActivity() as MainActivity).hasWindowFocus()) {
-                if ((requireActivity() as MainActivity).toolbar.visibility == View.GONE) {
-                    toolbar.visibility = View.VISIBLE
-                    (requireActivity() as MainActivity).setToobar(toolbar)
-                }
 
+                if ((requireActivity() as MainActivity).toolbar.visibility == View.GONE)
+                    (requireActivity() as MainActivity).toolbar.visibility = View.VISIBLE
             }
 
         }
