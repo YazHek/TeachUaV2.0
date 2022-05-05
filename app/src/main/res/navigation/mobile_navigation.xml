@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
+        android:id="@+id/nav_clubs"
         android:name="com.softserve.teachua.ui.clubs.ClubsFragment"
         android:label="@string/menu_clubs"
         tools:layout="@layout/fragment_clubs" />

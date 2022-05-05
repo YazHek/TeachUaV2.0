@@ -5,8 +5,6 @@
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.25" />
         <entry key="../../.gradle/caches/transforms-3/cc79d021f8876df91dd0f4ae07e2bd31/transformed/ImageSlideshow-0.1.0/res/drawable/default_selected_dot.xml" value="0.135" />
-        <entry key="..\:/IDE/Projects/Android/TeachUaV2.0/app/src/main/res/layout/fragment_home.xml" value="0.14108409321175278" />
-        <entry key="..\:/IDE/Projects/Android/TeachUaV2.0/app/src/main/res/layout/toolbar.xml" value="0.14108409321175278" />
         <entry key="app/src/main/res/drawable-anydpi/ic_arrow.xml" value="0.135" />
         <entry key="app/src/main/res/drawable/banner_shadow.xml" value="0.135" />
         <entry key="app/src/main/res/drawable/circle.xml" value="0.135" />
@@ -14,7 +12,7 @@
         <entry key="app/src/main/res/drawable/selected_dot.xml" value="0.135" />
         <entry key="app/src/main/res/drawable/side_nav_bar.xml" value="0.135" />
         <entry key="app/src/main/res/drawable/spinner_background.xml" value="0.135" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.165" />
         <entry key="app/src/main/res/layout/app_bar_main.xml" value="0.1900197347005208" />
         <entry key="app/src/main/res/layout/banner_item.xml" value="0.27389272054036456" />
         <entry key="app/src/main/res/layout/card_item.xml" value="0.15070921985815602" />
