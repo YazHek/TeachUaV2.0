@@ -3,7 +3,6 @@ package com.softserve.teachua.service
 import com.softserve.teachua.app.tools.Resource
 import com.softserve.teachua.app.tools.mapper.toCategory
 import com.softserve.teachua.data.model.CategoryModel
-import com.softserve.teachua.data.retrofit.Common
 import com.softserve.teachua.data.retrofit.RetrofitService
 import javax.inject.Inject
 

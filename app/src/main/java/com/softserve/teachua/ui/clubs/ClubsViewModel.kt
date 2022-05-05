@@ -7,15 +7,51 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
+import com.softserve.teachua.app.tools.Resource
 import com.softserve.teachua.data.dto.AdvancedSearchClubDto
 import com.softserve.teachua.data.dto.SearchClubDto
+import com.softserve.teachua.data.model.CityModel
+import com.softserve.teachua.data.model.DistrictModel
+import com.softserve.teachua.data.model.StationModel
 import com.softserve.teachua.data.retrofit.Common
+import com.softserve.teachua.service.CitiesService
 import com.softserve.teachua.service.ClubsPageSource
+import com.softserve.teachua.service.DistrictService
+import com.softserve.teachua.service.StationsService
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ClubsViewModel(
-    private var searchClubDto: SearchClubDto,
-    private var advancedSearchClubDto: AdvancedSearchClubDto,
-) : ViewModel() {
+@HiltViewModel
+class ClubsViewModel @Inject constructor(
+    private val districtService: DistrictService,
+    private val stationsService: StationsService,
+    private val citiesService: CitiesService,
+
+    ) : ViewModel() {
+
+    private var _searchClubDto =
+        MutableLiveData<SearchClubDto>(SearchClubDto("", "", false, "", 0))
+    private var _advancedSearchClubDto = MutableLiveData<AdvancedSearchClubDto>(
+        AdvancedSearchClubDto("",
+            null,
+            "",
+            "",
+            "",
+            "name,asc",
+            0,
+            emptyList(),
+            isOnline = false,
+            isCenter = false,
+            isAdvanced = false))
+
+    val searchClubDto: LiveData<SearchClubDto>
+        get() = _searchClubDto
+
+    val advancedSearchClubDto: LiveData<AdvancedSearchClubDto>
+        get() = _advancedSearchClubDto
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is gallery Fragment"
@@ -23,7 +59,36 @@ class ClubsViewModel(
 
     val text: LiveData<String> = _text
 
+    private var _cities = MutableStateFlow<Resource<List<CityModel>>>(Resource.loading())
+
+    val cities: StateFlow<Resource<List<CityModel>>>
+        get() = _cities
+
+    private var _districts = MutableStateFlow<Resource<List<DistrictModel>>>(Resource.loading())
+
+    val districts: StateFlow<Resource<List<DistrictModel>>>
+        get() = _districts
+
+    private var _stations = MutableStateFlow<Resource<List<StationModel>>>(Resource.loading())
+
+    val stations: StateFlow<Resource<List<StationModel>>>
+        get() = _stations
+
+    fun loadCities() =
+        viewModelScope.launch { _cities.value = citiesService.getAllCities() }
+
+    fun loadDistricts(cityName: String) =
+        viewModelScope.launch { _districts.value = districtService.getAllDistricts(cityName) }
+
+    fun loadStations(cityName: String) =
+        viewModelScope.launch { _stations.value = stationsService.getAllStations(cityName) }
+
+    fun loadClubs(cityName: String) =
+        viewModelScope.launch { _stations.value = stationsService.getAllStations(cityName) }
+
     val clubs = Pager(config = PagingConfig(pageSize = 2), pagingSourceFactory = {
-        ClubsPageSource(Common.retrofitService, searchClubDto, advancedSearchClubDto)
+        ClubsPageSource(Common.retrofitService,
+            searchClubDto.value!!,
+            advancedSearchClubDto.value!!)
     }).flow.cachedIn(viewModelScope)
 }

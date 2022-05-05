@@ -10,9 +10,9 @@ class ClubsViewModelFactory(
     private var advancedSearchClubDto: AdvancedSearchClubDto,
 ) : ViewModelProvider.NewInstanceFactory() {
 
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-
-        return ClubsViewModel(searchClubDto, advancedSearchClubDto) as T
-
-    }
+//    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+//
+//        return ClubsViewModel(searchClubDto, advancedSearchClubDto) as T
+//
+//    }
 }

@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,13 +18,12 @@ import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.interfaces.ItemClickListener
 import com.denzcoskun.imageslider.models.SlideModel
 import com.softserve.teachua.MainActivity
+import com.softserve.teachua.R
 import com.softserve.teachua.app.adapters.CategoriesAdapter
 import com.softserve.teachua.app.baseImageUrl
 import com.softserve.teachua.app.tools.Resource
 import com.softserve.teachua.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.HiltAndroidApp
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -37,6 +36,7 @@ class HomeFragment : Fragment() {
     private val homeViewModel: HomeViewModel by viewModels()
     private lateinit var bans: ImageSlider
     private lateinit var progressDialog: ProgressDialog
+    lateinit var toolbar: Toolbar
 
 
     override fun onCreateView(
@@ -53,6 +53,8 @@ class HomeFragment : Fragment() {
 
 
         bans = binding.imageSlider
+        toolbar = binding.tb.toolbar
+        toolbar.visibility = View.GONE
 
 
         initCategories()
@@ -123,7 +125,7 @@ class HomeFragment : Fragment() {
 
         val bansList = ArrayList<SlideModel>()
 
-        if (homeViewModel.banners.value.status == Resource.Status.SUCCESS){
+        if (homeViewModel.banners.value.status == Resource.Status.SUCCESS) {
             for (ban in homeViewModel.banners.value.data!!)
                 bansList.add(SlideModel(
                     baseImageUrl + ban.bannerPicture,
@@ -141,9 +143,11 @@ class HomeFragment : Fragment() {
     private fun updateToolbar() {
         lifecycleScope.launch {
             if ((requireActivity() as MainActivity).hasWindowFocus()) {
+                if ((requireActivity() as MainActivity).toolbar.visibility == View.GONE) {
+                    toolbar.visibility = View.VISIBLE
+                    (requireActivity() as MainActivity).setToobar(toolbar)
+                }
 
-                if ((requireActivity() as MainActivity).toolbar.visibility == View.GONE)
-                    (requireActivity() as MainActivity).toolbar.visibility = View.VISIBLE
             }
 
         }

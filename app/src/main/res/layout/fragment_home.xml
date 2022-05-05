@@ -8,10 +8,17 @@
     android:background="@drawable/main_background"
     tools:context=".ui.home.HomeFragment">
 
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:orientation="vertical">
+
+        <include
+            android:visibility="visible"
+            android:id="@+id/tb"
+            layout="@layout/toolbar"/>
 
         <androidx.cardview.widget.CardView
             xmlns:android="http://schemas.android.com/apk/res/android"
