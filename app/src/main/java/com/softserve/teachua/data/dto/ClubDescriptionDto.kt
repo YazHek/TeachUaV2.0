@@ -6,7 +6,7 @@ class ClubDescriptionDto(
     var description: String,
     var urlLogo: String,
     var urlBackground: String,
-    var categories: List<CategoriesDro>,
+    var categories: List<CategoryDto>,
 ) {
 
 

@@ -38,16 +38,20 @@ class HomeViewModel @Inject constructor(
     val categories: StateFlow<Resource<List<CategoryModel>>>
         get() = _categories
 
-    private val _staticMainImg = MutableLiveData<String>().apply {
-        value = baseImageUrl + "static/images/about/challenge_2.png"
+
+    val staticMainImg: String
+        get() = baseImageUrl + "static/images/about/challenge_2.png"
+
+    fun loadData() = viewModelScope.launch {
+        loadBanners()
+        loadCategories()
     }
-    val staticMainImg: LiveData<String>
-        get() = _staticMainImg
 
+    private fun loadBanners() = viewModelScope.launch {
+        _banners.value = bannersService.getAllBanners()
+    }
 
-    fun loadBanners() = viewModelScope.launch { _banners.value = bannersService.getAllBanners() }
-
-    fun loadCategories() =
+    private fun loadCategories() =
         viewModelScope.launch { _categories.value = categoriesService.getAllCategories() }
 
 }

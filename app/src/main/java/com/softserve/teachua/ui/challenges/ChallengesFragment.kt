@@ -1,14 +1,19 @@
-package com.softserve.teachua.ui.challenge
+package com.softserve.teachua.ui.challenges
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.softserve.teachua.databinding.FragmentChallangeBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ChallengesFragment : Fragment() {
@@ -18,22 +23,27 @@ class ChallengesFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+    private val challengeViewModel : ChallengesViewModel by viewModels()
 
+
+    @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val slideshowViewModel =
-            ViewModelProvider(this).get(ChallengesViewModel::class.java)
 
         _binding = FragmentChallangeBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
         val textView: TextView = binding.textSlideshow
-        slideshowViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        challengeViewModel.load()
+
+        challengeViewModel.viewModelScope.launch {
+            challengeViewModel.challenges.collectLatest {
+                textView.text = it.status.toString() + it.data
+            }
         }
+
         return root
     }
 

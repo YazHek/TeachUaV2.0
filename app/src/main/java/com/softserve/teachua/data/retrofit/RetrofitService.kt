@@ -1,7 +1,7 @@
 package com.softserve.teachua.data.retrofit
 
 import com.softserve.teachua.data.dto.BannersDto
-import com.softserve.teachua.data.dto.CategoriesDro
+import com.softserve.teachua.data.dto.CategoryDto
 import com.softserve.teachua.data.dto.ChallengeDto
 import com.softserve.teachua.data.dto.ClubsDto
 import okhttp3.internal.concurrent.Task
@@ -18,7 +18,7 @@ interface RetrofitService {
 
     @GET("categories")
     suspend fun getAllCategories(
-    ): Response<List<CategoriesDro>>
+    ): Response<List<CategoryDto>>
 
 
     @GET("clubs/search?")
