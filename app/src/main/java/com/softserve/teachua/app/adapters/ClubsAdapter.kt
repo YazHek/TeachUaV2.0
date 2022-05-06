@@ -35,17 +35,6 @@ class ClubsAdapter (context: Context): PagingDataAdapter<ClubModel, ClubsAdapter
         getItem(position)?.let { holder.bind(it) }
         var desc = GsonDeserializer().deserialize(getItem(position)?.clubDescription,
             ClubDescriptionText::class.java)
-//        holder.itemView.setOnClickListener {
-//            val intent = Intent(con, ClubInfoActivity::class.java)
-//            intent.putExtra("clubName", getItem(position)?.clubName)
-//            if (desc.blocks.size == 4) {
-//
-//                intent.putExtra("clubDescription", desc.blocks[3].text)
-//            } else
-//                intent.putExtra("clubDescription", desc.blocks[0].text)
-//
-//            startActivity(con, intent, null)
-//        }
         println(getItem(position)?.clubName)
     }
 

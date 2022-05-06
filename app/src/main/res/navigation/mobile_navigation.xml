@@ -15,11 +15,21 @@
         android:id="@+id/nav_clubs"
         android:name="com.softserve.teachua.ui.clubs.ClubsFragment"
         android:label="@string/menu_clubs"
-        tools:layout="@layout/fragment_clubs" />
+        tools:layout="@layout/fragment_clubs" >
+        <action
+            android:id="@+id/action_nav_clubs_to_nav_club"
+            app:destination="@id/nav_club" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_challenges"
         android:name="com.softserve.teachua.ui.challenges.ChallengesFragment"
         android:label="@string/menu_challange"
         tools:layout="@layout/fragment_challange" />
+
+    <fragment
+        android:id="@+id/nav_club"
+        android:name="com.softserve.teachua.ui.club.ClubFragment"
+        android:label="@string/menu_club"
+        tools:layout="@layout/fragment_club" />
 </navigation>

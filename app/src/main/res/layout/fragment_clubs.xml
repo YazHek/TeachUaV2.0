@@ -126,6 +126,8 @@
             android:text="Error Loading Clubs"
             android:textSize="20sp"
             android:visibility="invisible"
+            android:textColor="@color/white"
+            android:textStyle="bold"
             app:layout_anchor="@+id/rcv"
             app:layout_anchorGravity="center" />
 

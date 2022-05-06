@@ -139,7 +139,7 @@
 
 
         <Button
-            android:background="@color/purple_700"
+            android:background="@color/toolbar_orange"
             android:id="@+id/apply_search"
             android:layout_marginTop="30dp"
             android:layout_width="match_parent"
@@ -147,7 +147,7 @@
             android:text="Застосувати"/>
 
         <Button
-            android:background="@color/purple_700"
+            android:background="@color/toolbar_orange"
             android:id="@+id/clear_search"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"

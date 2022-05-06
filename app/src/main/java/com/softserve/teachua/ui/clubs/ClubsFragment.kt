@@ -20,6 +20,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -32,13 +34,12 @@ import com.softserve.teachua.app.tools.Resource
 import com.softserve.teachua.databinding.FragmentClubsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.adv_search.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope.coroutineContext
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.dropWhile
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import kotlin.coroutines.coroutineContext
+
 
 @AndroidEntryPoint
 class ClubsFragment : Fragment(), View.OnClickListener {
@@ -80,72 +81,25 @@ class ClubsFragment : Fragment(), View.OnClickListener {
 
         binding.searchEdit.setupClearButtonWithAction()
         createAdvancedSearchDialog()
+        setAllClickListenersAndDefaultValues()
+        initClubs()
+        initDataForAllAdvSpinners()
+        initAdapterState()
+        updateViewModel()
+        updateToolbar()
+
+
+        return root
+    }
+
+    private fun setAllClickListenersAndDefaultValues() {
+
         binding.searchAdvBtn.setOnClickListener(this)
         binding.searchBtn.setOnClickListener(this)
         binding.clearEdit.setOnClickListener(this)
         dialog.club_adv_search_radioBtn.isChecked = true
         dialog.center_adv_search_radioBtn.isChecked = false
         dialog.isOnline.isChecked = false
-
-        initClubs()
-
-        updateViewModel()
-        updateToolbar()
-
-
-
-        lifecycleScope.launch {
-            districts.add("Виберіть район")
-            stations.add("Виберіть станцію")
-            differentThread()
-
-
-            clubsAdapter.loadStateFlow.collectLatest { loadStates ->
-
-
-                when (loadStates.refresh) {
-
-                    is LoadState.Loading -> {
-
-                        println("Loading Case")
-                        whenLoadingClubs()
-                    }
-
-                    is LoadState.Error -> {
-                        println("Error Case")
-                        whenErrorLoadingClubs()
-                    }
-
-
-                    else -> {
-                        println("Else Case")
-                        dismissProgressDialog()
-
-                        if (clubsAdapter.itemCount < 1) {
-                            whenDataIsClear()
-                            println("clubs ada" + clubsAdapter.itemCount)
-                        }
-                        println("NotLoading Case")
-                        binding.rcv.isInvisible = false
-                        //error_text.isVisible = false
-                    }
-                }
-            }
-
-
-        }
-        return root
-    }
-
-    private suspend fun differentThread() = withContext(Dispatchers.IO) {
-
-        getCitiesForSpinner()
-        getDistrictsForSpinner()
-        getStationsForSpinner()
-        //getStationByCityName(districtByCity)
-        println("cuurr thread " + Thread.currentThread().id)
-
-
     }
 
     private fun whenLoadingClubs() {
@@ -175,7 +129,11 @@ class ClubsFragment : Fragment(), View.OnClickListener {
     private fun createViewModel() {
 
 
-        clubsViewModel.loadCities()
+        if (cities.isEmpty()){
+            clubsViewModel.loadCities()
+        }
+
+        clubsViewModel.loadCategories()
 
 
     }
@@ -218,13 +176,80 @@ class ClubsFragment : Fragment(), View.OnClickListener {
 
     private fun initClubs() {
 
-        binding.rcv.layoutManager = layoutManager
-
+        binding.rcv.layoutManager =
+            LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         clubsAdapter = ClubsAdapter(requireContext())
 
         binding.rcv.adapter = clubsAdapter.withLoadStateHeaderAndFooter(
             header = ClubsLoadStateAdapter { clubsAdapter.retry() },
             footer = ClubsLoadStateAdapter { clubsAdapter.retry() })
+
+        clubsAdapter.setOnClickListener(object : ClubsAdapter.ClickListener {
+            override fun onClick(pos: Int, aView: View) {
+                val navBuilder = NavOptions.Builder()
+                navBuilder.setEnterAnim(androidx.appcompat.R.anim.abc_fade_in).setExitAnim(
+                    androidx.appcompat.R.anim.abc_fade_out)
+
+
+                findNavController().navigate(R.id.nav_club, null, navBuilder.build())
+            }
+
+        })
+
+
+    }
+
+    private fun initDataForAllAdvSpinners() {
+        lifecycleScope.launch {
+
+                districts.add("Виберіть район")
+                stations.add("Виберіть станцію")
+                getCitiesForSpinner()
+                getDistrictsForSpinner()
+                getStationsForSpinner()
+                getCategoriesForCheckBox()
+
+
+
+        }
+    }
+
+    private fun initAdapterState() {
+        lifecycleScope.launch {
+            clubsAdapter.loadStateFlow.collectLatest { loadStates ->
+
+
+                when (loadStates.refresh) {
+
+                    is LoadState.Loading -> {
+
+                        println("Loading Case")
+                        whenLoadingClubs()
+                    }
+
+                    is LoadState.Error -> {
+                        println("Error Case")
+                        whenErrorLoadingClubs()
+                    }
+
+
+                    else -> {
+                        println("Else Case")
+                        dismissProgressDialog()
+
+                        if (clubsAdapter.itemCount < 1) {
+                            whenDataIsClear()
+                            println("clubs ada" + clubsAdapter.itemCount)
+                        }
+                        println("NotLoading Case")
+                        binding.rcv.isInvisible = false
+                        //error_text.isVisible = false
+                    }
+                }
+            }
+        }
+
+
     }
 
 
@@ -261,43 +286,52 @@ class ClubsFragment : Fragment(), View.OnClickListener {
         citySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerCities.adapter = citySpinnerAdapter
 
-        binding.spinnerCities.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, p1: View?, pos: Int, id: Long) {
-                println(parent!!.getItemAtPosition(pos))
-                //iewModelStore.clear()
+        binding.spinnerCities.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    p1: View?,
+                    pos: Int,
+                    id: Long,
+                ) {
+                    println(parent!!.getItemAtPosition(pos))
+                    //iewModelStore.clear()
 
-                clubsViewModel.searchClubDto.value?.cityName =
-                    parent.getItemAtPosition(pos).toString()
-                Toast.makeText(requireContext(),
-                    parent.getItemAtPosition(pos).toString(),
-                    Toast.LENGTH_SHORT).show()
-                clubsViewModel.advancedSearchClubDto.value?.isAdvanced = false
-                //createViewModel()
-                //addDataToVM()
-                clubsAdapter.refresh()
+                    clubsViewModel.searchClubDto.value?.cityName =
+                        parent.getItemAtPosition(pos).toString()
+                    Toast.makeText(requireContext(),
+                        parent.getItemAtPosition(pos).toString(),
+                        Toast.LENGTH_SHORT).show()
+                    clubsViewModel.advancedSearchClubDto.value?.isAdvanced = false
+                    //createViewModel()
+                    //addDataToVM()
+                    clubsAdapter.refresh()
+
+
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+                    TODO("Not yet implemented")
+                }
 
 
             }
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-                TODO("Not yet implemented")
-            }
-
-
-        }
 
     }
 
     private fun getCitiesForSpinner() {
 
         lifecycleScope.launch {
-            clubsViewModel.cities.collectLatest { data ->
+            clubsViewModel.cities.collect { data ->
                 //  println(data.data.toString())
                 when (data.status) {
 
                     Resource.Status.SUCCESS -> {
                         for (city in data.data!!) {
-                            cities.add(city.cityName)
+
+                                cities.add(city.cityName)
+
+
                         }
                         citySpinnerPicker()
                         //dismissProgressDialog()
@@ -366,6 +400,28 @@ class ClubsFragment : Fragment(), View.OnClickListener {
 
     }
 
+    private suspend fun getCategoriesForCheckBox() {
+
+        lifecycleScope.launch {
+            println("diss" + categories)
+
+            clubsViewModel.categories.collectLatest { data ->
+                when (data.status) {
+
+                    Resource.Status.SUCCESS -> {
+                        for (category in data.data?.reversed()!!) {
+                            categories.add(category.categoryName)
+                        }
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
     private fun showLoadingProgressDialog() {
         progressDialog = ProgressDialog(requireContext())
 
@@ -399,8 +455,9 @@ class ClubsFragment : Fragment(), View.OnClickListener {
     ) {
         var sp: Spinner = dialog.findViewById(spinner)
 
-        var citySearchSpinnerAdapter: ArrayAdapter<String> = ArrayAdapter<String>(requireContext(),
-            R.layout.item_dropdown, arrayRes)
+        var citySearchSpinnerAdapter: ArrayAdapter<String> =
+            ArrayAdapter<String>(requireContext(),
+                R.layout.item_dropdown, arrayRes)
         citySearchSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         sp.adapter = citySearchSpinnerAdapter
         println("$spinner" + arrayRes)
@@ -409,6 +466,7 @@ class ClubsFragment : Fragment(), View.OnClickListener {
     }
 
     private fun searchAdvDialog() {
+
 
         if (checkboxCounter != categories.size) {
 
@@ -419,7 +477,8 @@ class ClubsFragment : Fragment(), View.OnClickListener {
                 checkBox.text = categories[i]
                 checkBox.setOnClickListener {
                     if (checkBox.isChecked) {
-                        listOfSearchedCategories.add(CategoryToUrlTransformer().toUrlEncode(checkBox.text.toString()))
+                        listOfSearchedCategories.add(CategoryToUrlTransformer().toUrlEncode(
+                            checkBox.text.toString()))
                     } else
                         listOfSearchedCategories.remove(CategoryToUrlTransformer().toUrlEncode(
                             checkBox.text.toString()))
@@ -465,8 +524,8 @@ class ClubsFragment : Fragment(), View.OnClickListener {
                     id: Long,
                 ) {
 //
-                      println("pos" + parent?.getItemAtPosition(pos))
-                      var district = parent?.getItemAtPosition(pos).toString()
+                    println("pos" + parent?.getItemAtPosition(pos))
+                    var district = parent?.getItemAtPosition(pos).toString()
                     if (pos > 0) {
                         clubsViewModel.advancedSearchClubDto.value?.districtName = district
                     } else {
@@ -510,7 +569,8 @@ class ClubsFragment : Fragment(), View.OnClickListener {
         dialog.apply_search.setOnClickListener {
 
             println("categories $listOfSearchedCategories")
-            clubsViewModel.advancedSearchClubDto.value?.categoriesName = listOfSearchedCategories
+            clubsViewModel.advancedSearchClubDto.value?.categoriesName =
+                listOfSearchedCategories
             clubsViewModel.advancedSearchClubDto.value?.isAdvanced = true
             clubsViewModel.advancedSearchClubDto.value?.isCenter = false
             clubsViewModel.advancedSearchClubDto.value?.sort = "name,asc"
@@ -557,18 +617,11 @@ class ClubsFragment : Fragment(), View.OnClickListener {
     }
 
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-        viewModelStore.clear()
-    }
-
     override fun onClick(p0: View?) {
         when (p0?.id) {
 
             R.id.searchAdvBtn -> {
                 searchAdvDialog()
-                Toast.makeText(requireContext(), "fddsfds", Toast.LENGTH_SHORT).show()
             }
 
             R.id.searchBtn -> {
@@ -622,5 +675,13 @@ class ClubsFragment : Fragment(), View.OnClickListener {
 
 
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        clubsViewModel.cities
+        categories.clear()
+        districts.clear()
+      // cities.clear()
     }
 }

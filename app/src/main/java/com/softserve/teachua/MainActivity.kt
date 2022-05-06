@@ -82,24 +82,6 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
     }
 
-    override fun onPause() {
-        super.onPause()
-        println("paused")
-    }
 
-    override fun onResume() {
-        super.onResume()
-        println("resssumed")
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-        println("resstarted")
-    }
-
-    override fun recreate() {
-        super.recreate()
-        println("recreated")
-    }
 
 }
