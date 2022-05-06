@@ -80,12 +80,12 @@ internal fun ChallengeDto.toChallenge() : ChallengeModel{
         id = id,
         isActive = isActive,
         name = name,
-        sortNumber = sortNumber,
-        title = title,
-        tasks = tasks,
+        sortNumber = sortNumber?:-1,
+        title = title?:"",
+        tasks = tasks?:emptyList(),
         picture = picture?:"",
         description = description?:"",
-        registrationLink = registrationLink,
+        registrationLink = registrationLink?:"",
         user = user
     )
 }

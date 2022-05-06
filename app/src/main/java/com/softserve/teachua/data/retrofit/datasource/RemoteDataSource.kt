@@ -1,4 +1,4 @@
-package com.softserve.teachua.data.retrofit.dataSource
+package com.softserve.teachua.data.retrofit.datasource
 
 import com.softserve.teachua.data.retrofit.RetrofitService
 import javax.inject.Inject

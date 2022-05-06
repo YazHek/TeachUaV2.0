@@ -2,11 +2,13 @@ package com.softserve.teachua.app
 
 import com.softserve.teachua.data.retrofit.RetrofitClient
 import com.softserve.teachua.data.retrofit.RetrofitService
-import com.softserve.teachua.data.retrofit.dataSource.RemoteDataSource
+import com.softserve.teachua.data.retrofit.datasource.RemoteDataSource
 import com.softserve.teachua.service.BannersService
 import com.softserve.teachua.service.CategoriesService
 import com.softserve.teachua.service.challenge.ChallengeUseCases
 import com.softserve.teachua.service.challenge.ChallengesUseCasesInterface
+import com.softserve.teachua.service.task.TaskUseCases
+import com.softserve.teachua.service.task.TaskUseCasesInterface
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,6 +39,12 @@ class DomainModule () {
     @Provides
     fun providesChallengeUseCasesInterface():ChallengesUseCasesInterface{
         return ChallengeUseCases(providesRemoteDataSource())
+    }
+
+    @Singleton
+    @Provides
+    fun providesTaskUseCasesInterface():TaskUseCasesInterface{
+        return TaskUseCases(providesRemoteDataSource())
     }
 
     //
