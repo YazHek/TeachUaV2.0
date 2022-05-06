@@ -1,40 +1,47 @@
 package com.softserve.teachua.ui.clubs
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.app.Dialog
 import android.app.ProgressDialog
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.Toast
+import android.view.inputmethod.InputMethodManager
+import android.widget.*
+import androidx.annotation.IdRes
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.softserve.teachua.MainActivity
 import com.softserve.teachua.R
 import com.softserve.teachua.app.adapters.ClubsAdapter
 import com.softserve.teachua.app.adapters.ClubsLoadStateAdapter
+import com.softserve.teachua.app.tools.CategoryToUrlTransformer
 import com.softserve.teachua.app.tools.Resource
-import com.softserve.teachua.data.dto.AdvancedSearchClubDto
-import com.softserve.teachua.data.dto.SearchClubDto
 import com.softserve.teachua.databinding.FragmentClubsBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.adv_search.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope.coroutineContext
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.coroutines.coroutineContext
 
 @AndroidEntryPoint
-class ClubsFragment : Fragment() {
+class ClubsFragment : Fragment(), View.OnClickListener {
 
     private var _binding: FragmentClubsBinding? = null
 
@@ -44,12 +51,17 @@ class ClubsFragment : Fragment() {
     private val clubsViewModel: ClubsViewModel by viewModels()
     private lateinit var clubsAdapter: ClubsAdapter
     private lateinit var progressDialog: ProgressDialog
+    private lateinit var dialog: Dialog
 
     var cities = arrayListOf<String>()
     var districts = arrayListOf<String>()
     var stations = arrayListOf<String>()
 
-    private var districtByCity = ""
+    var categories = arrayListOf<String>()
+    var listOfSearchedCategories = arrayListOf<String>()
+
+    private var districtByCity = "Київ"
+    private var checkboxCounter = 0
 
     private var query = ""
     private var layoutManager =
@@ -67,6 +79,13 @@ class ClubsFragment : Fragment() {
         val root: View = binding.root
 
         binding.searchEdit.setupClearButtonWithAction()
+        createAdvancedSearchDialog()
+        binding.searchAdvBtn.setOnClickListener(this)
+        binding.searchBtn.setOnClickListener(this)
+        binding.clearEdit.setOnClickListener(this)
+        dialog.club_adv_search_radioBtn.isChecked = true
+        dialog.center_adv_search_radioBtn.isChecked = false
+        dialog.isOnline.isChecked = false
 
         initClubs()
 
@@ -76,18 +95,88 @@ class ClubsFragment : Fragment() {
 
 
         lifecycleScope.launch {
-            //differentThread()
-            getCt()
+            districts.add("Виберіть район")
+            stations.add("Виберіть станцію")
+            differentThread()
 
+
+            clubsAdapter.loadStateFlow.collectLatest { loadStates ->
+
+
+                when (loadStates.refresh) {
+
+                    is LoadState.Loading -> {
+
+                        println("Loading Case")
+                        whenLoadingClubs()
+                    }
+
+                    is LoadState.Error -> {
+                        println("Error Case")
+                        whenErrorLoadingClubs()
+                    }
+
+
+                    else -> {
+                        println("Else Case")
+                        dismissProgressDialog()
+
+                        if (clubsAdapter.itemCount < 1) {
+                            whenDataIsClear()
+                            println("clubs ada" + clubsAdapter.itemCount)
+                        }
+                        println("NotLoading Case")
+                        binding.rcv.isInvisible = false
+                        //error_text.isVisible = false
+                    }
+                }
+            }
 
 
         }
         return root
     }
 
+    private suspend fun differentThread() = withContext(Dispatchers.IO) {
+
+        getCitiesForSpinner()
+        getDistrictsForSpinner()
+        getStationsForSpinner()
+        //getStationByCityName(districtByCity)
+        println("cuurr thread " + Thread.currentThread().id)
+
+
+    }
+
+    private fun whenLoadingClubs() {
+        showLoadingProgressDialog()
+        binding.errorText.isVisible = false
+
+    }
+
+    private fun whenErrorLoadingClubs() {
+
+        dismissProgressDialog()
+        binding.rcv.isInvisible = true
+        binding.errorText.isVisible = true
+    }
+
+    private fun whenDataIsClear() {
+
+        println("Data Is Clear")
+        dismissProgressDialog()
+        binding.rcv.isInvisible = true
+        binding.errorText.text = "Cant load matching results for your search"
+        binding.errorText.isVisible = true
+
+    }
+
+
     private fun createViewModel() {
 
+
         clubsViewModel.loadCities()
+
 
     }
 
@@ -102,17 +191,17 @@ class ClubsFragment : Fragment() {
         clubsViewModel.viewModelScope.launch {
 
             clubsViewModel.clubs.collect { pagingData -> clubsAdapter.submitData(pagingData) }
+
         }
     }
 
     private fun updateDistricts() {
+        districts.clear()
+        districts.add("Виберіть район")
+        println("distrcits cleared " + districts)
+        clubsViewModel.loadDistricts(districtByCity)
 
-        lifecycleScope.launch {
-            districts.clear()
-            districts.add("Виберіть район")
-            //getDistrictByCityName(districtByCity)
-            clubsViewModel.loadStations(districtByCity)
-        }
+
     }
 
     private fun updateStations() {
@@ -120,7 +209,9 @@ class ClubsFragment : Fragment() {
         lifecycleScope.launch {
             stations.clear()
             stations.add("Виберіть станцію")
-            clubsViewModel.loadDistricts(districtByCity)
+            println("stationss cleared" + stations)
+            clubsViewModel.loadStations(districtByCity)
+
         }
     }
 
@@ -163,7 +254,7 @@ class ClubsFragment : Fragment() {
 
     private fun citySpinnerPicker() {
 
-        println("cities" + cities.toString())
+        //println("cities" + cities.toString())
         val citySpinnerAdapter: ArrayAdapter<String> = ArrayAdapter<String>(requireContext(),
             R.layout.item_dropdown, cities)
 
@@ -197,25 +288,79 @@ class ClubsFragment : Fragment() {
 
     }
 
-    private suspend fun getCt() {
+    private fun getCitiesForSpinner() {
 
-        println(clubsViewModel.cities.value.data)
+        lifecycleScope.launch {
+            clubsViewModel.cities.collectLatest { data ->
+                //  println(data.data.toString())
+                when (data.status) {
 
-        clubsViewModel.cities.collectLatest { data ->
-            println(data.data.toString())
-            when(data.status){
-
-                Resource.Status.SUCCESS -> {
-                    for (city in data.data!!) {
-                        cities.add(city.cityName)
+                    Resource.Status.SUCCESS -> {
+                        for (city in data.data!!) {
+                            cities.add(city.cityName)
+                        }
+                        citySpinnerPicker()
+                        //dismissProgressDialog()
                     }
-                    citySpinnerPicker()
-                    dismissProgressDialog()
-                }
 
-                Resource.Status.LOADING -> showLoadingProgressDialog()
+                    //Resource.Status.LOADING -> showLoadingProgressDialog()
+
+                }
+            }
+
 
         }
+
+    }
+
+    private fun getDistrictsForSpinner() {
+
+
+        lifecycleScope.launch {
+            println("diss" + districts)
+
+            clubsViewModel.districts.collectLatest { data ->
+                when (data.status) {
+
+                    Resource.Status.SUCCESS -> {
+                        for (district in data.data!!) {
+                            districts.add(district.districtName)
+                        }
+                    }
+
+
+                    //citySpinnerPicker()
+                    //dismissProgressDialog()
+                }
+            }
+        }
+
+
+        //println("new disssssssss" + clubsViewModel.districts.value.data)
+
+
+        //Resource.Status.LOADING -> showLoadingProgressDialog()
+
+    }
+
+
+    private suspend fun getStationsForSpinner() {
+
+        lifecycleScope.launch {
+            println("diss" + stations)
+
+            clubsViewModel.stations.collectLatest { data ->
+                when (data.status) {
+
+                    Resource.Status.SUCCESS -> {
+                        for (station in data.data!!) {
+                            stations.add(station.stationName)
+                        }
+                    }
+
+                }
+
+            }
 
         }
 
@@ -236,10 +381,246 @@ class ClubsFragment : Fragment() {
         progressDialog.dismiss()
     }
 
+    private fun createAdvancedSearchDialog() {
+        dialog = Dialog(requireContext(), R.style.CustomAlertDialog)
+        dialog.setContentView(R.layout.adv_search)
+        dialog.window?.setLayout(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.MATCH_PARENT
+        )
+
+    }
+
+
+    private fun setUpDefaultSpinner(
+        dialog: Dialog,
+        arrayRes: List<String>,
+        @IdRes spinner: Int,
+    ) {
+        var sp: Spinner = dialog.findViewById(spinner)
+
+        var citySearchSpinnerAdapter: ArrayAdapter<String> = ArrayAdapter<String>(requireContext(),
+            R.layout.item_dropdown, arrayRes)
+        citySearchSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        sp.adapter = citySearchSpinnerAdapter
+        println("$spinner" + arrayRes)
+
+
+    }
+
+    private fun searchAdvDialog() {
+
+        if (checkboxCounter != categories.size) {
+
+            for (i in 0 until categories.size) {
+                val checkBox =
+                    LayoutInflater.from(dialog.context)
+                        .inflate(R.layout.category_checkbox, rootAdvView, false) as CheckBox
+                checkBox.text = categories[i]
+                checkBox.setOnClickListener {
+                    if (checkBox.isChecked) {
+                        listOfSearchedCategories.add(CategoryToUrlTransformer().toUrlEncode(checkBox.text.toString()))
+                    } else
+                        listOfSearchedCategories.remove(CategoryToUrlTransformer().toUrlEncode(
+                            checkBox.text.toString()))
+                }
+                dialog.rootAdvView.addView(checkBox, 12)
+                checkboxCounter++
+            }
+
+        }
+
+        dialog.show()
+
+        setUpDefaultSpinner(dialog, cities, R.id.spinner_search_city)
+        dialog.spinner_search_city.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    p1: View?,
+                    pos: Int,
+                    id: Long,
+                ) {
+
+                    println("pos" + parent?.getItemAtPosition(pos))
+                    districtByCity = parent?.getItemAtPosition(pos).toString()
+                    clubsViewModel.advancedSearchClubDto.value?.cityName = districtByCity
+                    updateDistricts()
+                    updateStations()
+
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+                    TODO("Not yet implemented")
+                }
+            }
+        println("before spin" + districts)
+        setUpDefaultSpinner(dialog, districts, R.id.spinner_city_district)
+        dialog.spinner_city_district.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    p1: View?,
+                    pos: Int,
+                    id: Long,
+                ) {
+//
+                      println("pos" + parent?.getItemAtPosition(pos))
+                      var district = parent?.getItemAtPosition(pos).toString()
+                    if (pos > 0) {
+                        clubsViewModel.advancedSearchClubDto.value?.districtName = district
+                    } else {
+                        clubsViewModel.advancedSearchClubDto.value?.districtName = null
+
+
+                    }
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+                    TODO("Not yet implemented")
+                }
+            }
+
+
+        setUpDefaultSpinner(dialog, stations, R.id.spinner_metro_station)
+
+        dialog.spinner_metro_station.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    p1: View?,
+                    pos: Int,
+                    id: Long,
+                ) {
+
+                    println("pos" + parent?.getItemAtPosition(pos))
+                    var station = parent?.getItemAtPosition(pos).toString()
+                    if (pos > 0) {
+                        clubsViewModel.advancedSearchClubDto.value?.stationName = station
+                    } else
+                        clubsViewModel.advancedSearchClubDto.value?.stationName = null
+
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+                    TODO("Not yet implemented")
+                }
+            }
+
+        dialog.apply_search.setOnClickListener {
+
+            println("categories $listOfSearchedCategories")
+            clubsViewModel.advancedSearchClubDto.value?.categoriesName = listOfSearchedCategories
+            clubsViewModel.advancedSearchClubDto.value?.isAdvanced = true
+            clubsViewModel.advancedSearchClubDto.value?.isCenter = false
+            clubsViewModel.advancedSearchClubDto.value?.sort = "name,asc"
+            dialog.hide()
+            //viewModelStore.clear()
+            // createViewModel()
+            // addDataToVM()
+            binding.rcv.smoothScrollToPosition(0)
+            categories.clear()
+            clubsAdapter.refresh()
+            layoutManager.scrollToPositionWithOffset(0, 0)
+
+
+        }
+
+        dialog.clear_search.setOnClickListener {
+
+            clubsViewModel.advancedSearchClubDto.value?.isAdvanced = false
+            clubsViewModel.advancedSearchClubDto.value?.name = ""
+            clubsViewModel.advancedSearchClubDto.value?.cityName =
+                clubsViewModel.searchClubDto.value?.cityName.toString()
+            clubsViewModel.advancedSearchClubDto.value?.districtName = null.toString()
+            clubsViewModel.advancedSearchClubDto.value?.stationName = null.toString()
+            dialog.club_adv_search_radioBtn.isChecked = true
+            dialog.center_adv_search_radioBtn.isChecked = false
+            dialog.isOnline.isChecked = false
+//
+            //searchEdit.text.clear()
+            categories.clear()
+            dialog.cancel()
+            //viewModelStore.clear()
+            //createViewModel()
+            // addDataToVM()
+            clubsAdapter.refresh()
+            binding.rcv.smoothScrollToPosition(0)
+        }
+
+    }
+
+    fun Context.hideKeyboard(view: View) {
+        val inputMethodManager =
+            getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
         viewModelStore.clear()
+    }
+
+    override fun onClick(p0: View?) {
+        when (p0?.id) {
+
+            R.id.searchAdvBtn -> {
+                searchAdvDialog()
+                Toast.makeText(requireContext(), "fddsfds", Toast.LENGTH_SHORT).show()
+            }
+
+            R.id.searchBtn -> {
+                //viewModelStore.clear()
+                clubsViewModel.advancedSearchClubDto.value?.isAdvanced = true
+                clubsViewModel.advancedSearchClubDto.value?.name =
+                    binding.searchEdit.text.toString()
+                clubsViewModel.searchClubDto.value?.clubName
+                clubsViewModel.advancedSearchClubDto.value?.cityName =
+                    clubsViewModel.searchClubDto.value?.cityName!!
+                clubsViewModel.advancedSearchClubDto.value?.districtName = null
+                clubsViewModel.advancedSearchClubDto.value?.stationName = null
+                //createViewModel()
+                // addDataToVM()
+                clubsAdapter.refresh()
+                binding.searchEdit.isActivated = false
+                layoutManager.scrollToPositionWithOffset(0, 0)
+                requireContext().hideKeyboard(binding.searchEdit)
+                binding.searchEdit.clearFocus()
+
+            }
+
+            R.id.clearEdit -> {
+                when (binding.searchEdit.text?.isNotEmpty()) {
+
+                    true -> {
+
+
+                        binding.searchEdit.text.clear()
+                        binding.searchEdit.isActivated = false
+                        binding.searchEdit.clearAnimation()
+                        clubsViewModel.advancedSearchClubDto.value?.name = ""
+                        clubsViewModel.advancedSearchClubDto.value?.isAdvanced = false
+                        clubsViewModel.advancedSearchClubDto.value?.sort = ""
+                        clubsAdapter.refresh()
+                        binding.searchEdit.clearFocus()
+
+
+                    }
+
+                    false -> {
+
+                        binding.searchEdit.requestFocus()
+                        binding.searchEdit.isActivated = true
+
+                        //showKeyboard()
+                    }
+                }
+
+            }
+
+
+        }
     }
 }

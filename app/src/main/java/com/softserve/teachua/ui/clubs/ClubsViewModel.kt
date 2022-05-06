@@ -53,18 +53,13 @@ class ClubsViewModel @Inject constructor(
     val advancedSearchClubDto: LiveData<AdvancedSearchClubDto>
         get() = _advancedSearchClubDto
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is gallery Fragment"
-    }
-
-    val text: LiveData<String> = _text
-
     private var _cities = MutableStateFlow<Resource<List<CityModel>>>(Resource.loading())
 
     val cities: StateFlow<Resource<List<CityModel>>>
         get() = _cities
 
-    private var _districts = MutableStateFlow<Resource<List<DistrictModel>>>(Resource.loading())
+    private var _districts = MutableStateFlow<Resource<List<DistrictModel>>>(
+        Resource.loading())
 
     val districts: StateFlow<Resource<List<DistrictModel>>>
         get() = _districts
@@ -78,10 +73,19 @@ class ClubsViewModel @Inject constructor(
         viewModelScope.launch { _cities.value = citiesService.getAllCities() }
 
     fun loadDistricts(cityName: String) =
-        viewModelScope.launch { _districts.value = districtService.getAllDistricts(cityName) }
+        viewModelScope.launch {
+            println("lodaded " + cityName)
+            _districts.value = Resource.loading()
+            _districts.value = districtService.getAllDistricts(cityName)
+            println("disrIIcts " + districts.value.data)
+//            println("new " + _districts.value.data)
+        }
 
     fun loadStations(cityName: String) =
-        viewModelScope.launch { _stations.value = stationsService.getAllStations(cityName) }
+        viewModelScope.launch {
+            _stations.value = Resource.loading()
+            _stations.value = stationsService.getAllStations(cityName)
+        }
 
     fun loadClubs(cityName: String) =
         viewModelScope.launch { _stations.value = stationsService.getAllStations(cityName) }

@@ -70,7 +70,7 @@
 
         <Spinner
             android:id="@+id/spinner_search_city"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             style="@style/spinner_style"
             android:layout_marginTop="30dp"
@@ -105,7 +105,7 @@
 
         <Spinner
             android:id="@+id/spinner_metro_station"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             style="@style/spinner_style"
             android:layout_marginTop="20dp"

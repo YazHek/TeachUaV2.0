@@ -2,22 +2,19 @@ package com.softserve.teachua.service
 
 import com.softserve.teachua.app.tools.Resource
 import com.softserve.teachua.app.tools.mapper.toCity
+import com.softserve.teachua.app.tools.performGetFromRemoteAndMapData
 import com.softserve.teachua.data.model.CityModel
-import com.softserve.teachua.data.retrofit.RetrofitService
+import com.softserve.teachua.data.retrofit.datasource.RemoteDataSource
 import javax.inject.Inject
 
 class CitiesService @Inject constructor(
-    private val retrofitService: RetrofitService,
+    private val remoteDataSource: RemoteDataSource,
 ) {
     suspend fun getAllCities(): Resource<List<CityModel>> {
-
-        val citiesResponse = retrofitService.getAllCities()
-        return if (citiesResponse.isSuccessful) {
-
-            val cities = checkNotNull(citiesResponse.body()).map { it.toCity() }
-            Resource.success(cities)
-        } else
-            Resource.error()
+        return performGetFromRemoteAndMapData(
+            networkCall = { remoteDataSource.getAllCities() },
+            map = { it.toCity() }
+        )
 
     }
 }
