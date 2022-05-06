@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
         setToobar(toolbar)
 
 
+
         binding.appBarMain.fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
@@ -80,6 +81,10 @@ class MainActivity : AppCompatActivity() {
         // findViewById<Toolbar>(R.id.toolbar).setupWithNavController(navController, appBarConfiguration)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+    }
+
+    fun openDrawer() {
+        drawerLayout.openDrawer(navView)
     }
 
     override fun onPause() {
