@@ -3,6 +3,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
+    id 'androidx.navigation.safeargs.kotlin'
+
 }
 
 apply plugin: 'kotlin-android'
@@ -21,11 +23,15 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion compose_version
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -33,9 +39,15 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+        freeCompilerArgs += [
+                "-Xallow-jvm-ir-dependencies",
+                "-P",
+                "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=true"
+        ]
     }
     buildFeatures {
         viewBinding true
+        compose true
     }
 }
 
@@ -78,4 +90,15 @@ dependencies {
     implementation "com.google.dagger:hilt-android:2.41"
     kapt "com.google.dagger:hilt-compiler:2.41"
     implementation 'com.google.android.material:material:1.5.0'
+    implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
+
+
+    //composable
+    implementation "androidx.compose.ui:ui:$compose_version"
+    implementation "androidx.compose.material:material:$compose_version"
+    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
+    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+    //image loader for compose
+    implementation('io.coil-kt:coil-compose:2.0.0-rc03')
 }

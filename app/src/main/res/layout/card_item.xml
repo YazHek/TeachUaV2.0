@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:clickable="true"
     android:focusable="true"
-    card_view:cardBackgroundColor="@color/white"
+    card_view:cardBackgroundColor="?colorSurface"
     android:layout_marginLeft="40dp"
     android:layout_marginRight="40dp"
     android:layout_marginTop="150dp"
@@ -48,7 +48,7 @@
             android:layout_marginStart="50dp"
             android:layout_marginTop="5dp"
             android:text="Title"
-            android:textColor="@color/text"
+            android:textColor="?colorOnSurface"
             android:textSize="13sp"
             android:textStyle="bold" />
 
@@ -59,7 +59,7 @@
             android:layout_marginTop="70dp"
             android:background="@drawable/category_background"
             android:text="club CategoryTitle"
-            android:textColor="@color/white"
+            android:textColor="?colorOnSurface"
             android:textSize="13sp" />
 
         <TextView
@@ -67,7 +67,7 @@
             android:layout_marginTop="90dp"
             android:text="This Would be a description of Club"
             android:layout_width="match_parent"
-            android:textColor="@color/text"
+            android:textColor="?colorOnSurface"
             android:layout_height="wrap_content"/>
     </RelativeLayout>
 
