@@ -89,6 +89,9 @@ class ClubsFragment : Fragment(), View.OnClickListener {
         updateViewModel()
         updateToolbar()
 
+        println("search " + clubsViewModel.searchClubDto.value.toString())
+        println("advancedSearch " + clubsViewModel.advancedSearchClubDto.value.toString())
+
 
         return root
     }
@@ -182,28 +185,6 @@ class ClubsFragment : Fragment(), View.OnClickListener {
             header = ClubsLoadStateAdapter { clubsAdapter.retry() },
             footer = ClubsLoadStateAdapter { clubsAdapter.retry() })
 
-//        clubsAdapter.setOnClickListener(object : ClubsAdapter.ClickListener {
-//            override fun onClick(pos: Int, aView: View) {
-//                val navBuilder = NavOptions.Builder()
-//                navBuilder
-//                    .setExitAnim(android.R.anim.fade_out)
-//                    .setEnterAnim(android.R.anim.fade_in)
-//                    .setPopExitAnim(android.R.anim.fade_in)
-//                    .setPopEnterAnim(android.R.anim.fade_out)
-//
-//                toolbar.visibility = View.GONE
-//                binding.rcv.visibility = View.GONE
-//                println("posis" + clubsAdapter.getItemId(pos))
-//
-//
-//
-//
-//                findNavController().navigate(R.id.nav_club, null, navBuilder.build())
-//            }
-
-       // })
-
-
     }
 
     private fun initDataForAllAdvSpinners() {
@@ -283,7 +264,6 @@ class ClubsFragment : Fragment(), View.OnClickListener {
 
     private fun citySpinnerPicker(cities: ArrayList<String>) {
 
-        //println("cities" + cities.toString())
         val citySpinnerAdapter: ArrayAdapter<String> = ArrayAdapter<String>(requireContext(),
             R.layout.item_dropdown, cities)
 
@@ -306,7 +286,7 @@ class ClubsFragment : Fragment(), View.OnClickListener {
                     Toast.makeText(requireContext(),
                         parent.getItemAtPosition(pos).toString(),
                         Toast.LENGTH_SHORT).show()
-                    clubsViewModel.advancedSearchClubDto.value?.isAdvanced = false
+                    //clubsViewModel.advancedSearchClubDto.value?.isAdvanced = false
                     //createViewModel()
                     //addDataToVM()
                     clubsAdapter.refresh()
@@ -441,7 +421,6 @@ class ClubsFragment : Fragment(), View.OnClickListener {
                 R.layout.item_dropdown, arrayRes)
         citySearchSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         sp.adapter = citySearchSpinnerAdapter
-        println("$spinner" + arrayRes)
 
 
     }
@@ -496,7 +475,6 @@ class ClubsFragment : Fragment(), View.OnClickListener {
                     TODO("Not yet implemented")
                 }
             }
-        println("before spin" + districts)
 
         dialog.spinner_city_district.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {

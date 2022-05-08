@@ -76,7 +76,8 @@ class ClubsViewModel @Inject constructor(
     fun loadCities() =
         viewModelScope.launch {
             println("Loaded Cities")
-            _cities.value = citiesService.getAllCities() }
+            _cities.value = citiesService.getAllCities()
+        }
 
     fun loadDistricts(cityName: String) =
         viewModelScope.launch {
