@@ -33,67 +33,69 @@ class ClubsPageSource(
         }
 
 
-        if (advancedSearchClubDto.isAdvanced) {
-            println("ADVANCED")
+        when (advancedSearchClubDto.isAdvanced) {
 
-            val advancedSearchResponse =
-                service.getClubsByAdvancedSearch(
-                    name = advancedSearchClubDto.name,
-                    cityName = advancedSearchClubDto.cityName,
-                    districtName = advancedSearchClubDto.districtName,
-                    stationName = advancedSearchClubDto.stationName,
-                    sort = advancedSearchClubDto.sort,
-                    categoriesName = advancedSearchClubDto.categoriesName,
-                    isCenter = advancedSearchClubDto.isCenter,
-                    page = page
+            true -> {
 
-                )
-            //  println(advancedSearchResponse.body()?.content.toString())
-            if (advancedSearchResponse.isSuccessful) {
+                println("ADVANCED")
 
-                val searchedClubs =
-                    checkNotNull(advancedSearchResponse.body()).content.map { it.toClub() }
-                //println(advancedSearchResponse.body()?.content?.get(0)?.categories)
-//                if (searchedClubs.isEmpty()){
-//                    return LoadResult.Error(HttpException(advancedSearchResponse))
-//                }
-                println("content " + searchedClubs.toString())
-                println(page)
-                val nextKey = if (searchedClubs.size < (pageSize) - 2) null else page + 1
-                val prevKey = if (page == 0) null else page - 1
-                return LoadResult.Page(searchedClubs, prevKey, nextKey)
-            } else {
-                println(advancedSearchResponse.errorBody())
-                return LoadResult.Error(HttpException(advancedSearchResponse))
+                val advancedSearchResponse =
+                    service.getClubsByAdvancedSearch(
+                        name = advancedSearchClubDto.name,
+                        cityName = advancedSearchClubDto.cityName,
+                        districtName = advancedSearchClubDto.districtName,
+                        stationName = advancedSearchClubDto.stationName,
+                        sort = advancedSearchClubDto.sort,
+                        categoriesName = advancedSearchClubDto.categoriesName,
+                        isCenter = advancedSearchClubDto.isCenter,
+                        page = page
+
+                    )
+                if (advancedSearchResponse.isSuccessful) {
+
+                    val searchedClubs =
+                        checkNotNull(advancedSearchResponse.body()).content.map { it.toClub() }
+
+                    println(page)
+                    val nextKey = if (searchedClubs.size < (pageSize) - 2) null else page + 1
+                    val prevKey = if (page == 0) null else page - 1
+                    return LoadResult.Page(searchedClubs, prevKey, nextKey)
+                } else {
+                    println(advancedSearchResponse.errorBody())
+                    return LoadResult.Error(HttpException(advancedSearchResponse))
+                }
+
             }
 
+            false -> {
 
-        } else {
+                println("DEFAULT")
 
-            println("DEFAULT")
-
-            val searchResponse =
-                service.getAllClubs(clubName = clubName,
-                    cityName = cityName,
-                    isOnline,
-                    categoryName,
-                    page = page)
-
+                val searchResponse =
+                    service.getAllClubs(clubName = clubName,
+                        cityName = cityName,
+                        isOnline,
+                        categoryName,
+                        page = page)
 
 
-            if (searchResponse.isSuccessful) {
-                val clubs = checkNotNull(searchResponse.body()).content.map { it.toClub() }
-                println(searchResponse.body()!!?.content[0].categories)
-                println(page)
-                val nextKey = if (clubs.size < pageSize) null else page + 1
-                val prevKey = if (page == 0) null else page - 1
-                return LoadResult.Page(clubs, prevKey, nextKey)
-            } else {
-                println(searchResponse.errorBody().toString())
-                return LoadResult.Error(HttpException(searchResponse))
+
+                if (searchResponse.isSuccessful) {
+                    val clubs = checkNotNull(searchResponse.body()).content.map { it.toClub() }
+                    println(searchResponse.body()!!?.content[0].categories)
+                    println(page)
+                    val nextKey = if (clubs.size < pageSize) null else page + 1
+                    val prevKey = if (page == 0) null else page - 1
+                    return LoadResult.Page(clubs, prevKey, nextKey)
+                } else {
+                    println(searchResponse.errorBody().toString())
+                    return LoadResult.Error(HttpException(searchResponse))
+                }
+
+
             }
-
         }
+
     }
 
     override fun getRefreshKey(state: PagingState<Int, ClubModel>): Int? {
