@@ -59,7 +59,7 @@ class ClubsFragment : Fragment(), View.OnClickListener {
     var stations = mutableListOf<String>()
 
     var categories = listOf<String>()
-    var listOfSearchedCategories = arrayListOf<String>()
+   //var listOfSearchedCategories = arrayListOf<String>()
 
     private var districtByCity = "Київ"
     private var checkboxCounter = 0
@@ -306,7 +306,7 @@ class ClubsFragment : Fragment(), View.OnClickListener {
                     Toast.makeText(requireContext(),
                         parent.getItemAtPosition(pos).toString(),
                         Toast.LENGTH_SHORT).show()
-                    clubsViewModel.advancedSearchClubDto.value?.isAdvanced = false
+                    //clubsViewModel.advancedSearchClubDto.value?.isAdvanced = false
                     //createViewModel()
                     //addDataToVM()
                     clubsAdapter.refresh()
@@ -459,10 +459,10 @@ class ClubsFragment : Fragment(), View.OnClickListener {
                 checkBox.text = categories[i]
                 checkBox.setOnClickListener {
                     if (checkBox.isChecked) {
-                        listOfSearchedCategories.add(CategoryToUrlTransformer().toUrlEncode(
+                        clubsViewModel.listOfSearchedCategories.add(CategoryToUrlTransformer().toUrlEncode(
                             checkBox.text.toString()))
                     } else
-                        listOfSearchedCategories.remove(CategoryToUrlTransformer().toUrlEncode(
+                        clubsViewModel.listOfSearchedCategories.remove(CategoryToUrlTransformer().toUrlEncode(
                             checkBox.text.toString()))
                 }
                 dialog.rootAdvView.addView(checkBox, 12)
@@ -551,9 +551,9 @@ class ClubsFragment : Fragment(), View.OnClickListener {
 
         dialog.apply_search.setOnClickListener {
 
-            println("categories $listOfSearchedCategories")
+            println("categories $clubsViewModel.listOfSearchedCategories")
             clubsViewModel.advancedSearchClubDto.value?.categoriesName =
-                listOfSearchedCategories
+                clubsViewModel.listOfSearchedCategories
             clubsViewModel.advancedSearchClubDto.value?.isAdvanced = true
             clubsViewModel.advancedSearchClubDto.value?.isCenter = false
             clubsViewModel.advancedSearchClubDto.value?.sort = "name,asc"
