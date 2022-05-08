@@ -7,7 +7,7 @@ data class ChallengeDto(
     val isActive: Boolean,
     val name: String,
     val picture: String,
-    val registrationLink: Any,
+    val registrationLink: String,
     val sortNumber: Int,
     val tasks: List<TaskDto>,
     val title: String,

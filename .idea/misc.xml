@@ -5,6 +5,7 @@
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.25" />
         <entry key="../../.gradle/caches/transforms-3/cc79d021f8876df91dd0f4ae07e2bd31/transformed/ImageSlideshow-0.1.0/res/drawable/default_selected_dot.xml" value="0.135" />
+
         <entry key="app/src/main/res/drawable-anydpi/ic_arrow.xml" value="0.135" />
         <entry key="app/src/main/res/drawable/banner_shadow.xml" value="0.135" />
         <entry key="app/src/main/res/drawable/circle.xml" value="0.135" />

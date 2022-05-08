@@ -25,6 +25,7 @@
         android:id="@+id/nav_challenges"
         android:name="com.softserve.teachua.ui.challenges.ChallengesFragment"
         android:label="@string/menu_challange"
+
         tools:layout="@layout/fragment_challange" />
 
     <fragment
@@ -32,4 +33,34 @@
         android:name="com.softserve.teachua.ui.club.ClubFragment"
         android:label="@string/menu_club"
         tools:layout="@layout/fragment_club" />
+=======
+        tools:layout="@layout/fragment_challenges" >
+        <action
+            android:id="@+id/challenges_to_challelnge"
+            app:destination="@id/challengeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/challengeFragment"
+        android:name="com.softserve.teachua.ui.challenge.ChallengeFragment"
+        android:label="challenge_fragment"
+        tools:layout="@layout/challenge_fragment" >
+        <argument
+            android:name="id"
+            app:argType="integer"
+            android:defaultValue="1" />
+        <action
+            android:id="@+id/action_challengeFragment_to_taskFragment"
+            app:destination="@id/taskFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/taskFragment"
+        android:name="com.softserve.teachua.ui.task.TaskFragment"
+        android:label="task_fragment"
+        tools:layout="@layout/task_fragment" >
+        <argument
+            android:name="id"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
+
 </navigation>
