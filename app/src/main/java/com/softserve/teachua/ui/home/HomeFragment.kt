@@ -2,13 +2,12 @@ package com.softserve.teachua.ui.home
 
 import android.app.ProgressDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,8 +23,6 @@ import com.softserve.teachua.app.baseImageUrl
 import com.softserve.teachua.app.tools.Resource
 import com.softserve.teachua.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.HiltAndroidApp
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -39,6 +36,7 @@ class HomeFragment : Fragment() {
     private val homeViewModel: HomeViewModel by viewModels()
     private lateinit var bans: ImageSlider
     private lateinit var progressDialog: ProgressDialog
+    lateinit var toolbar: Toolbar
 
 
     override fun onCreateView(
@@ -51,6 +49,8 @@ class HomeFragment : Fragment() {
 
         progressDialog = ProgressDialog(requireContext())
         adapter = CategoriesAdapter(requireContext())
+        toolbar = binding.tb.toolbar
+        toolbar.visibility = View.GONE
         bans = binding.imageSlider
 
         homeViewModel.loadData()
@@ -71,7 +71,7 @@ class HomeFragment : Fragment() {
 
         homeViewModel.viewModelScope.launch {
             homeViewModel.banners.collectLatest {
-                if (homeViewModel.banners.value.status == Resource.Status.SUCCESS){
+                if (homeViewModel.banners.value.status == Resource.Status.SUCCESS) {
                     initBanners()
                 }
             }
@@ -81,7 +81,7 @@ class HomeFragment : Fragment() {
 
         homeViewModel.viewModelScope.launch {
             homeViewModel.categories.collectLatest { categories ->
-                if (homeViewModel.categories.value.status == Resource.Status.SUCCESS){
+                if (homeViewModel.categories.value.status == Resource.Status.SUCCESS) {
                     adapter.submitList(categories.data)
                     dismissProgressDialog()
                 } else {
@@ -122,26 +122,28 @@ class HomeFragment : Fragment() {
         val bansList = ArrayList<SlideModel>()
 
 
-            for (ban in homeViewModel.banners.value.data!!)
-                bansList.add(SlideModel(
-                    baseImageUrl + ban.bannerPicture,
-                    ban.bannerTitle + "\n\n" + ban.bannerSubtitle))
-            bans.setImageList(bansList, ScaleTypes.CENTER_CROP)
-            bans.setItemClickListener(object : ItemClickListener {
-                override fun onItemSelected(position: Int) {
-                    println("pos " + position)
-                }
+        for (ban in homeViewModel.banners.value.data!!)
+            bansList.add(SlideModel(
+                baseImageUrl + ban.bannerPicture,
+                ban.bannerTitle + "\n\n" + ban.bannerSubtitle))
+        bans.setImageList(bansList, ScaleTypes.CENTER_CROP)
+        bans.setItemClickListener(object : ItemClickListener {
+            override fun onItemSelected(position: Int) {
+                println("pos " + position)
+            }
 
-            })
+        })
 
     }
 
     private fun updateToolbar() {
         lifecycleScope.launch {
             if ((requireActivity() as MainActivity).hasWindowFocus()) {
+                if ((requireActivity() as MainActivity).toolbar.visibility == View.GONE) {
+                    toolbar.visibility = View.VISIBLE
+                    (requireActivity() as MainActivity).setToobar(toolbar)
+                }
 
-                if ((requireActivity() as MainActivity).toolbar.visibility == View.GONE)
-                    (requireActivity() as MainActivity).toolbar.visibility = View.VISIBLE
             }
 
         }

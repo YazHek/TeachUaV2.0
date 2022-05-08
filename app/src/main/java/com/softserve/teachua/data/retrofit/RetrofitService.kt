@@ -1,6 +1,9 @@
 package com.softserve.teachua.data.retrofit
 
 import com.softserve.teachua.data.dto.*
+
+import okhttp3.internal.concurrent.Task
+
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -15,6 +18,22 @@ interface RetrofitService {
     @GET("categories")
     suspend fun getAllCategories(
     ): Response<List<CategoryDto>>
+
+    @GET("cities")
+    suspend fun getAllCities(
+    ): Response<List<CitiesDto>>
+
+    @GET("districts/{cityName}")
+    suspend fun getDistrictsByCityName(
+        @Path("cityName")
+        cityName: String? = null,
+    ): Response<List<DistrictsDto>>
+
+    @GET("stations/{cityName}")
+    suspend fun getStationsByCityName(
+        @Path("cityName")
+        cityName: String? = null,
+    ): Response<List<StationsDto>>
 
 
     @GET("clubs/search?")
@@ -58,11 +77,15 @@ interface RetrofitService {
     ): Response<ClubsDto>
 
     @GET("challenge/{id}")
-    suspend fun getChallengeById(@Path("id") id : Int): Response<ChallengeDto>
+    suspend fun getChallengeById(@Path("id") id: Int): Response<ChallengeDto>
 
     @GET("challenges")
     suspend fun getChallenges(): Response<List<ChallengeDto>>
 
     @GET("challenge/task/{id}")
+
+    suspend fun getTask(@Path("id") id: Int): Response<Task>
+=======
     suspend fun getTask(@Path("id") id : Int):Response<TaskDto>
+
 }

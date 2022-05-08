@@ -1,24 +1,20 @@
 package com.softserve.teachua.service
 
 import com.softserve.teachua.app.tools.Resource
-import com.softserve.teachua.app.tools.mapper.toBanner
+import com.softserve.teachua.app.tools.mapper.toStation
 import com.softserve.teachua.app.tools.performGetFromRemoteAndMapData
-import com.softserve.teachua.data.model.BannerModel
+import com.softserve.teachua.data.model.StationModel
 import com.softserve.teachua.data.retrofit.datasource.RemoteDataSource
 import javax.inject.Inject
 
-
-class BannersService @Inject constructor(
+class StationsService @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
 ) {
-
-
-    suspend fun getAllBanners(): Resource<List<BannerModel>> {
+    suspend fun getAllStations(cityName: String): Resource<List<StationModel>> {
         return performGetFromRemoteAndMapData(
-            networkCall = {
-                remoteDataSource.getAllBanners()
-            },
-            map = { it.toBanner() }
+            networkCall = { remoteDataSource.getAllStations(cityName) },
+            map = { it.toStation() }
         )
+
     }
 }

@@ -15,8 +15,8 @@ internal fun BannersDto.toBanner(): BannerModel {
 
 }
 
-internal fun List<BannersDto>.toBanner():List<BannerModel>{
-    return map{it.toBanner()}
+internal fun List<BannersDto>.toBanner(): List<BannerModel> {
+    return map { it.toBanner() }
 }
 
 internal fun CategoryDto.toCategory(): CategoryModel {
@@ -33,8 +33,8 @@ internal fun CategoryDto.toCategory(): CategoryModel {
 
 }
 
-internal fun List<CategoryDto>.toCategory():List<CategoryModel>{
-    return map{it.toCategory()}
+internal fun List<CategoryDto>.toCategory(): List<CategoryModel> {
+    return map { it.toCategory() }
 }
 
 internal fun ClubDescriptionDto.toClub(): ClubModel {
@@ -58,12 +58,20 @@ internal fun CitiesDto.toCity(): CityModel {
     )
 }
 
+internal fun List<CitiesDto>.toCity(): List<CityModel> {
+    return map { it.toCity() }
+}
+
 internal fun DistrictsDto.toDistrict(): DistrictModel {
     return DistrictModel(
         districtId = id,
         districtName = name,
         cityName = cityName
     )
+}
+
+internal fun List<DistrictsDto>.toDistrict(): List<DistrictModel> {
+    return map { it.toDistrict() }
 }
 
 internal fun StationsDto.toStation(): StationModel {
@@ -75,11 +83,17 @@ internal fun StationsDto.toStation(): StationModel {
     )
 }
 
-internal fun ChallengeDto.toChallenge() : ChallengeModel{
+internal fun List<StationsDto>.toStation(): List<StationModel> {
+    return map { it.toStation() }
+}
+
+
+internal fun ChallengeDto.toChallenge(): ChallengeModel {
     return ChallengeModel(
         id = id,
         isActive = isActive,
         name = name,
+=======
         sortNumber = sortNumber?:-1,
         title = title?:"",
         tasks = tasks?:emptyList(),
@@ -90,6 +104,6 @@ internal fun ChallengeDto.toChallenge() : ChallengeModel{
     )
 }
 
-internal fun List<ChallengeDto>.toChallengeModelMap() : List<ChallengeModel>{
+internal fun List<ChallengeDto>.toChallengeModelMap(): List<ChallengeModel> {
     return map { it.toChallenge() }
 }

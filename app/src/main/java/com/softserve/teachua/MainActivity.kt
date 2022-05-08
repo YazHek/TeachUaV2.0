@@ -76,13 +76,16 @@ class MainActivity : AppCompatActivity() {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration =
-            AppBarConfiguration(setOf(R.id.nav_home, R.id.nav_challenges, R.id.nav_gallery),
+            AppBarConfiguration(setOf(R.id.nav_home, R.id.nav_challenges, R.id.nav_clubs),
                 drawerLayout)
-        // findViewById<Toolbar>(R.id.toolbar).setupWithNavController(navController, appBarConfiguration)
+        //findViewById<Toolbar>(R.id.toolbar).setupWithNavController(navController, appBarConfiguration)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }
 
+
+
+  =======
     fun openDrawer() {
         drawerLayout.openDrawer(navView)
     }
@@ -97,14 +100,6 @@ class MainActivity : AppCompatActivity() {
         println("resssumed")
     }
 
-    override fun onRestart() {
-        super.onRestart()
-        println("resstarted")
-    }
 
-    override fun recreate() {
-        super.recreate()
-        println("recreated")
-    }
 
 }

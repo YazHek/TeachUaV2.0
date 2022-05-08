@@ -8,12 +8,12 @@ import com.softserve.teachua.data.retrofit.datasource.RemoteDataSource
 import javax.inject.Inject
 
 class CategoriesService @Inject constructor(
-    private val remoteDataSource: RemoteDataSource
+    private val remoteDataSource: RemoteDataSource,
 ) {
     suspend fun getAllCategories(): Resource<List<CategoryModel>> {
         return performGetFromRemoteAndMapData(
-            networkCall = {remoteDataSource.getAllCategories()},
-            map = {it.toCategory()}
+            networkCall = { remoteDataSource.getAllCategories() },
+            map = { it.toCategory() }
         )
     }
 }

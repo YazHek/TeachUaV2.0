@@ -1,24 +1,21 @@
 package com.softserve.teachua.service
 
 import com.softserve.teachua.app.tools.Resource
-import com.softserve.teachua.app.tools.mapper.toBanner
+import com.softserve.teachua.app.tools.mapper.toDistrict
 import com.softserve.teachua.app.tools.performGetFromRemoteAndMapData
-import com.softserve.teachua.data.model.BannerModel
+import com.softserve.teachua.data.model.DistrictModel
 import com.softserve.teachua.data.retrofit.datasource.RemoteDataSource
 import javax.inject.Inject
 
-
-class BannersService @Inject constructor(
+class DistrictService @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
 ) {
 
-
-    suspend fun getAllBanners(): Resource<List<BannerModel>> {
+    suspend fun getAllDistricts(cityName: String): Resource<List<DistrictModel>> {
         return performGetFromRemoteAndMapData(
-            networkCall = {
-                remoteDataSource.getAllBanners()
-            },
-            map = { it.toBanner() }
+            networkCall = { remoteDataSource.getAllDistricts(cityName) },
+            map = { it.toDistrict() }
         )
+
     }
 }

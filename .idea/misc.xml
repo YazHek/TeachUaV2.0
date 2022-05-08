@@ -5,31 +5,7 @@
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.25" />
         <entry key="../../.gradle/caches/transforms-3/cc79d021f8876df91dd0f4ae07e2bd31/transformed/ImageSlideshow-0.1.0/res/drawable/default_selected_dot.xml" value="0.135" />
-        <entry key="..\:/IDE/Projects/Android/TeachUaV2.0/app/src/main/res/drawable-v24/ic_baseline_facebook_24.xml" value="0.1345" />
-        <entry key="..\:/IDE/Projects/Android/TeachUaV2.0/app/src/main/res/drawable/main_background.xml" value="0.103" />
-        <entry key="..\:/IDE/Projects/Android/TeachUaV2.0/app/src/main/res/layout-v28/category_item.xml" value="0.254981884057971" />
-        <entry key="..\:/IDE/Projects/Android/TeachUaV2.0/app/src/main/res/layout/activity_club_info.xml" value="0.254981884057971" />
-        <entry key="..\:/IDE/Projects/Android/TeachUaV2.0/app/src/main/res/layout/activity_main.xml" value="0.264" />
-        <entry key="..\:/IDE/Projects/Android/TeachUaV2.0/app/src/main/res/layout/adv_search.xml" value="0.254981884057971" />
-        <entry key="..\:/IDE/Projects/Android/TeachUaV2.0/app/src/main/res/layout/app_bar_main.xml" value="0.254981884057971" />
-        <entry key="..\:/IDE/Projects/Android/TeachUaV2.0/app/src/main/res/layout/banner_item.xml" value="0.254981884057971" />
-        <entry key="..\:/IDE/Projects/Android/TeachUaV2.0/app/src/main/res/layout/card_item.xml" value="0.254981884057971" />
-        <entry key="..\:/IDE/Projects/Android/TeachUaV2.0/app/src/main/res/layout/category_checkbox.xml" value="0.254981884057971" />
-        <entry key="..\:/IDE/Projects/Android/TeachUaV2.0/app/src/main/res/layout/category_item.xml" value="0.254981884057971" />
-        <entry key="..\:/IDE/Projects/Android/TeachUaV2.0/app/src/main/res/layout/challenge_fragment.xml" value="0.1" />
-        <entry key="..\:/IDE/Projects/Android/TeachUaV2.0/app/src/main/res/layout/challenges_list_item.xml" value="0.254981884057971" />
-        <entry key="..\:/IDE/Projects/Android/TeachUaV2.0/app/src/main/res/layout/content_main.xml" value="0.254981884057971" />
-        <entry key="..\:/IDE/Projects/Android/TeachUaV2.0/app/src/main/res/layout/fragment_challange.xml" value="0.2" />
-        <entry key="..\:/IDE/Projects/Android/TeachUaV2.0/app/src/main/res/layout/fragment_challenges.xml" value="0.12395833333333334" />
-        <entry key="..\:/IDE/Projects/Android/TeachUaV2.0/app/src/main/res/layout/fragment_clubs.xml" value="0.254981884057971" />
-        <entry key="..\:/IDE/Projects/Android/TeachUaV2.0/app/src/main/res/layout/fragment_home.xml" value="0.14108409321175278" />
-        <entry key="..\:/IDE/Projects/Android/TeachUaV2.0/app/src/main/res/layout/item_dropdown.xml" value="0.254981884057971" />
-        <entry key="..\:/IDE/Projects/Android/TeachUaV2.0/app/src/main/res/layout/item_loading_club.xml" value="0.254981884057971" />
-        <entry key="..\:/IDE/Projects/Android/TeachUaV2.0/app/src/main/res/layout/nav_header_main.xml" value="0.254981884057971" />
-        <entry key="..\:/IDE/Projects/Android/TeachUaV2.0/app/src/main/res/layout/task_fragment.xml" value="0.254981884057971" />
-        <entry key="..\:/IDE/Projects/Android/TeachUaV2.0/app/src/main/res/layout/toolbar.xml" value="0.14108409321175278" />
-        <entry key="..\:/IDE/Projects/Android/TeachUaV2.0/app/src/main/res/menu-v26/activity_main_drawer.xml" value="0.24353741496598638" />
-        <entry key="..\:/IDE/Projects/Android/TeachUaV2.0/app/src/main/res/menu/activity_main_drawer.xml" value="0.29010416666666666" />
+
         <entry key="app/src/main/res/drawable-anydpi/ic_arrow.xml" value="0.135" />
         <entry key="app/src/main/res/drawable/banner_shadow.xml" value="0.135" />
         <entry key="app/src/main/res/drawable/circle.xml" value="0.135" />
@@ -37,13 +13,15 @@
         <entry key="app/src/main/res/drawable/selected_dot.xml" value="0.135" />
         <entry key="app/src/main/res/drawable/side_nav_bar.xml" value="0.135" />
         <entry key="app/src/main/res/drawable/spinner_background.xml" value="0.135" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/adv_search.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/app_bar_main.xml" value="0.1900197347005208" />
         <entry key="app/src/main/res/layout/banner_item.xml" value="0.27389272054036456" />
         <entry key="app/src/main/res/layout/card_item.xml" value="0.15070921985815602" />
         <entry key="app/src/main/res/layout/category_item.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/content_main.xml" value="0.2479268391927083" />
         <entry key="app/src/main/res/layout/fragment_challange.xml" value="0.15520833333333334" />
+        <entry key="app/src/main/res/layout/fragment_club.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/fragment_clubs.xml" value="0.29650084583471853" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.2326995849609375" />
         <entry key="app/src/main/res/layout/nav_header_main.xml" value="0.3098958333333333" />

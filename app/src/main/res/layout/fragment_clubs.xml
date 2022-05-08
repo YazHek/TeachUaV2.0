@@ -2,10 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Theme.TeachUaV20.NoActionBar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/main_background"
-    style="@style/Theme.TeachUaV20.NoActionBar"
     tools:context=".ui.clubs.ClubsFragment">
 
 
@@ -25,8 +25,7 @@
             android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
 
-
-        <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+            <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
@@ -40,6 +39,16 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_marginTop="15dp"
+                        android:layout_marginStart="0dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:text="Гуртки"/>
 
                     <EditText
                         android:id="@+id/searchEdit"
@@ -101,7 +110,6 @@
         </com.google.android.material.appbar.AppBarLayout>
 
 
-
         <!--        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
         <!--            android:id="@+id/swipeRefresh"-->
         <!--            android:layout_width="0dp"-->
@@ -118,6 +126,8 @@
             android:text="Error Loading Clubs"
             android:textSize="20sp"
             android:visibility="invisible"
+            android:textColor="@color/white"
+            android:textStyle="bold"
             app:layout_anchor="@+id/rcv"
             app:layout_anchorGravity="center" />
 
