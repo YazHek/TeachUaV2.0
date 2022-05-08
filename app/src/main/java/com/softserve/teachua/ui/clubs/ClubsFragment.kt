@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.annotation.IdRes
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -36,9 +37,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.adv_search.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.drop
-import kotlinx.coroutines.flow.dropWhile
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.milliseconds
 
 
 @AndroidEntryPoint
@@ -54,15 +54,16 @@ class ClubsFragment : Fragment(), View.OnClickListener {
     private lateinit var progressDialog: ProgressDialog
     private lateinit var dialog: Dialog
 
-    var cities = arrayListOf<String>()
-    var districts = arrayListOf<String>()
-    var stations = arrayListOf<String>()
+    var cities = listOf<String>()
+    var districts = mutableListOf<String>()
+    var stations = mutableListOf<String>()
 
-    var categories = arrayListOf<String>()
+    var categories = listOf<String>()
     var listOfSearchedCategories = arrayListOf<String>()
 
     private var districtByCity = "Київ"
     private var checkboxCounter = 0
+    lateinit var toolbar: Toolbar
 
     private var query = ""
     private var layoutManager =
@@ -80,11 +81,11 @@ class ClubsFragment : Fragment(), View.OnClickListener {
         val root: View = binding.root
 
         binding.searchEdit.setupClearButtonWithAction()
+        checkboxCounter = 0
         createAdvancedSearchDialog()
         setAllClickListenersAndDefaultValues()
         initClubs()
         initDataForAllAdvSpinners()
-        initAdapterState()
         updateViewModel()
         updateToolbar()
 
@@ -129,17 +130,15 @@ class ClubsFragment : Fragment(), View.OnClickListener {
     private fun createViewModel() {
 
 
-        if (cities.isEmpty()){
-            clubsViewModel.loadCities()
-        }
-
+        clubsViewModel.loadCities()
         clubsViewModel.loadCategories()
+        updateDistricts()
 
 
     }
 
     private fun updateToolbar() {
-        val toolbar = binding.toolbar
+         toolbar = binding.toolbar
         (requireActivity() as MainActivity).toolbar.visibility = View.GONE
         (requireActivity() as MainActivity).setToobar(toolbar)
     }
@@ -148,16 +147,18 @@ class ClubsFragment : Fragment(), View.OnClickListener {
 
         clubsViewModel.viewModelScope.launch {
 
-            clubsViewModel.clubs.collect { pagingData -> clubsAdapter.submitData(pagingData) }
+            clubsViewModel.clubs.collectLatest { pagingData -> clubsAdapter.submitData(pagingData) }
+
 
         }
     }
 
     private fun updateDistricts() {
-        districts.clear()
-        districts.add("Виберіть район")
-        println("distrcits cleared " + districts)
-        clubsViewModel.loadDistricts(districtByCity)
+
+        lifecycleScope.launch {
+            clubsViewModel.loadDistricts(districtByCity)
+
+        }
 
 
     }
@@ -165,9 +166,6 @@ class ClubsFragment : Fragment(), View.OnClickListener {
     private fun updateStations() {
 
         lifecycleScope.launch {
-            stations.clear()
-            stations.add("Виберіть станцію")
-            println("stationss cleared" + stations)
             clubsViewModel.loadStations(districtByCity)
 
         }
@@ -184,17 +182,26 @@ class ClubsFragment : Fragment(), View.OnClickListener {
             header = ClubsLoadStateAdapter { clubsAdapter.retry() },
             footer = ClubsLoadStateAdapter { clubsAdapter.retry() })
 
-        clubsAdapter.setOnClickListener(object : ClubsAdapter.ClickListener {
-            override fun onClick(pos: Int, aView: View) {
-                val navBuilder = NavOptions.Builder()
-                navBuilder.setEnterAnim(androidx.appcompat.R.anim.abc_fade_in).setExitAnim(
-                    androidx.appcompat.R.anim.abc_fade_out)
+//        clubsAdapter.setOnClickListener(object : ClubsAdapter.ClickListener {
+//            override fun onClick(pos: Int, aView: View) {
+//                val navBuilder = NavOptions.Builder()
+//                navBuilder
+//                    .setExitAnim(android.R.anim.fade_out)
+//                    .setEnterAnim(android.R.anim.fade_in)
+//                    .setPopExitAnim(android.R.anim.fade_in)
+//                    .setPopEnterAnim(android.R.anim.fade_out)
+//
+//                toolbar.visibility = View.GONE
+//                binding.rcv.visibility = View.GONE
+//                println("posis" + clubsAdapter.getItemId(pos))
+//
+//
+//
+//
+//                findNavController().navigate(R.id.nav_club, null, navBuilder.build())
+//            }
 
-
-                findNavController().navigate(R.id.nav_club, null, navBuilder.build())
-            }
-
-        })
+       // })
 
 
     }
@@ -202,13 +209,10 @@ class ClubsFragment : Fragment(), View.OnClickListener {
     private fun initDataForAllAdvSpinners() {
         lifecycleScope.launch {
 
-                districts.add("Виберіть район")
-                stations.add("Виберіть станцію")
-                getCitiesForSpinner()
-                getDistrictsForSpinner()
-                getStationsForSpinner()
-                getCategoriesForCheckBox()
-
+            getCitiesForSpinner()
+            getDistrictsForSpinner()
+            getStationsForSpinner()
+            getCategoriesForCheckBox()
 
 
         }
@@ -277,7 +281,7 @@ class ClubsFragment : Fragment(), View.OnClickListener {
     }
 
 
-    private fun citySpinnerPicker() {
+    private fun citySpinnerPicker(cities: ArrayList<String>) {
 
         //println("cities" + cities.toString())
         val citySpinnerAdapter: ArrayAdapter<String> = ArrayAdapter<String>(requireContext(),
@@ -323,21 +327,14 @@ class ClubsFragment : Fragment(), View.OnClickListener {
 
         lifecycleScope.launch {
             clubsViewModel.cities.collect { data ->
-                //  println(data.data.toString())
+
                 when (data.status) {
 
                     Resource.Status.SUCCESS -> {
-                        for (city in data.data!!) {
-
-                                cities.add(city.cityName)
-
-
-                        }
-                        citySpinnerPicker()
-                        //dismissProgressDialog()
+                        cities = data.data?.map { it.cityName } as ArrayList
+                        citySpinnerPicker(cities as ArrayList<String>)
                     }
 
-                    //Resource.Status.LOADING -> showLoadingProgressDialog()
 
                 }
             }
@@ -351,45 +348,31 @@ class ClubsFragment : Fragment(), View.OnClickListener {
 
 
         lifecycleScope.launch {
-            println("diss" + districts)
 
             clubsViewModel.districts.collectLatest { data ->
                 when (data.status) {
-
                     Resource.Status.SUCCESS -> {
-                        for (district in data.data!!) {
-                            districts.add(district.districtName)
-                        }
+                        districts = data.data?.map { it.districtName } as ArrayList
+                        districts.add(0, "Виберіть район")
+                        setUpDefaultSpinner(dialog, districts, R.id.spinner_city_district)
                     }
-
-
-                    //citySpinnerPicker()
-                    //dismissProgressDialog()
                 }
             }
         }
-
-
-        //println("new disssssssss" + clubsViewModel.districts.value.data)
-
-
-        //Resource.Status.LOADING -> showLoadingProgressDialog()
-
     }
 
 
     private suspend fun getStationsForSpinner() {
 
         lifecycleScope.launch {
-            println("diss" + stations)
 
-            clubsViewModel.stations.collectLatest { data ->
+            clubsViewModel.stations.collect { data ->
                 when (data.status) {
 
                     Resource.Status.SUCCESS -> {
-                        for (station in data.data!!) {
-                            stations.add(station.stationName)
-                        }
+                        stations = data.data?.map { it.stationName } as ArrayList
+                        stations.add(0, "Виберіть станцію")
+                        setUpDefaultSpinner(dialog, stations, R.id.spinner_metro_station)
                     }
 
                 }
@@ -403,15 +386,13 @@ class ClubsFragment : Fragment(), View.OnClickListener {
     private suspend fun getCategoriesForCheckBox() {
 
         lifecycleScope.launch {
-            println("diss" + categories)
 
-            clubsViewModel.categories.collectLatest { data ->
+            clubsViewModel.categories.collect { data ->
                 when (data.status) {
 
                     Resource.Status.SUCCESS -> {
-                        for (category in data.data?.reversed()!!) {
-                            categories.add(category.categoryName)
-                        }
+                        categories =
+                            data.data?.reversed()?.map { it.categoryName } as ArrayList<String>
                     }
 
                 }
@@ -467,6 +448,7 @@ class ClubsFragment : Fragment(), View.OnClickListener {
 
     private fun searchAdvDialog() {
 
+        println("size" + checkboxCounter)
 
         if (checkboxCounter != categories.size) {
 
@@ -485,6 +467,7 @@ class ClubsFragment : Fragment(), View.OnClickListener {
                 }
                 dialog.rootAdvView.addView(checkBox, 12)
                 checkboxCounter++
+
             }
 
         }
@@ -514,7 +497,7 @@ class ClubsFragment : Fragment(), View.OnClickListener {
                 }
             }
         println("before spin" + districts)
-        setUpDefaultSpinner(dialog, districts, R.id.spinner_city_district)
+
         dialog.spinner_city_district.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
@@ -579,7 +562,6 @@ class ClubsFragment : Fragment(), View.OnClickListener {
             // createViewModel()
             // addDataToVM()
             binding.rcv.smoothScrollToPosition(0)
-            categories.clear()
             clubsAdapter.refresh()
             layoutManager.scrollToPositionWithOffset(0, 0)
 
@@ -599,8 +581,8 @@ class ClubsFragment : Fragment(), View.OnClickListener {
             dialog.isOnline.isChecked = false
 //
             //searchEdit.text.clear()
-            categories.clear()
             dialog.cancel()
+            checkboxCounter = 0
             //viewModelStore.clear()
             //createViewModel()
             // addDataToVM()
@@ -677,11 +659,16 @@ class ClubsFragment : Fragment(), View.OnClickListener {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        initAdapterState()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
-        clubsViewModel.cities
-        categories.clear()
-        districts.clear()
-      // cities.clear()
+        toolbar.visibility = View.GONE
+        binding.rcv.visibility = View.GONE
+        checkboxCounter = 0
+        dismissProgressDialog()
     }
 }

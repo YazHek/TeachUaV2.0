@@ -36,10 +36,20 @@ class ClubFragment : Fragment() {
         val root: View = binding.root
 
         toolbar = binding.tb.toolbar
-        updateToolbar()
+        getCurrentClubInfo()
+
 
 
         return root
+
+    }
+
+    private fun getCurrentClubInfo() {
+
+
+        binding.clubNameText.text = arguments?.getString("clubName")
+        binding.clubDescriptionText.text = arguments?.getString("clubDescription")
+
 
     }
 
@@ -55,6 +65,17 @@ class ClubFragment : Fragment() {
             }
 
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateToolbar()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        binding.clubNameText.visibility = View.GONE
+        binding.clubDescriptionText.visibility = View.GONE
     }
 
 
