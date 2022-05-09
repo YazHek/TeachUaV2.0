@@ -1,6 +1,6 @@
 package com.softserve.teachua.data.dto
 
-class SearchClubDto(
+data class SearchClubDto(
     var clubName: String,
     var cityName: String,
     var isOnline: Boolean,

@@ -23,8 +23,6 @@ class ClubFragment : Fragment() {
 
     private val clubViewModel: ClubViewModel by viewModels()
 
-    private lateinit var toolbar: Toolbar
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -35,7 +33,7 @@ class ClubFragment : Fragment() {
         _binding = FragmentClubBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        toolbar = binding.tb.toolbar
+
         getCurrentClubInfo()
 
 
@@ -55,16 +53,16 @@ class ClubFragment : Fragment() {
 
 
     private fun updateToolbar() {
-        lifecycleScope.launch {
-            if ((requireActivity() as MainActivity).hasWindowFocus()) {
-                if ((requireActivity() as MainActivity).toolbar.visibility == View.GONE) {
-                    toolbar.visibility = View.VISIBLE
-                    (requireActivity() as MainActivity).setToobar(toolbar)
-                }
-
-            }
-
-        }
+//        lifecycleScope.launch {
+//            if ((requireActivity() as MainActivity).hasWindowFocus()) {
+//                if ((requireActivity() as MainActivity).toolbar.visibility == View.GONE) {
+//                    toolbar.visibility = View.VISIBLE
+//                    (requireActivity() as MainActivity).setToobar(toolbar)
+//                }
+//
+//            }
+//
+//        }
     }
 
     override fun onResume() {

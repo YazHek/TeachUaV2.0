@@ -63,7 +63,7 @@ class ChallengesFragment : Fragment() {
     ): View {
         _binding = FragmentChallengesBinding.inflate(inflater, container, false)
         val view: View = binding.root
-        (requireActivity() as MainActivity).toolbar.visibility = View.GONE
+        //(requireActivity() as MainActivity).toolbar.visibility = View.GONE
 
 
         compose = binding.compose
@@ -107,12 +107,6 @@ fun Challenges(
 
 
     Column(Modifier.background(MaterialTheme.colors.background)) {
-        TopBarWithSearchBtn(
-            title = title,
-            buttonIcon = Icons.Filled.Menu,
-            onNavBtnClicked = { openDrawer() },
-            { goToSearchClick() }
-        )
 
 
         ResourceWrapper(

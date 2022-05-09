@@ -9,27 +9,24 @@ import android.view.ViewGroup
 import androidx.core.net.toUri
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
-import com.softserve.teachua.MainActivity
 import com.softserve.teachua.R
 import com.softserve.teachua.app.baseImageUrl
+import com.softserve.teachua.app.tools.GsonDeserializer
 import com.softserve.teachua.data.dto.ClubDescriptionText
 import com.softserve.teachua.data.model.ClubModel
-import com.softserve.teachua.app.tools.GsonDeserializer
-import com.softserve.teachua.ui.clubs.ClubsFragment
 import kotlinx.android.synthetic.main.card_item.view.*
 
 class ClubsAdapter (context: Context): PagingDataAdapter<ClubModel, ClubsAdapter.ClubsViewHolder>(ClubDiffItemCallback),
     View.OnClickListener {
 
 
-    lateinit var con: Context
+    private lateinit var con: Context
 
-    val layoutInflater = LayoutInflater.from(context)
+    val layoutInflater: LayoutInflater = LayoutInflater.from(context)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClubsViewHolder {
 
@@ -39,10 +36,12 @@ class ClubsAdapter (context: Context): PagingDataAdapter<ClubModel, ClubsAdapter
 
     override fun onBindViewHolder(holder: ClubsViewHolder, position: Int) {
         getItem(position)?.let { holder.bind(it) }
-        var desc = GsonDeserializer().deserialize(getItem(position)?.clubDescription,
-            ClubDescriptionText::class.java)
+        val desc = GsonDeserializer().deserialize(
+            getItem(position)?.clubDescription,
+            ClubDescriptionText::class.java
+        )
 
-        var bundle = Bundle()
+        val bundle = Bundle()
         bundle.putString("clubName", getItem(position)?.clubName)
        when(desc.blocks.size){
 
@@ -57,7 +56,10 @@ class ClubsAdapter (context: Context): PagingDataAdapter<ClubModel, ClubsAdapter
                     .setPopEnterAnim(android.R.anim.fade_out)
 
         holder.itemView.setOnClickListener { view ->
-            view.findNavController().navigate(R.id.nav_club, bundle, navBuilder.build())
+            view.findNavController().navigate(
+                R.id.nav_club,
+                bundle,
+                navBuilder.build())
         }
         println(getItem(position)?.clubName)
     }

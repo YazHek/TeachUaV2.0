@@ -7,17 +7,15 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_menu_camera"
-            android:iconTint="?colorOnBackground"
-            android:title="@string/menu_home" />
+            android:title="@string/menu_home"
+            tools:targetApi="o" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_clubs"
             android:icon="@drawable/ic_menu_gallery"
-            android:iconTint="?colorOnBackground"
             android:title="@string/menu_clubs" />
         <item
             android:id="@+id/nav_challenges"
             android:icon="@drawable/ic_menu_slideshow"
-            android:iconTint="?colorOnBackground"
             android:title="@string/menu_challange" />
     </group>
 </menu>

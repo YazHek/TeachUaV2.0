@@ -8,8 +8,10 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
@@ -83,16 +85,20 @@ class ClubsFragment : Fragment(), View.OnClickListener {
 
         binding.searchEdit.setupClearButtonWithAction()
         checkboxCounter = 0
+        toolbar = binding.toolbar
         createAdvancedSearchDialog()
         setAllClickListenersAndDefaultValues()
         initClubs()
         initDataForAllAdvSpinners()
         updateViewModel()
-        updateToolbar()
+        println("search " + clubsViewModel.searchClubDto.value.toString())
+        println("advancedSearch " + clubsViewModel.advancedSearchClubDto.value.toString())
 
 
         return root
     }
+
+
 
     private fun setAllClickListenersAndDefaultValues() {
 
@@ -138,10 +144,12 @@ class ClubsFragment : Fragment(), View.OnClickListener {
 
     }
 
+    private fun destroyToolbar(){
+        (activity as MainActivity).showToolbar()
+    }
+
     private fun updateToolbar() {
-        toolbar = binding.toolbar
-        (requireActivity() as MainActivity).toolbar.visibility = View.GONE
-        (requireActivity() as MainActivity).setToobar(toolbar)
+        (activity as MainActivity).hideToolbar()
     }
 
     private fun updateViewModel() {
@@ -182,8 +190,6 @@ class ClubsFragment : Fragment(), View.OnClickListener {
         binding.rcv.adapter = clubsAdapter.withLoadStateHeaderAndFooter(
             header = ClubsLoadStateAdapter { clubsAdapter.retry() },
             footer = ClubsLoadStateAdapter { clubsAdapter.retry() })
-
-
     }
 
     private fun initDataForAllAdvSpinners() {
@@ -263,7 +269,6 @@ class ClubsFragment : Fragment(), View.OnClickListener {
 
     private fun citySpinnerPicker(cities: ArrayList<String>) {
 
-        //println("cities" + cities.toString())
         val citySpinnerAdapter: ArrayAdapter<String> = ArrayAdapter<String>(requireContext(),
             R.layout.item_dropdown, cities)
 
@@ -325,8 +330,6 @@ class ClubsFragment : Fragment(), View.OnClickListener {
     }
 
     private fun getDistrictsForSpinner() {
-
-
         lifecycleScope.launch {
 
             clubsViewModel.districts.collectLatest { data ->
@@ -410,6 +413,7 @@ class ClubsFragment : Fragment(), View.OnClickListener {
 
     private fun createSearchCategoriesCheckboxes() {
 
+
         println("size" + checkboxCounter)
 
         if (checkboxCounter != categories.size) {
@@ -490,7 +494,6 @@ class ClubsFragment : Fragment(), View.OnClickListener {
                     TODO("Not yet implemented")
                 }
             }
-        println("before spin" + districts)
 
         dialog.spinner_city_district.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
@@ -656,12 +659,17 @@ class ClubsFragment : Fragment(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
+        updateToolbar()
         initAdapterState()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        destroyToolbar()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        toolbar.visibility = View.GONE
         binding.rcv.visibility = View.GONE
         checkboxCounter = 0
         dismissProgressDialog()

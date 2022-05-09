@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@id/nav_home">
 
     <fragment
         android:id="@+id/nav_home"
         android:name="com.softserve.teachua.ui.home.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home"/>
 
     <fragment
         android:id="@+id/nav_clubs"
@@ -21,46 +21,47 @@
             app:destination="@id/nav_club" />
     </fragment>
 
-    <fragment
-        android:id="@+id/nav_challenges"
-        android:name="com.softserve.teachua.ui.challenges.ChallengesFragment"
-        android:label="@string/menu_challange"
-
-        tools:layout="@layout/fragment_challange" />
 
     <fragment
         android:id="@+id/nav_club"
         android:name="com.softserve.teachua.ui.club.ClubFragment"
         android:label="@string/menu_club"
         tools:layout="@layout/fragment_club" />
-=======
-        tools:layout="@layout/fragment_challenges" >
+
+
+    <fragment
+        android:id="@+id/nav_challenges"
+        android:label="@string/menu_challange"
+        android:name="com.softserve.teachua.ui.challenges.ChallengesFragment"
+        tools:layout="@layout/fragment_challenges">
         <action
             android:id="@+id/challenges_to_challelnge"
             app:destination="@id/challengeFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/challengeFragment"
-        android:name="com.softserve.teachua.ui.challenge.ChallengeFragment"
         android:label="challenge_fragment"
-        tools:layout="@layout/challenge_fragment" >
+        android:name="com.softserve.teachua.ui.challenge.ChallengeFragment"
+        tools:layout="@layout/challenge_fragment">
         <argument
+            android:defaultValue="1"
             android:name="id"
-            app:argType="integer"
-            android:defaultValue="1" />
+            app:argType="integer" />
         <action
             android:id="@+id/action_challengeFragment_to_taskFragment"
             app:destination="@id/taskFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/taskFragment"
-        android:name="com.softserve.teachua.ui.task.TaskFragment"
         android:label="task_fragment"
-        tools:layout="@layout/task_fragment" >
+        android:name="com.softserve.teachua.ui.task.TaskFragment"
+        tools:layout="@layout/task_fragment">
         <argument
+            android:defaultValue="-1"
             android:name="id"
-            app:argType="integer"
-            android:defaultValue="-1" />
+            app:argType="integer" />
     </fragment>
 
 </navigation>
