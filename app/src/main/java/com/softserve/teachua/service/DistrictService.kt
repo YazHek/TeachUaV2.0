@@ -1,8 +1,8 @@
 package com.softserve.teachua.service
 
 import com.softserve.teachua.app.tools.Resource
-import com.softserve.teachua.app.tools.mapper.toDistrict
 import com.softserve.teachua.app.tools.performGetFromRemoteAndMapData
+import com.softserve.teachua.app.tools.toDistrict
 import com.softserve.teachua.data.model.DistrictModel
 import com.softserve.teachua.data.retrofit.datasource.RemoteDataSource
 import javax.inject.Inject

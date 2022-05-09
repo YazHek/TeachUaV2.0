@@ -4,7 +4,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.softserve.teachua.data.dto.AdvancedSearchClubDto
 import com.softserve.teachua.data.dto.SearchClubDto
-import com.softserve.teachua.app.tools.mapper.toClub
+import com.softserve.teachua.app.tools.toClub
 import com.softserve.teachua.data.model.ClubModel
 import com.softserve.teachua.data.retrofit.RetrofitService
 import retrofit2.HttpException

@@ -4,10 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-=======
-import android.widget.TextView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -29,9 +25,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.navArgs
 import coil.compose.AsyncImage
 import com.softserve.teachua.MainActivity
 import com.softserve.teachua.R
@@ -57,7 +53,6 @@ class ChallengeFragment : Fragment() {
 
         _binding = ChallengeFragmentBinding.inflate(inflater, container, false)
         val view: View = binding.root
-        (requireActivity() as MainActivity).toolbar.visibility = View.GONE
         var id = 1
         if (arguments != null){
             id = ChallengeFragmentArgs.fromBundle(requireArguments()).id
@@ -93,11 +88,6 @@ fun Challenge(
     val challenge by challengeViewModel.challenge.collectAsState(Resource.loading())
 
     Column(Modifier.background(MaterialTheme.colors.background)) {
-        TopBar(
-            title = if (challenge.data == null) "Підключення..." else challenge.data!!.title,
-            buttonIcon = Icons.Filled.ArrowBack,
-            onButtonClicked = onAppBarButtonClicked
-        )
         ChallengePage(challenge, navigateToTask) { challengeViewModel.load(id) }
     }
 }

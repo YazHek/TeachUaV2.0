@@ -49,7 +49,7 @@ class TaskFragment : Fragment() {
     ): View {
         _binding = ChallengeFragmentBinding.inflate(inflater, container, false)
         val view: View = binding.root
-        (requireActivity() as MainActivity).toolbar.visibility = View.GONE
+        //(requireActivity() as MainActivity).toolbar.visibility = View.GONE
         var id = 1
         if (arguments != null){
             id = ChallengeFragmentArgs.fromBundle(requireArguments()).id
@@ -81,11 +81,6 @@ fun TaskComposable(
     val task by taskViewModel.task.collectAsState(Resource.loading())
 
     Column(Modifier.background(MaterialTheme.colors.background)) {
-        TopBar(
-            title = if (task.data == null) "Підключення..." else task.data!!.name,
-            buttonIcon = Icons.Filled.ArrowBack,
-            onButtonClicked = onAppBarButtonClicked
-        )
         TaskPage(task) { taskViewModel.load(id) }
     }
 

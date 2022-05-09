@@ -83,9 +83,6 @@ interface RetrofitService {
     suspend fun getChallenges(): Response<List<ChallengeDto>>
 
     @GET("challenge/task/{id}")
-
-    suspend fun getTask(@Path("id") id: Int): Response<Task>
-=======
     suspend fun getTask(@Path("id") id : Int):Response<TaskDto>
 
 }

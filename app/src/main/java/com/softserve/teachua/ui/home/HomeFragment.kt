@@ -1,11 +1,14 @@
 package com.softserve.teachua.ui.home
 
-import android.app.ProgressDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.ViewGroup
-import androidx.appcompat.widget.Toolbar
+import android.widget.ProgressBar
+import android.widget.ScrollView
+import android.widget.TextView
+import android.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -18,11 +21,13 @@ import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.interfaces.ItemClickListener
 import com.denzcoskun.imageslider.models.SlideModel
 import com.softserve.teachua.MainActivity
+import com.softserve.teachua.R
 import com.softserve.teachua.app.adapters.CategoriesAdapter
 import com.softserve.teachua.app.baseImageUrl
 import com.softserve.teachua.app.tools.Resource
 import com.softserve.teachua.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -32,11 +37,14 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var adapter: CategoriesAdapter
     private val homeViewModel: HomeViewModel by viewModels()
+
+    private lateinit var adapter: CategoriesAdapter
     private lateinit var bans: ImageSlider
-    private lateinit var progressDialog: ProgressDialog
-    lateinit var toolbar: Toolbar
+
+    private lateinit var connectionProblemTextView: TextView
+    private lateinit var progressBar: ProgressBar
+    private lateinit var content: ScrollView
 
 
     override fun onCreateView(
@@ -47,106 +55,96 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        progressDialog = ProgressDialog(requireContext())
-        adapter = CategoriesAdapter(requireContext())
-        toolbar = binding.tb.toolbar
-        toolbar.visibility = View.GONE
-        bans = binding.imageSlider
-
-        homeViewModel.loadData()
-
-        Glide.with(requireContext())
-            .load(homeViewModel.staticMainImg)
-            .into(binding.challengeImg)
-
-
-        initCategories()
-        updateViewModel()
-        updateToolbar()
+        initViews()
+        loadData()
+        updateView()
         return root
     }
 
-
-    private fun updateViewModel() {
-
+    private fun updateView() {
         homeViewModel.viewModelScope.launch {
             homeViewModel.banners.collectLatest {
-                if (homeViewModel.banners.value.status == Resource.Status.SUCCESS) {
-                    initBanners()
+                when (homeViewModel.banners.value.status) {
+                    Resource.Status.SUCCESS -> {
+                        updateBanners()
+                        showSuccess()
+                    }
+                    Resource.Status.LOADING -> showLoading()
+                    Resource.Status.FAILED -> showError()
                 }
             }
         }
-
-
 
         homeViewModel.viewModelScope.launch {
             homeViewModel.categories.collectLatest { categories ->
                 if (homeViewModel.categories.value.status == Resource.Status.SUCCESS) {
                     adapter.submitList(categories.data)
-                    dismissProgressDialog()
-                } else {
-                    adapter.submitList(emptyList())
                 }
             }
         }
+    }
 
+    private fun loadData() {
+        homeViewModel.loadData()
+    }
+
+    private fun showSuccess() {
+        content.visibility = View.VISIBLE
+        progressBar.visibility = GONE
+        connectionProblemTextView.visibility = GONE
+    }
+
+    private fun showLoading() {
+        content.visibility = GONE
+        progressBar.visibility = View.VISIBLE
+        connectionProblemTextView.visibility = GONE
+    }
+
+    private fun showError() {
+        content.visibility = GONE
+        progressBar.visibility = GONE
+        connectionProblemTextView.visibility = View.VISIBLE
+    }
+
+    private fun initViews() {
+        adapter = CategoriesAdapter(requireContext())
+        bans = binding.imageSlider
+        progressBar = binding.progressBarHome
+        connectionProblemTextView = binding.connectionProblemHome
+        content = binding.contentHome
+        Glide.with(requireContext())
+            .load(homeViewModel.staticMainImg)
+            .into(binding.challengeImg)
+        initCategories()
     }
 
     private fun initCategories() {
-
         val layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
         binding.categoriesList.layoutManager = layoutManager
         binding.categoriesList.adapter = adapter
-        if (homeViewModel.categories.value.status == Resource.Status.LOADING)
-            showLoadingListDialog()
-
     }
 
-    private fun showLoadingListDialog() {
-
-        progressDialog.setTitle("Loading List Of Clubs")
-        progressDialog.setMessage("List of clubs is loading, please wait")
-        progressDialog.show()
-
-
-    }
-
-    private fun dismissProgressDialog() {
-
-        progressDialog.dismiss()
-    }
-
-    private fun initBanners() {
-
-
+    private fun updateBanners() {
         val bansList = ArrayList<SlideModel>()
 
+        for (ban in homeViewModel.banners.value.data!!) {
+            bansList.add(
+                SlideModel(
+                    baseImageUrl + ban.bannerPicture,
+                    ban.bannerTitle + "\n\n" + ban.bannerSubtitle
+                )
+            )
+        }
 
-        for (ban in homeViewModel.banners.value.data!!)
-            bansList.add(SlideModel(
-                baseImageUrl + ban.bannerPicture,
-                ban.bannerTitle + "\n\n" + ban.bannerSubtitle))
         bans.setImageList(bansList, ScaleTypes.CENTER_CROP)
         bans.setItemClickListener(object : ItemClickListener {
+
             override fun onItemSelected(position: Int) {
-                println("pos " + position)
+
             }
 
         })
 
-    }
-
-    private fun updateToolbar() {
-        lifecycleScope.launch {
-            if ((requireActivity() as MainActivity).hasWindowFocus()) {
-                if ((requireActivity() as MainActivity).toolbar.visibility == View.GONE) {
-                    toolbar.visibility = View.VISIBLE
-                    (requireActivity() as MainActivity).setToobar(toolbar)
-                }
-
-            }
-
-        }
     }
 
 
