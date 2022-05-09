@@ -7,6 +7,8 @@ import com.softserve.teachua.service.BannersService
 import com.softserve.teachua.service.CategoriesService
 import com.softserve.teachua.service.challenge.ChallengeUseCases
 import com.softserve.teachua.service.challenge.ChallengesUseCasesInterface
+import com.softserve.teachua.service.task.TaskUseCases
+import com.softserve.teachua.service.task.TaskUseCasesInterface
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,6 +39,12 @@ class DomainModule () {
     @Provides
     fun providesChallengeUseCasesInterface():ChallengesUseCasesInterface{
         return ChallengeUseCases(providesRemoteDataSource())
+    }
+
+    @Singleton
+    @Provides
+    fun providesTaskUseCasesInterface():TaskUseCasesInterface{
+        return TaskUseCases(providesRemoteDataSource())
     }
 
     //

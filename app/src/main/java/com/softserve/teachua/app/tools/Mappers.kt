@@ -1,4 +1,4 @@
-package com.softserve.teachua.app.tools.mapper
+package com.softserve.teachua.app.tools
 
 import com.softserve.teachua.data.dto.*
 import com.softserve.teachua.data.model.*
@@ -93,12 +93,12 @@ internal fun ChallengeDto.toChallenge(): ChallengeModel {
         id = id,
         isActive = isActive,
         name = name,
-        sortNumber = sortNumber,
-        title = title,
-        tasks = tasks,
-        picture = picture ?: "",
-        description = description ?: "",
-        registrationLink = registrationLink,
+        sortNumber = sortNumber?:-1,
+        title = title?:"",
+        tasks = tasks?:emptyList(),
+        picture = picture?:"",
+        description = description?:"",
+        registrationLink = registrationLink?:"",
         user = user
     )
 }

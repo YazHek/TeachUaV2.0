@@ -1,19 +1,19 @@
 package com.softserve.teachua.ui.home
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.denzcoskun.imageslider.models.SlideModel
 import com.softserve.teachua.app.baseImageUrl
 import com.softserve.teachua.app.tools.Resource
+import com.softserve.teachua.app.tools.convertTwoStatesToOne
 import com.softserve.teachua.data.model.BannerModel
 import com.softserve.teachua.data.model.CategoryModel
 import com.softserve.teachua.service.BannersService
 import com.softserve.teachua.service.CategoriesService
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -27,11 +27,6 @@ class HomeViewModel @Inject constructor(
 
     val banners: StateFlow<Resource<List<BannerModel>>>
         get() = _banners
-
-//    private var _bans = MutableStateFlow<List<SlideModel>>(emptyList())
-//
-//    val bans: StateFlow<List<SlideModel>>
-//        get() = _bans
 
     private var _categories = MutableStateFlow<Resource<List<CategoryModel>>>(Resource.loading())
 
