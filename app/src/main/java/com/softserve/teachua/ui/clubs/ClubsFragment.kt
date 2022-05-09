@@ -17,6 +17,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.annotation.IdRes
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.get
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -55,13 +56,13 @@ class ClubsFragment : Fragment(), View.OnClickListener {
     private lateinit var clubsAdapter: ClubsAdapter
     private lateinit var progressDialog: ProgressDialog
     private lateinit var dialog: Dialog
+    private lateinit var checkBox: CheckBox
 
-    var cities = listOf<String>()
-    var districts = mutableListOf<String>()
-    var stations = mutableListOf<String>()
-
-    var categories = listOf<String>()
-    var listOfSearchedCategories = arrayListOf<String>()
+    private var cities = listOf<String>()
+    private var districts = mutableListOf<String>()
+    private var stations = mutableListOf<String>()
+    private var categories = listOf<String>()
+    //var listOfSearchedCategories = arrayListOf<String>()
 
     private var districtByCity = "Київ"
     private var checkboxCounter = 0
@@ -189,7 +190,6 @@ class ClubsFragment : Fragment(), View.OnClickListener {
         binding.rcv.adapter = clubsAdapter.withLoadStateHeaderAndFooter(
             header = ClubsLoadStateAdapter { clubsAdapter.retry() },
             footer = ClubsLoadStateAdapter { clubsAdapter.retry() })
-
     }
 
     private fun initDataForAllAdvSpinners() {
@@ -411,6 +411,44 @@ class ClubsFragment : Fragment(), View.OnClickListener {
 
     }
 
+    private fun createSearchCategoriesCheckboxes() {
+
+
+        println("size" + checkboxCounter)
+
+        if (checkboxCounter != categories.size) {
+
+            for (element in categories) {
+                checkBox =
+                    LayoutInflater.from(dialog.context)
+                        .inflate(R.layout.category_checkbox, rootAdvView, false) as CheckBox
+                checkBox.text = element
+                checkBox.setOnClickListener {
+                    if (checkBox.isChecked) {
+                        clubsViewModel.listOfSearchedCategories.add(CategoryToUrlTransformer().toUrlEncode(
+                            checkBox.text.toString()))
+                    } else
+                        clubsViewModel.listOfSearchedCategories.remove(CategoryToUrlTransformer().toUrlEncode(
+                            checkBox.text.toString()))
+                }
+                dialog.rootAdvView.addView(checkBox, 12)
+                checkboxCounter++
+
+            }
+
+        }
+
+    }
+
+    private fun unCheckAllCategoriesCheckboxes() {
+
+        for (i in 0 until categories.size) {
+
+            var checkBox = dialog.rootAdvView.getChildAt(12 + i) as CheckBox
+            checkBox.isChecked = false
+        }
+    }
+
 
     private fun setUpDefaultSpinner(
         dialog: Dialog,
@@ -424,36 +462,14 @@ class ClubsFragment : Fragment(), View.OnClickListener {
                 R.layout.item_dropdown, arrayRes)
         citySearchSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         sp.adapter = citySearchSpinnerAdapter
+        println("$spinner" + arrayRes)
 
 
     }
 
     private fun searchAdvDialog() {
 
-        println("size" + checkboxCounter)
-
-        if (checkboxCounter != categories.size) {
-
-            for (i in 0 until categories.size) {
-                val checkBox =
-                    LayoutInflater.from(dialog.context)
-                        .inflate(R.layout.category_checkbox, rootAdvView, false) as CheckBox
-                checkBox.text = categories[i]
-                checkBox.setOnClickListener {
-                    if (checkBox.isChecked) {
-                        listOfSearchedCategories.add(CategoryToUrlTransformer().toUrlEncode(
-                            checkBox.text.toString()))
-                    } else
-                        listOfSearchedCategories.remove(CategoryToUrlTransformer().toUrlEncode(
-                            checkBox.text.toString()))
-                }
-                dialog.rootAdvView.addView(checkBox, 12)
-                checkboxCounter++
-
-            }
-
-        }
-
+        createSearchCategoriesCheckboxes()
         dialog.show()
 
         setUpDefaultSpinner(dialog, cities, R.id.spinner_search_city)
@@ -532,9 +548,9 @@ class ClubsFragment : Fragment(), View.OnClickListener {
 
         dialog.apply_search.setOnClickListener {
 
-            println("categories $listOfSearchedCategories")
+            println("categories $clubsViewModel.listOfSearchedCategories")
             clubsViewModel.advancedSearchClubDto.value?.categoriesName =
-                listOfSearchedCategories
+                clubsViewModel.listOfSearchedCategories
             clubsViewModel.advancedSearchClubDto.value?.isAdvanced = true
             clubsViewModel.advancedSearchClubDto.value?.isCenter = false
             clubsViewModel.advancedSearchClubDto.value?.sort = "name,asc"
@@ -557,13 +573,14 @@ class ClubsFragment : Fragment(), View.OnClickListener {
                 clubsViewModel.searchClubDto.value?.cityName.toString()
             clubsViewModel.advancedSearchClubDto.value?.districtName = null.toString()
             clubsViewModel.advancedSearchClubDto.value?.stationName = null.toString()
+            unCheckAllCategoriesCheckboxes()
             dialog.club_adv_search_radioBtn.isChecked = true
             dialog.center_adv_search_radioBtn.isChecked = false
             dialog.isOnline.isChecked = false
 //
             //searchEdit.text.clear()
             dialog.cancel()
-            checkboxCounter = 0
+            //checkboxCounter = 0
             //viewModelStore.clear()
             //createViewModel()
             // addDataToVM()

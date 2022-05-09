@@ -46,6 +46,7 @@ class ClubsViewModel @Inject constructor(
             isCenter = false,
             isAdvanced = false))
 
+    var listOfSearchedCategories: MutableList<String> = mutableListOf()
     val searchClubDto: LiveData<SearchClubDto>
         get() = _searchClubDto
 
