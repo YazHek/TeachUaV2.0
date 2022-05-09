@@ -10,7 +10,6 @@ import javax.inject.Inject
 
 class ChallengeUseCases @Inject constructor(private val remoteDataSource: RemoteDataSource) : ChallengesUseCasesInterface{
     override suspend fun getChallenges(): Resource<List<ChallengeModel>> {
-        val challenges = remoteDataSource.getChallenges()
         return performGetFromRemoteAndMapData(
             networkCall = {remoteDataSource.getChallenges()},
             map = { it.toChallengeModelMap() }

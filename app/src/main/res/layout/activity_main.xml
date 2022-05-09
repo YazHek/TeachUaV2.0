@@ -24,6 +24,9 @@
         android:layout_gravity="start"
         android:layout_marginTop="25dp"
         android:fitsSystemWindows="true"
+        android:background="?colorBackgroundFloating"
         app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer" />
+        android:theme="@style/ThemeOverlay.MyApp.NavigationView"
+        app:menu="@menu/activity_main_drawer"
+        tools:targetApi="o" />
 </androidx.drawerlayout.widget.DrawerLayout>
