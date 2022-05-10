@@ -8,10 +8,8 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.ScrollView
 import android.widget.TextView
-import android.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,14 +18,11 @@ import com.denzcoskun.imageslider.ImageSlider
 import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.interfaces.ItemClickListener
 import com.denzcoskun.imageslider.models.SlideModel
-import com.softserve.teachua.MainActivity
-import com.softserve.teachua.R
 import com.softserve.teachua.app.adapters.CategoriesAdapter
 import com.softserve.teachua.app.baseImageUrl
 import com.softserve.teachua.app.tools.Resource
 import com.softserve.teachua.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 

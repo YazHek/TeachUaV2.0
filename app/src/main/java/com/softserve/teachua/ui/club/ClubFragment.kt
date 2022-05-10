@@ -52,22 +52,11 @@ class ClubFragment : Fragment() {
     }
 
 
-    private fun updateToolbar() {
-//        lifecycleScope.launch {
-//            if ((requireActivity() as MainActivity).hasWindowFocus()) {
-//                if ((requireActivity() as MainActivity).toolbar.visibility == View.GONE) {
-//                    toolbar.visibility = View.VISIBLE
-//                    (requireActivity() as MainActivity).setToobar(toolbar)
-//                }
-//
-//            }
-//
-//        }
-    }
+
 
     override fun onResume() {
         super.onResume()
-        updateToolbar()
+
     }
 
     override fun onStop() {

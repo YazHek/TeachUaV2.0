@@ -41,7 +41,7 @@ class ClubsViewModel @Inject constructor(
             "",
             "name,asc",
             0,
-            emptyList(),
+            mutableListOf(),
             isOnline = false,
             isCenter = false,
             isAdvanced = false))
