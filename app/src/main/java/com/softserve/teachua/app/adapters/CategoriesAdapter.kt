@@ -1,13 +1,10 @@
 package com.softserve.teachua.app.adapters
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.NotificationCompat.getColor
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.navigation.Navigation

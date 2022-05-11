@@ -8,6 +8,7 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -71,9 +72,15 @@ class ClubsFragment : Fragment(), View.OnClickListener {
         savedInstanceState: Bundle?,
     ): View {
         createViewModel()
-
         _binding = FragmentClubsBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        //picking category name if it exist
+        val category = arguments?.getString("categoryName")
+        category?.let {
+
+        }
+
 
         binding.searchEdit.setupClearButtonWithAction()
         checkboxCounter = 0
@@ -432,6 +439,7 @@ class ClubsFragment : Fragment(), View.OnClickListener {
                     if (checkBox.isChecked) {
                         clubsViewModel.listOfSearchedCategories.add(CategoryToUrlTransformer().toUrlEncode(
                             checkBox.text.toString()))
+                        Log.e("categoryAll", clubsViewModel.listOfSearchedCategories.toString())
                     } else
                         clubsViewModel.listOfSearchedCategories.remove(CategoryToUrlTransformer().toUrlEncode(
                             checkBox.text.toString()))
