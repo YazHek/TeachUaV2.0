@@ -149,8 +149,7 @@ class HomeFragment : Fragment() {
                         if (link.contains("/clubs")) {
                             Navigation.findNavController(it).navigate(R.id.nav_clubs)
                         } else if (link.contains("/challenges")){
-                            val substring = link.substring("/challenges".length)
-                            Log.e("idtag", substring)
+                            val substring = link.substring("/challenges".length + 1)
                             val id = substring.toInt()
                             val bundle = bundleOf("id" to id)
                             Navigation.findNavController(it).navigate(R.id.challengeFragment, bundle)
