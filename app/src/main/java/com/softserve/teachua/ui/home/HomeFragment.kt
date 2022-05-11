@@ -1,6 +1,7 @@
 package com.softserve.teachua.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -8,11 +9,11 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.ScrollView
 import android.widget.TextView
-import android.widget.Toolbar
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -20,14 +21,12 @@ import com.denzcoskun.imageslider.ImageSlider
 import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.interfaces.ItemClickListener
 import com.denzcoskun.imageslider.models.SlideModel
-import com.softserve.teachua.MainActivity
 import com.softserve.teachua.R
 import com.softserve.teachua.app.adapters.CategoriesAdapter
 import com.softserve.teachua.app.baseImageUrl
 import com.softserve.teachua.app.tools.Resource
 import com.softserve.teachua.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -125,13 +124,17 @@ class HomeFragment : Fragment() {
     }
 
     private fun updateBanners() {
+        if (homeViewModel.banners.value.data == null) {
+            return
+        }
+
         val bansList = ArrayList<SlideModel>()
 
         for (ban in homeViewModel.banners.value.data!!) {
             bansList.add(
                 SlideModel(
                     baseImageUrl + ban.bannerPicture,
-                    ban.bannerTitle + "\n\n" + ban.bannerSubtitle
+                    ban.bannerTitle + "\n\n" + ban.bannerSubtitle,
                 )
             )
         }
@@ -140,7 +143,21 @@ class HomeFragment : Fragment() {
         bans.setItemClickListener(object : ItemClickListener {
 
             override fun onItemSelected(position: Int) {
+                val link = homeViewModel.banners.value.data!![position].bannerLink
+                view?.let {
+                    if (link != null) {
+                        if (link.contains("/clubs")) {
+                            Navigation.findNavController(it).navigate(R.id.nav_clubs)
+                        } else if (link.contains("/challenges")){
+                            val substring = link.substring("/challenges".length)
+                            Log.e("idtag", substring)
+                            val id = substring.toInt()
+                            val bundle = bundleOf("id" to id)
+                            Navigation.findNavController(it).navigate(R.id.challengeFragment, bundle)
+                        }
+                    }
 
+                }
             }
 
         })

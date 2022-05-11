@@ -12,6 +12,6 @@ class TaskUseCases @Inject constructor(private val remoteDataSource: RemoteDataS
     override suspend fun getTask(id: Int): Resource<TaskDto> {
         return performGetFromRemote (
             networkCall = {remoteDataSource.getTask(id)}
-                )
+        )
     }
 }

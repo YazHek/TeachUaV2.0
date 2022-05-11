@@ -11,7 +11,8 @@
     <string name="menu_home">Головна</string>
     <string name="menu_clubs">Гуртки</string>
     <string name="menu_club">Гурток</string>
-    <string name="menu_challange">Челендж</string>
+    <string name="menu_challenge">Челендж</string>
+    <string name="menu_about_us">Про нас</string>
     <string name="challengeTitle">Челендж \"Навчай українською\"</string>
     <string name="challengeDescription">Ми допоможемо вам перейти на українську мову викладання. Тут ви можете знайти мотиваційні та практичні вебінари з експертами, корисні матеріали, які вдосконалять ваші знання та навички викладати українською.</string>
 

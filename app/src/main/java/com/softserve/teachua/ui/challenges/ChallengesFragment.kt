@@ -15,7 +15,6 @@ import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.sharp.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -35,9 +34,7 @@ import com.softserve.teachua.MainActivity
 import com.softserve.teachua.R
 import com.softserve.teachua.data.model.ChallengeModel
 import com.softserve.teachua.databinding.FragmentChallengesBinding
-import com.softserve.teachua.ui.challenge.ChallengeFragmentArgs
 import com.softserve.teachua.ui.compose.ResourceWrapper
-import com.softserve.teachua.ui.compose.TopBarWithSearchBtn
 import com.softserve.teachua.ui.compose.theme.TeachUaComposeTheme
 import dagger.hilt.android.AndroidEntryPoint
 
