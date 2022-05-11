@@ -59,7 +59,7 @@
             android:layout_marginTop="70dp"
             android:background="@drawable/category_background"
             android:text="club CategoryTitle"
-            android:textColor="?colorOnSurface"
+            android:textColor="@color/white"
             android:textSize="13sp" />
 
         <TextView
