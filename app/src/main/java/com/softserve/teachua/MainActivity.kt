@@ -50,7 +50,8 @@ class MainActivity : AppCompatActivity() {
     private fun initViews(){
         toolbar = binding.appBarMain.tool.toolbar
         drawerLayout = binding.drawerLayout
-        appBarConfiguration = AppBarConfiguration(setOf(R.id.nav_home, R.id.nav_clubs, R.id.nav_challenges),
+        appBarConfiguration = AppBarConfiguration(
+            setOf(R.id.nav_home, R.id.nav_clubs, R.id.nav_challenges, R.id.nav_about_us),
             drawerLayout)
         navView = binding.navView
         navController = findNavController(R.id.nav_host_fragment_content_main)

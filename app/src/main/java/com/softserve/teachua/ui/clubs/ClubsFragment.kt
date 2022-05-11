@@ -446,7 +446,7 @@ class ClubsFragment : Fragment(), View.OnClickListener {
 
     private fun unCheckAllCategoriesCheckboxes() {
 
-        for (i in 0 until categories.size) {
+        for (i in categories.indices) {
 
             var checkBox = dialog.rootAdvView.getChildAt(12 + i) as CheckBox
             checkBox.isChecked = false
