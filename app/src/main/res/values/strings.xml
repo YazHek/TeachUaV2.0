@@ -7,9 +7,11 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
+    <string name="connection_problem">Помилка мережі</string>
     <string name="menu_home">Головна</string>
     <string name="menu_clubs">Гуртки</string>
-    <string name="menu_challange">Челендж</string>
+    <string name="menu_club">Гурток</string>
+    <string name="menu_challange">Челенджі</string>
     <string name="challengeTitle">Челендж \"Навчай українською\"</string>
     <string name="challengeDescription">Ми допоможемо вам перейти на українську мову викладання. Тут ви можете знайти мотиваційні та практичні вебінари з експертами, корисні матеріали, які вдосконалять ваші знання та навички викладати українською.</string>
 
@@ -30,4 +32,8 @@
         <item>Черкаси</item>
         <item>Без локації</item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="task">Завдання</string>
+    <string name="challenge">Челендж</string>
 </resources>

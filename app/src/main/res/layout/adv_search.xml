@@ -70,7 +70,7 @@
 
         <Spinner
             android:id="@+id/spinner_search_city"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             style="@style/spinner_style"
             android:layout_marginTop="30dp"
@@ -105,7 +105,7 @@
 
         <Spinner
             android:id="@+id/spinner_metro_station"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             style="@style/spinner_style"
             android:layout_marginTop="20dp"
@@ -139,7 +139,7 @@
 
 
         <Button
-            android:background="@color/purple_700"
+            android:background="@color/toolbar_orange"
             android:id="@+id/apply_search"
             android:layout_marginTop="30dp"
             android:layout_width="match_parent"
@@ -147,7 +147,7 @@
             android:text="Застосувати"/>
 
         <Button
-            android:background="@color/purple_700"
+            android:background="@color/toolbar_orange"
             android:id="@+id/clear_search"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"

@@ -1,107 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
+    android:background="?colorBackgroundFloating"
     android:orientation="vertical"
-    android:background="@drawable/main_background"
     tools:context=".ui.home.HomeFragment">
 
 
 
-    <LinearLayout
+    <ScrollView
+        android:id="@+id/contentHome"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:background="@drawable/main_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <include
-            android:visibility="visible"
-            android:id="@+id/tb"
-            layout="@layout/toolbar"/>
-
-        <androidx.cardview.widget.CardView
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:background="@drawable/banner_shadow"
-            android:layout_height="236dp"
-            android:layout_margin="15dp"
-            android:layout_marginTop="15dp"
-            android:padding="8dp"
-            app:cardBackgroundColor="@color/cardview_shadow_start_color"
-            app:cardCornerRadius="8dp">
+            android:layout_height="200dp"
+            android:orientation="vertical">
 
-            <com.denzcoskun.imageslider.ImageSlider
-                android:id="@+id/image_slider"
+
+
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:iss_selected_dot="@drawable/selected_dot"
-                app:iss_auto_cycle="true"
+                android:layout_height="236dp"
+                android:layout_margin="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/banner_shadow"
+                android:padding="8dp"
+                app:cardCornerRadius="8dp">
 
-                app:iss_period="3000"
-                app:iss_delay="3000"
-                />
+                <com.denzcoskun.imageslider.ImageSlider
+                    android:id="@+id/image_slider"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:iss_auto_cycle="true"
+                    app:iss_delay="3000"
 
-
-        </androidx.cardview.widget.CardView>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="15dp"
-            android:textStyle="bold"
-            android:text="Оберіть напрям гуртків"
-            android:textColor="@color/text"
-            android:textSize="30sp" />
+                    app:iss_period="3000"
+                    app:iss_selected_dot="@drawable/selected_dot" />
 
 
-        <androidx.recyclerview.widget.RecyclerView
+            </androidx.cardview.widget.CardView>
 
-            android:id="@+id/categoriesList"
-            android:layout_marginTop="15dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginRight="15dp"
-            android:layout_marginLeft="15dp"
-            />
-
-        <TextView
-            android:layout_marginStart="15dp"
-            android:id="@+id/mainChallengeTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/text"
-            android:text="@string/challengeTitle"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            android:layout_marginTop="40dp"/>
-
-        <TextView
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/challengeDescription"
-            android:textSize="15sp"
-            android:textColor="@color/text" />
-
-        <ImageView
-            android:layout_marginTop="15dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginBottom="20dp"
-            android:id="@+id/challengeImg"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="20dp"
+                android:text="Оберіть напрям гуртків"
+                android:textColor="@color/black"
+                android:textSize="30sp"
+                android:textStyle="bold" />
 
 
+            <androidx.recyclerview.widget.RecyclerView
+
+                android:id="@+id/categoriesList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+
+            <TextView
+                android:id="@+id/mainChallengeTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="40dp"
+                android:text="@string/challengeTitle"
+                android:textColor="@color/black"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="15dp"
+                android:text="@string/challengeDescription"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:id="@+id/challengeImg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="20dp"
+                android:contentDescription="TODO"
+                android:theme="@style/Theme.TeachUaV20.NoActionBar" />
 
 
-    </LinearLayout>
+        </LinearLayout>
 
 
-</ScrollView>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/connectionProblemHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/connection_problem"
+        android:textColor="?attr/colorOnBackground"
+        />
+
+    <ProgressBar
+        android:id="@+id/progressBarHome"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:outlineAmbientShadowColor="?attr/colorPrimary"
+        tools:targetApi="p" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
