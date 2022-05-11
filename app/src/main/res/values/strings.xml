@@ -11,7 +11,8 @@
     <string name="menu_home">Головна</string>
     <string name="menu_clubs">Гуртки</string>
     <string name="menu_club">Гурток</string>
-    <string name="menu_challange">Челенджі</string>
+    <string name="menu_challenge">Челендж</string>
+    <string name="menu_about_us">Про нас</string>
     <string name="challengeTitle">Челендж \"Навчай українською\"</string>
     <string name="challengeDescription">Ми допоможемо вам перейти на українську мову викладання. Тут ви можете знайти мотиваційні та практичні вебінари з експертами, корисні матеріали, які вдосконалять ваші знання та навички викладати українською.</string>
 
@@ -34,6 +35,6 @@
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="task">Завдання</string>
-    <string name="challenge">Челендж</string>
+    <string name="menu_task">Завдання</string>
+    <string name="todo">TODO</string>
 </resources>
