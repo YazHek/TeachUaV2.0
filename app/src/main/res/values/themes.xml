@@ -2,9 +2,9 @@
     <!-- Base application theme. -->
     <style name="Theme.TeachUaV20" parent="Theme.AppCompat.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/orange_600</item>
-        <item name="colorPrimaryVariant">@color/orange_600</item>
-        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorPrimary">@color/toolbar_orange</item>
+        <item name="colorPrimaryVariant">@color/toolbar_orange</item>
+        <item name="colorOnPrimary">@color/toolbar_orange</item>
         <item name="android:textColorPrimary">@color/black</item>
         <item name="android:textColorSecondary">@color/black</item>
         <!-- Secondary brand color. -->
@@ -42,7 +42,7 @@
         <!-- This is the menu header text color. -->
         <item name="android:textColorSecondary">@color/black</item>
         <!-- This is the selected color. -->
-        <item name="colorPrimary">@color/orange_600</item>
+        <item name="colorPrimary">@color/toolbar_orange</item>
     </style>
 
 

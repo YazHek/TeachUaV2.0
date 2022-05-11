@@ -5,38 +5,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.sharp.Favorite
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.Navigation
-import com.softserve.teachua.MainActivity
-import com.softserve.teachua.R
-import com.softserve.teachua.data.model.ChallengeModel
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.viewModelScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.softserve.teachua.app.adapters.ChallengesAdapter
+import com.softserve.teachua.app.tools.Resource
 import com.softserve.teachua.databinding.FragmentChallengesBinding
-import com.softserve.teachua.ui.compose.ResourceWrapper
-import com.softserve.teachua.ui.compose.theme.TeachUaComposeTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -47,39 +26,79 @@ class ChallengesFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-
-
-    private lateinit var compose: ComposeView
+    private lateinit var adapter: ChallengesAdapter
+    private val challengesViewModel: ChallengesViewModel by viewModels()
 
 
     @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentChallengesBinding.inflate(inflater, container, false)
         val view: View = binding.root
-        //(requireActivity() as MainActivity).toolbar.visibility = View.GONE
 
+        initViews()
+        loadData()
+        updateView()
 
-        compose = binding.compose
-        compose.setContent {
-            TeachUaComposeTheme() {
-                Challenges(
-                    title = "Challenges",
-                    openDrawer = { (activity as MainActivity).openDrawer() },
-                    onChallengeClick = { id ->
-                        val bundle = bundleOf("id" to id)
-                        Navigation.findNavController(view).navigate(R.id.challenges_to_challelnge, bundle)
-                    },
-                    goToSearchClick = {}
-                )
-            }
-        }
 
         return view
     }
+
+    private fun updateView() {
+
+        challengesViewModel.viewModelScope.launch {
+            challengesViewModel.challenges.collectLatest { challenges ->
+                when (challenges.status) {
+
+                    Resource.Status.LOADING -> showLoading()
+
+
+                    Resource.Status.SUCCESS -> {
+                        showSuccess()
+                        adapter.submitList(challenges.data)
+                    }
+
+                    Resource.Status.FAILED -> showError()
+
+
+                }
+            }
+        }
+    }
+
+    private fun loadData() {
+        challengesViewModel.load()
+    }
+
+    private fun showSuccess() {
+        binding.challengesList.visibility = View.VISIBLE
+        binding.progressBarChallenges.visibility = View.GONE
+        binding.connectionProblemChallenges.visibility = View.GONE
+    }
+
+    private fun showLoading() {
+        binding.challengesList.visibility = View.GONE
+        binding.progressBarChallenges.visibility = View.VISIBLE
+        binding.connectionProblemChallenges.visibility = View.GONE
+    }
+
+    private fun showError() {
+        binding.challengesList.visibility = View.GONE
+        binding.progressBarChallenges.visibility = View.GONE
+        binding.progressBarChallenges.visibility = View.VISIBLE
+    }
+
+    private fun initViews() {
+        adapter = ChallengesAdapter(requireContext())
+        val layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+        binding.challengesList.layoutManager = layoutManager
+        binding.challengesList.adapter = adapter
+
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -88,60 +107,5 @@ class ChallengesFragment : Fragment() {
 }
 
 
-@OptIn(ExperimentalAnimationApi::class, ExperimentalComposeUiApi::class)
-@Composable
-fun Challenges(
-    title: String,
-    openDrawer: () -> Unit,
-    onChallengeClick: (id: Int) -> Unit,
-    goToSearchClick: () -> Unit
-) {
-    val viewModel = hiltViewModel<ChallengesViewModel>()
-    LaunchedEffect(key1 = true) {
-        viewModel.load()
-    }
-    val challenges by viewModel.challenges.collectAsState()
 
 
-    Column(Modifier.background(MaterialTheme.colors.background)) {
-
-
-        ResourceWrapper(
-            resource = challenges,
-            onReloadButtonClick = {
-                viewModel.load()
-
-            },
-        ) {
-            challenges.data?.let { it1 -> ChallengesList(challenges = it1, onChallengeClick) }
-        }
-    }
-
-}
-
-@Composable
-fun ChallengesList(challenges: List<ChallengeModel>, onChallengeClick: (id: Int) -> Unit) {
-    LazyColumn(
-        modifier = Modifier.fillMaxWidth(),
-        contentPadding = PaddingValues(start = 20.dp, end = 20.dp, bottom = 30.dp)
-    ) {
-        item { Spacer(modifier = Modifier.height(10.dp)) }
-        items(challenges) {
-            Row(modifier = Modifier
-                .clickable { onChallengeClick(it.id) }
-                .fillMaxSize(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(imageVector = Icons.Sharp.Favorite, contentDescription = "")
-                Spacer(Modifier.width(15.dp))
-                Text(
-                    text = it.name,
-                    fontSize = 25.sp
-                )
-
-            }
-            Spacer(Modifier.height(15.dp))
-
-        }
-    }
-}

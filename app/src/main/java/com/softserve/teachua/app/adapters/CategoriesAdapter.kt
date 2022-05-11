@@ -14,12 +14,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
 import com.softserve.teachua.R
 import com.softserve.teachua.app.baseImageUrl
-import com.softserve.teachua.app.baseUrl
 import com.softserve.teachua.data.model.CategoryModel
 import kotlinx.android.synthetic.main.category_item.view.*
 
 class CategoriesAdapter(context: Context) :
-    ListAdapter<CategoryModel, CategoriesAdapter.CategoriesViewHolder>(DiffCallback()) {
+    ListAdapter<CategoryModel, CategoriesAdapter.CategoriesViewHolder>(DiffCategoriesCallback()) {
 
 
     val layoutInflater: LayoutInflater = LayoutInflater.from(context)
@@ -57,7 +56,7 @@ class CategoriesAdapter(context: Context) :
     }
 }
 
-class DiffCallback : DiffUtil.ItemCallback<CategoryModel>() {
+class DiffCategoriesCallback() : DiffUtil.ItemCallback<CategoryModel>() {
 
     override fun areItemsTheSame(oldItem: CategoryModel, newItem: CategoryModel): Boolean {
         return oldItem.categoryId == newItem.categoryId
@@ -66,4 +65,5 @@ class DiffCallback : DiffUtil.ItemCallback<CategoryModel>() {
     override fun areContentsTheSame(oldItem: CategoryModel, newItem: CategoryModel): Boolean {
         return oldItem == newItem
     }
+
 }

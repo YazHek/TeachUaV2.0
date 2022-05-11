@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/toolbar_orange"
     android:theme="@style/Theme.TeachUaV20.NoActionBar">
 
     <androidx.appcompat.widget.Toolbar
@@ -11,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:visibility="visible"
+        android:background="@color/toolbar_orange"
         app:popupTheme="@style/Theme.TeachUaV20.PopupOverlay" />
 </com.google.android.material.appbar.AppBarLayout>
 
