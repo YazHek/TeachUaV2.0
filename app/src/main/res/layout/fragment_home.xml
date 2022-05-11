@@ -14,7 +14,7 @@
         android:id="@+id/contentHome"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?colorBackgroundFloating"
+        android:background="@drawable/main_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -33,7 +33,6 @@
                 android:layout_marginTop="15dp"
                 android:background="@drawable/banner_shadow"
                 android:padding="8dp"
-                app:cardBackgroundColor="?colorSurface"
                 app:cardCornerRadius="8dp">
 
                 <com.denzcoskun.imageslider.ImageSlider
@@ -55,7 +54,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="20dp"
                 android:text="Оберіть напрям гуртків"
-                android:textColor="?colorOnBackground"
+                android:textColor="@color/black"
                 android:textSize="30sp"
                 android:textStyle="bold" />
 
@@ -75,7 +74,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="40dp"
                 android:text="@string/challengeTitle"
-                android:textColor="?colorOnBackground"
+                android:textColor="@color/black"
                 android:textSize="25sp"
                 android:textStyle="bold" />
 
@@ -86,7 +85,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="15dp"
                 android:text="@string/challengeDescription"
-                android:textColor="?colorOnBackground"
+                android:textColor="@color/black"
                 android:textSize="15sp" />
 
             <ImageView

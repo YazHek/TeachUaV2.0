@@ -3,7 +3,7 @@ package com.softserve.teachua.data.model
 import com.softserve.teachua.data.dto.TaskDto
 import com.softserve.teachua.data.dto.UserDto
 
-class ChallengeModel(
+data class ChallengeModel(
     val description: String = "",
     val id: Int,
     val isActive: Boolean = false,

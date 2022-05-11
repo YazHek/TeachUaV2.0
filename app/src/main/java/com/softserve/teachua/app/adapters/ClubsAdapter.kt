@@ -18,9 +18,10 @@ import com.softserve.teachua.app.baseImageUrl
 import com.softserve.teachua.app.tools.GsonDeserializer
 import com.softserve.teachua.data.dto.ClubDescriptionText
 import com.softserve.teachua.data.model.ClubModel
-import kotlinx.android.synthetic.main.card_item.view.*
+import kotlinx.android.synthetic.main.club_item.view.*
 
-class ClubsAdapter (context: Context): PagingDataAdapter<ClubModel, ClubsAdapter.ClubsViewHolder>(ClubDiffItemCallback),
+class ClubsAdapter(context: Context) :
+    PagingDataAdapter<ClubModel, ClubsAdapter.ClubsViewHolder>(ClubDiffItemCallback),
     View.OnClickListener {
 
 
@@ -31,7 +32,7 @@ class ClubsAdapter (context: Context): PagingDataAdapter<ClubModel, ClubsAdapter
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClubsViewHolder {
 
         con = parent.context
-        return ClubsViewHolder(layoutInflater.inflate(R.layout.card_item, parent, false))
+        return ClubsViewHolder(layoutInflater.inflate(R.layout.club_item, parent, false))
     }
 
     override fun onBindViewHolder(holder: ClubsViewHolder, position: Int) {
@@ -43,17 +44,21 @@ class ClubsAdapter (context: Context): PagingDataAdapter<ClubModel, ClubsAdapter
 
         val bundle = Bundle()
         bundle.putString("clubName", getItem(position)?.clubName)
-       when(desc.blocks.size){
+        when (desc.blocks.size) {
 
-           4 -> {bundle.putString("clubDescription", desc.blocks[3].text)}
-           else -> {bundle.putString("clubDescription", desc.blocks[0].text)}
-       }
+            4 -> {
+                bundle.putString("clubDescription", desc.blocks[3].text)
+            }
+            else -> {
+                bundle.putString("clubDescription", desc.blocks[0].text)
+            }
+        }
         val navBuilder = NavOptions.Builder()
-                navBuilder
-                    .setExitAnim(android.R.anim.fade_out)
-                    .setEnterAnim(android.R.anim.fade_in)
-                    .setPopExitAnim(android.R.anim.fade_in)
-                    .setPopEnterAnim(android.R.anim.fade_out)
+        navBuilder
+            .setExitAnim(android.R.anim.fade_out)
+            .setEnterAnim(android.R.anim.fade_in)
+            .setPopExitAnim(android.R.anim.fade_in)
+            .setPopEnterAnim(android.R.anim.fade_out)
 
         holder.itemView.setOnClickListener { view ->
             view.findNavController().navigate(
@@ -63,7 +68,6 @@ class ClubsAdapter (context: Context): PagingDataAdapter<ClubModel, ClubsAdapter
         }
         println(getItem(position)?.clubName)
     }
-
 
 
     lateinit var mClickListener: ClickListener
