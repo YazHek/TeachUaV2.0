@@ -1,7 +1,7 @@
 package com.softserve.teachua.data.retrofit.datasource
 
 import com.softserve.teachua.data.retrofit.RetrofitService
-import com.softserve.teachua.data.retrofit.dataSource.BaseDataSource
+import com.softserve.teachua.data.retrofit.datasource.BaseDataSource
 import javax.inject.Inject
 
 //
