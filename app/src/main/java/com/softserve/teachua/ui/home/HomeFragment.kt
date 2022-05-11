@@ -152,7 +152,8 @@ class HomeFragment : Fragment() {
                             val substring = link.substring("/challenges".length + 1)
                             val id = substring.toInt()
                             val bundle = bundleOf("id" to id)
-                            Navigation.findNavController(it).navigate(R.id.challengeFragment, bundle)
+                            Log.e("bundleID", id.toString())
+                            Navigation.findNavController(it).navigate(R.id.action_nav_home_to_challengeFragment, bundle)
                         }
                     }
 

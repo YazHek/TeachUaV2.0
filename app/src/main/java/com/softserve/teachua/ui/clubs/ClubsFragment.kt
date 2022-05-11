@@ -75,13 +75,6 @@ class ClubsFragment : Fragment(), View.OnClickListener {
         _binding = FragmentClubsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        //picking category name if it exist
-        val category = arguments?.getString("categoryName")
-        category?.let {
-
-        }
-
-
         binding.searchEdit.setupClearButtonWithAction()
         checkboxCounter = 0
         createAdvancedSearchDialog()

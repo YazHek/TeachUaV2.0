@@ -28,7 +28,7 @@ class ChallengesAdapter(context: Context) :
         getItem(position)?.let { holder.bind(it) }
 
         val bundle = Bundle()
-        bundle.putInt("challengeId", getItem(position).id)
+        bundle.putInt("id", getItem(position).id)
 
         val navBuilder = NavOptions.Builder()
         navBuilder
