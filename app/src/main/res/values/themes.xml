@@ -5,8 +5,8 @@
         <item name="colorPrimary">@color/toolbar_orange</item>
         <item name="colorPrimaryVariant">@color/toolbar_orange</item>
         <item name="colorOnPrimary">@color/toolbar_orange</item>
-        <item name="android:textColorPrimary">@color/black</item>
-        <item name="android:textColorSecondary">@color/black</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
         <!-- Secondary brand color. -->
 
 <!--        <item name="colorSecondary">@color/teal_200</item>-->
@@ -36,11 +36,11 @@
         <item name="android:background">@color/toolbar_orange</item>
     </style>
 
-    <style name="ThemeOverlay.MyApp.NavigationView" parent="ThemeOverlay.AppCompat.Light">
+    <style name="ThemeOverlay.MyApp.NavigationView" parent="ThemeOverlay.AppCompat.Dark">
         <!-- This is the menu item text color. -->
-        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:textColorPrimary">@color/white</item>
         <!-- This is the menu header text color. -->
-        <item name="android:textColorSecondary">@color/black</item>
+        <item name="android:textColorSecondary">@color/white</item>
         <!-- This is the selected color. -->
         <item name="colorPrimary">@color/toolbar_orange</item>
     </style>
