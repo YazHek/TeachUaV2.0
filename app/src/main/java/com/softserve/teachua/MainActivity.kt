@@ -1,6 +1,7 @@
 package com.softserve.teachua
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -13,10 +14,13 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
+import com.softserve.teachua.app.baseImageUrl
 import com.softserve.teachua.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.nav_header_main.view.*
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -36,8 +40,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         initViews()
         initNavController()
-
-
+        loadImagesToDrawer()
 
 
 
@@ -80,14 +83,21 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
     }
 
-    fun setToolbar(toolbar: Toolbar){
-        setSupportActionBar(toolbar)
-        setupActionBarWithNavController(navController, appBarConfiguration)
+    private fun loadImagesToDrawer() {
+        val headerView = navView.getHeaderView(0)
+        val navigationImageInDrawer = headerView.navigation_image_in_drawer
+        val navigationImageInDrawerBackground = headerView.navigation_image_in_drawer_back
+        Glide.with(this)
+            .load(baseImageUrl + "static/media/header-bg.4a858b95.png")
+            .into(navigationImageInDrawerBackground)
+        Glide.with(this)
+            .load(baseImageUrl + "static/media/logo.22da8232.png")
+            .into(navigationImageInDrawer)
     }
 
-    fun resetDefaultToolbar(){
+    private fun setToolbar(toolbar: Toolbar){
         setSupportActionBar(toolbar)
-        showToolbar()
+        setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
     fun showToolbar(){
