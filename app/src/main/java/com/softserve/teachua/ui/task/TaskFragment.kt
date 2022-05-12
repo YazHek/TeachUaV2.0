@@ -62,8 +62,9 @@ class TaskFragment : Fragment() {
                             .into(binding.taskPicture)
 
                         binding.taskTitle.text = task.data?.name
+                        binding.taskHeader.text = CategoryToUrlTransformer().parseHtml(task.data!!.headerText)
                         binding.taskDescription.text =
-                            CategoryToUrlTransformer().parseHtml(task.data?.description!!)
+                            CategoryToUrlTransformer().parseHtml(task.data.description)
                     }
 
                     Resource.Status.LOADING -> showLoading()
