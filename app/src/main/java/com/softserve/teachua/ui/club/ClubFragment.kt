@@ -1,6 +1,7 @@
 package com.softserve.teachua.ui.club
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,7 +29,6 @@ class ClubFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-
 
         _binding = FragmentClubBinding.inflate(inflater, container, false)
         val root: View = binding.root

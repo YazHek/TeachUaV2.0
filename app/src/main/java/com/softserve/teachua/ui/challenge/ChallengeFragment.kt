@@ -1,6 +1,7 @@
 package com.softserve.teachua.ui.challenge
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,7 +31,6 @@ class ChallengeFragment : Fragment() {
     private var _binding: ChallengeFragmentBinding? = null
     private val binding get() = _binding!!
     private val challengeViewModel: ChallengeViewModel by viewModels()
-    private var clubId = 0
     private lateinit var adapter: TasksAdapter
 
 
@@ -41,8 +41,9 @@ class ChallengeFragment : Fragment() {
 
         _binding = ChallengeFragmentBinding.inflate(inflater, container, false)
         val view: View = binding.root
-        clubId = arguments?.getInt("challengeId")!!
-        loadChallenge(clubId)
+        val clubId = arguments?.getInt("id")
+        Log.e("clubId", clubId.toString())
+        clubId?.let { loadChallenge(it) }
         initViews()
         updateView()
         return view
