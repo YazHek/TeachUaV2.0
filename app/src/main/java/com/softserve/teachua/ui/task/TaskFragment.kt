@@ -9,7 +9,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
 import com.bumptech.glide.Glide
 import com.softserve.teachua.app.baseImageUrl
-import com.softserve.teachua.app.tools.CategoryToUrlTransformer
 import com.softserve.teachua.app.tools.Resource
 import com.softserve.teachua.databinding.ChallengeFragmentBinding
 import com.softserve.teachua.databinding.TaskFragmentBinding
@@ -62,9 +61,7 @@ class TaskFragment : Fragment() {
                             .into(binding.taskPicture)
 
                         binding.taskTitle.text = task.data?.name
-                        binding.taskHeader.text = CategoryToUrlTransformer().parseHtml(task.data!!.headerText)
-                        binding.taskDescription.text =
-                            CategoryToUrlTransformer().parseHtml(task.data.description)
+                        binding.taskDescription.text = task.data?.description
                     }
 
                     Resource.Status.LOADING -> showLoading()

@@ -1,7 +1,5 @@
 package com.softserve.teachua.app.tools
 
-import org.jsoup.Jsoup
-
 class CategoryToUrlTransformer {
 
     fun toUrlEncode(categoryName: String): String {
@@ -12,9 +10,5 @@ class CategoryToUrlTransformer {
             return categoryName
 
 
-    }
-
-    fun parseHtml(html: String): String {
-        return Jsoup.parse(html).text()
     }
 }
