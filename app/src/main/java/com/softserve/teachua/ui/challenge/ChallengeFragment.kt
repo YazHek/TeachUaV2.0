@@ -17,6 +17,7 @@ import com.softserve.teachua.R
 import com.softserve.teachua.app.adapters.TasksAdapter
 import com.softserve.teachua.app.baseImageUrl
 import com.softserve.teachua.app.baseMailImage
+import com.softserve.teachua.app.tools.CategoryToUrlTransformer
 import com.softserve.teachua.app.tools.Resource
 import com.softserve.teachua.databinding.ChallengeFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -79,7 +80,7 @@ class ChallengeFragment : Fragment() {
                             .into(binding.challengePicture)
 
                         binding.challengeDescription.text =
-                            challengeViewModel.challenge.value.data?.description
+                            CategoryToUrlTransformer().parseHtml(challengeViewModel.challenge.value.data?.description!!)
 
                         adapter.submitList(challenge.data?.tasks)
                     }
