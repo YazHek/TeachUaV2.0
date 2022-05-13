@@ -16,6 +16,7 @@ import com.softserve.teachua.R
 import com.softserve.teachua.app.baseImageUrl
 import com.softserve.teachua.data.model.CategoryModel
 import kotlinx.android.synthetic.main.category_item.view.*
+import kotlinx.android.synthetic.main.category_logo_item.view.*
 
 class CategoriesAdapter(context: Context) :
     ListAdapter<CategoryModel, CategoriesAdapter.CategoriesViewHolder>(DiffCategoriesCallback()) {
@@ -51,7 +52,7 @@ class CategoriesAdapter(context: Context) :
 
             itemView.setOnClickListener {
                 val bundle = bundleOf("categoryName" to model.categoryName)
-                Navigation.findNavController(it).navigate(R.id.nav_clubs, bundle)
+                Navigation.findNavController(it).navigate(R.id.action_nav_home_to_nav_clubs, bundle)
             }
 
         }
