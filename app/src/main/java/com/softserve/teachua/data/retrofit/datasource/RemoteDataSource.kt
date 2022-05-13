@@ -1,7 +1,7 @@
 package com.softserve.teachua.data.retrofit.datasource
 
+import com.softserve.teachua.data.dto.UserLoginDto
 import com.softserve.teachua.data.retrofit.RetrofitService
-import com.softserve.teachua.data.retrofit.datasource.BaseDataSource
 import javax.inject.Inject
 
 //
@@ -10,19 +10,23 @@ import javax.inject.Inject
 //
 //
 
-class RemoteDataSource @Inject constructor(private val retrofitService: RetrofitService) : BaseDataSource() {
+class RemoteDataSource @Inject constructor(private val retrofitService: RetrofitService) :
+    BaseDataSource() {
 
-    suspend fun getChallengeById(id : Int) = getResult { retrofitService.getChallengeById(id) }
+    suspend fun getChallengeById(id: Int) = getResult { retrofitService.getChallengeById(id) }
 
     suspend fun getChallenges() = getResult { retrofitService.getChallenges() }
 
-    suspend fun getTask(id : Int) = getResult { retrofitService.getTask(id) }
+    suspend fun getTask(id: Int) = getResult { retrofitService.getTask(id) }
 
-    suspend fun getAllBanners( ) = getResult { retrofitService.getAllBanners() }
+    suspend fun getAllBanners() = getResult { retrofitService.getAllBanners() }
 
-    suspend fun getAllCategories ( ) = getResult { retrofitService.getAllCategories() }
-    
+    suspend fun getAllCategories() = getResult { retrofitService.getAllCategories() }
+
     suspend fun getAllCities() = getResult { retrofitService.getAllCities() }
+
+    suspend fun getLoggedUser(userLoginDto: UserLoginDto) =
+        getResult { retrofitService.getLoggedUser(userLoginDto) }
 
     suspend fun getAllDistricts(cityName: String) =
         getResult { retrofitService.getDistrictsByCityName(cityName) }

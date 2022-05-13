@@ -37,5 +37,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="menu_task">Завдання</string>
     <string name="todo">TODO</string>
-    <string name="category">категорія</string>
+    <string name="login">Увійти</string>
+    <string name="category">категорії</string>
 </resources>
