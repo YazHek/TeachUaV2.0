@@ -39,7 +39,7 @@ class HomeFragment : Fragment() {
     private val homeViewModel: HomeViewModel by viewModels()
 
     private lateinit var adapter: CategoriesAdapter
-    private lateinit var bans: ImageSlider
+    private val bans: ImageSlider by lazy{ binding.imageSlider }
 
     private lateinit var connectionProblemTextView: TextView
     private lateinit var progressBar: ProgressBar
@@ -107,7 +107,6 @@ class HomeFragment : Fragment() {
 
     private fun initViews() {
         adapter = CategoriesAdapter(requireContext())
-        bans = binding.imageSlider
         progressBar = binding.progressBarHome
         connectionProblemTextView = binding.connectionProblemHome
         content = binding.contentHome
@@ -147,7 +146,8 @@ class HomeFragment : Fragment() {
                 view?.let {
                     if (link != null) {
                         if (link.contains("/clubs")) {
-                            Navigation.findNavController(it).navigate(R.id.nav_clubs)
+
+                            Navigation.findNavController(it).navigate(R.id.action_nav_home_to_nav_clubs)
                         } else if (link.contains("/challenges")){
                             val substring = link.substring("/challenges".length + 1)
                             val id = substring.toInt()

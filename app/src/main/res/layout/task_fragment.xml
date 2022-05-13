@@ -42,30 +42,22 @@
 
             <TextView
                 android:id="@+id/taskTitle"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Title"
                 android:textColor="@color/black"
-                android:textSize="17sp"
+                android:textSize="15sp"
                 android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/taskHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Header"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
 
 
             <TextView
                 android:id="@+id/taskDescription"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="Heere are some decription"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="17sp" />
 
 
         </LinearLayout>

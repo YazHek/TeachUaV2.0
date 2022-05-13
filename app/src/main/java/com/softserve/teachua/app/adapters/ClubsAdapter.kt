@@ -18,6 +18,7 @@ import com.softserve.teachua.app.baseImageUrl
 import com.softserve.teachua.app.tools.GsonDeserializer
 import com.softserve.teachua.data.dto.ClubDescriptionText
 import com.softserve.teachua.data.model.ClubModel
+import kotlinx.android.synthetic.main.category_logo_item.view.*
 import kotlinx.android.synthetic.main.club_item.view.*
 
 class ClubsAdapter(context: Context) :
@@ -66,7 +67,6 @@ class ClubsAdapter(context: Context) :
                 bundle,
                 navBuilder.build())
         }
-        println(getItem(position)?.clubName)
     }
 
 
@@ -94,37 +94,31 @@ class ClubsAdapter(context: Context) :
 
             val desc = GsonDeserializer().deserialize(model.clubDescription,
                 ClubDescriptionText::class.java)
-            if (desc.blocks.size == 4) {
+            when (desc.blocks.size) {
+                4 -> {
 
-                itemView.clubDescription.text = desc.blocks[3].text
-            } else if (desc.blocks.size == 3) {
+                    itemView.clubDescription.text = desc.blocks[3].text
+                }
+                3 -> {
 
-                itemView.clubDescription.text = desc.blocks[0].text
-            } else
-                itemView.clubDescription.text = desc.blocks[0].text
+                    itemView.clubDescription.text = desc.blocks[0].text
+                }
+                else -> itemView.clubDescription.text = desc.blocks[0].text
+            }
 
-
-            println(model.clubId)
-            println(desc.blocks.toString())
             if (model.clubImage.endsWith(".png")) {
-                //println(model!!.clubImage.endsWith(".png"))
+                //println(model!!.clubImage.endsWith(".png")
                 //picasso.load(base + model.clubImage).fit().centerCrop().into(itemView.clubLogo)
             } else if (model.clubImage.endsWith(".svg"))
                 GlideToVectorYou
                     .init()
                     .with(layoutInflater.context)
-                    .setPlaceHolder(
-                        R.drawable.ic_launcher_background,
-                        R.drawable.ic_launcher_background
-                    )
+                    .load((baseImageUrl + model.clubImage).toUri(), itemView.categoryLogo)
 
-                    .load((baseImageUrl + model.clubImage).toUri(), itemView.clubLogo)
-            println(model.clubImage)
 
             itemView.clubCategory.text = model.clubCategoryName
-            println(model.clubCategoryName)
             itemView.clubCategory.setBackgroundColor(Color.parseColor(model.clubBackgroundColor))
-            itemView.clubLogo.setBackgroundColor(Color.parseColor(model.clubBackgroundColor))
+            itemView.categoryBackground.background.setTint(Color.parseColor(model.clubBackgroundColor))
 
         }
 

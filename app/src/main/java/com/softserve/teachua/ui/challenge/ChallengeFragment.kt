@@ -17,13 +17,11 @@ import com.softserve.teachua.R
 import com.softserve.teachua.app.adapters.TasksAdapter
 import com.softserve.teachua.app.baseImageUrl
 import com.softserve.teachua.app.baseMailImage
-import com.softserve.teachua.app.tools.CategoryToUrlTransformer
 import com.softserve.teachua.app.tools.Resource
 import com.softserve.teachua.databinding.ChallengeFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import org.jsoup.Jsoup
 
 @AndroidEntryPoint
 class ChallengeFragment : Fragment() {
@@ -81,8 +79,7 @@ class ChallengeFragment : Fragment() {
                             .into(binding.challengePicture)
 
                         binding.challengeDescription.text =
-                            CategoryToUrlTransformer().parseHtml(challengeViewModel.challenge.value.data?.description!!)
-
+                            challengeViewModel.challenge.value.data?.description
 
                         adapter.submitList(challenge.data?.tasks)
                     }
@@ -96,8 +93,6 @@ class ChallengeFragment : Fragment() {
         }
 
     }
-
-
 
     private fun showSuccess() {
         binding.contentChallenge.visibility = View.VISIBLE
