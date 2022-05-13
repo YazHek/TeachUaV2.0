@@ -10,6 +10,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -20,6 +21,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.softserve.teachua.app.baseImageUrl
 import com.softserve.teachua.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
 
 @AndroidEntryPoint
@@ -57,7 +59,12 @@ class MainActivity : AppCompatActivity() {
             setOf(R.id.nav_home, R.id.nav_clubs, R.id.nav_challenges, R.id.nav_about_us),
             drawerLayout)
         navView = binding.navView
+
+        val topLevelDestinations = appBarConfiguration.topLevelDestinations
+        Log.e("tag", topLevelDestinations.toString())
         navController = findNavController(R.id.nav_host_fragment_content_main)
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

@@ -19,60 +19,7 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <LinearLayout
-            android:id="@+id/categoryBackground"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:backgroundTint="@color/orange_600"
-            android:background="@drawable/circle">
-
-            <ImageView
-                android:id="@+id/categoryLogo"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="8dp"
-
-                app:ignore="ContentDescription" />
-
-
-        </LinearLayout>
-
-        <!--        <androidx.cardview.widget.CardView-->
-        <!--            android:id="@+id/categoryBackground"-->
-        <!--            android:background="@drawable/circle"-->
-        <!--            android:layout_width="40dp"-->
-        <!--            android:layout_height="40dp"-->
-        <!--            android:elevation="12dp"-->
-        <!--            android:thicknessRatio="1.9"-->
-        <!--            >-->
-
-        <!--            <ImageView-->
-        <!--                android:id="@+id/categoryLogo"-->
-        <!--                android:layout_width="40dp"-->
-        <!--                android:layout_height="40dp"-->
-        <!--                android:padding="8dp"-->
-        <!--                app:ignore="ContentDescription" />-->
-        <!--        </androidx.cardview.widget.CardView>-->
-
-
-        <!--        <androidx.cardview.widget.CardView-->
-        <!--            android:id="@+id/categoryBackground"-->
-        <!--            android:layout_width="40dp"-->
-        <!--            android:layout_height="40dp"-->
-        <!--            android:thicknessRatio="1.9"-->
-        <!--            android:elevation="12dp"-->
-        <!--            app:cardCornerRadius="40dp">-->
-
-        <!--            <ImageView-->
-        <!--                android:id="@+id/categoryLogo"-->
-        <!--                android:layout_width="40dp"-->
-        <!--                android:layout_height="40dp"-->
-
-        <!--                android:layout_alignParentTop="true"-->
-        <!--                android:layout_centerHorizontal="true"-->
-        <!--                android:padding="8dp"-->
-        <!--                tools:ignore="ContentDescription" />-->
-        <!--        </androidx.cardview.widget.CardView>-->
+        <include layout="@layout/category_logo_item" />
 
         <TextView
             android:id="@+id/categoryTitle"

@@ -22,24 +22,7 @@
         android:padding="16dp"
         android:orientation="vertical">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/clubImg"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:elevation="12dp"
-            android:innerRadius="0dp"
-            android:shape="ring"
-            android:thicknessRatio="1.9"
-            card_view:cardCornerRadius="40dp">
-
-            <ImageView
-                android:id="@+id/clubLogo"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentTop="true"
-                android:padding="8dp"
-                android:layout_centerHorizontal="true" />
-        </androidx.cardview.widget.CardView>
+        <include layout="@layout/category_logo_item" />
 
         <TextView
             android:id="@+id/clubTitle"
