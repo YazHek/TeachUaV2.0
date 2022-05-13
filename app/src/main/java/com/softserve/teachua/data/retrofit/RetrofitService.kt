@@ -2,8 +2,6 @@ package com.softserve.teachua.data.retrofit
 
 import com.softserve.teachua.data.dto.*
 
-import okhttp3.internal.concurrent.Task
-
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -83,13 +81,11 @@ interface RetrofitService {
     @GET("challenge/task/{id}")
     suspend fun getTask(@Path("id") id: Int): Response<TaskDto>
 
-    @FormUrlEncoded
+
     @POST("signin")
-    suspend fun postSignIn(
-        @Query("email")
-        email: String = "",
-        @Query("password")
-        password: String = "",
-    ): Response<UserLoginDto>
+    suspend fun getLoggedUser(
+        @Body
+        userLoginDto: UserLoginDto,
+    ): Response<UserLoggedDto>
 
 }
