@@ -70,6 +70,8 @@ dependencies {
     implementation 'com.github.corouteam:GlideToVectorYou:v2.0.0'
 
     implementation 'com.github.denzcoskun:ImageSlideshow:0.1.0'
+    //parse Html
+    implementation 'org.jsoup:jsoup:1.14.3'
 
     implementation 'androidx.paging:paging-runtime-ktx:3.1.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
