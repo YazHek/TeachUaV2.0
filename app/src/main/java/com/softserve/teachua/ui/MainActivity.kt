@@ -26,6 +26,7 @@ import com.softserve.teachua.app.baseImageUrl
 import com.softserve.teachua.app.tools.Resource.Status.*
 import com.softserve.teachua.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.logged_in_user_nav_section.view.*
 import kotlinx.android.synthetic.main.login_nav_section.view.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
 import kotlinx.coroutines.flow.collectLatest
@@ -104,11 +105,19 @@ class MainActivity : AppCompatActivity() {
             mainActivityViewModel.userToken.collectLatest { userToken ->
                 when (userToken.status) {
                     SUCCESS -> {
-                        enterToAccountBtn = binding.navView.getHeaderView(0).account_login_btn
-                        showLoginView()
+                        val logOutBtn = binding.navView.getHeaderView(0).account_exit_btn
+                        logOutBtn.setOnClickListener {
+                            mainActivityViewModel.logOut()
+                        }
+                        showLoggedInView()
                     }
                     else -> {
-                        showLoggedInView()
+                        enterToAccountBtn = binding.navView.getHeaderView(0).account_login_btn
+                        enterToAccountBtn.setOnClickListener {
+                            navController.navigate(R.id.nav_login)
+                            drawerLayout.closeDrawer(navView)
+                        }
+                        showLoginView()
                     }
                 }
             }
@@ -117,11 +126,11 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun showLoginView() {
-        accountContainer.displayedChild = 0
+        accountContainer.displayedChild = 1
     }
 
     private fun showLoggedInView() {
-        accountContainer.displayedChild = 1
+        accountContainer.displayedChild = 0
     }
 
 
@@ -155,11 +164,7 @@ class MainActivity : AppCompatActivity() {
         drawerLayout.openDrawer(navView)
     }
 
-    fun closeDrawer() {
-        drawerLayout.closeDrawer(navView)
+    fun changeLoginNavSection(){
+        mainActivityViewModel.loadData()
     }
-
-
-
-
 }

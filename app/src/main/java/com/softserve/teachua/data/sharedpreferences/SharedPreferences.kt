@@ -10,14 +10,12 @@ class SharedPreferences(
 )
     : CurrentUserSharedPreferencesInterface {
 
-    private val settingName : String = "Settings"
-    private val sharedPreferences = context.getSharedPreferences(settingName, Context.MODE_PRIVATE)
-
+    private val userCredentials = context.getSharedPreferences("userCredentials", Context.MODE_PRIVATE)
 
     override fun getCurrentUser(): Resource<CurrentUserDto> {
-        val id = sharedPreferences.getInt("CurrentUserId", 0)
-        val email = sharedPreferences.getString("CurrentUserEmail", "")
-        val token = sharedPreferences.getString("CurrentUserToken", "")
+        val id = userCredentials.getInt("CurrentUserId", 0)
+        val email = userCredentials.getString("CurrentUserEmail", "")
+        val token = userCredentials.getString("CurrentUserToken", "")
         if (token.equals("")){
             return Resource.error()
         }
@@ -25,9 +23,13 @@ class SharedPreferences(
         return Resource.success(currentUserDto)
     }
 
-    override fun setCurrentUser(currentUserDto: CurrentUserDto) = sharedPreferences.edit()
+    override fun setCurrentUser(currentUserDto: CurrentUserDto) = userCredentials.edit()
         .putInt("CurrentUserId", currentUserDto.id)
         .putString("CurrentUserEmail", currentUserDto.email)
         .putString("CurrentUserToken", currentUserDto.token)
         .apply()
+
+    override fun clearCurrentUser() {
+        userCredentials.edit().clear().apply()
+    }
 }
