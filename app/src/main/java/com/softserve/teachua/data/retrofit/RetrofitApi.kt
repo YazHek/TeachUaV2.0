@@ -5,7 +5,7 @@ import com.softserve.teachua.data.dto.*
 import retrofit2.Response
 import retrofit2.http.*
 
-interface RetrofitService {
+interface RetrofitApi {
 
     @GET("banners")
     suspend fun getAllBanners(

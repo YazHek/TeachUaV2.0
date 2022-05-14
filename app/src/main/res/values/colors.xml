@@ -11,7 +11,12 @@
     <color name="colorDarkGrey">#D1D1D1</color>
     <color name="checkbox">#0050B3</color>
 
+    //account colors
+    <color name="red">#d50000</color>
+    <color name="green">#1b5e20</color>
+
     //light theme colors
+
     <color name="orange_600">#F38916</color>
     <color name="blue_600">#1681f3</color>
     <color name="gray_200">#E8E8E8</color>
@@ -19,6 +24,8 @@
     <color name="orange_100">#FFD7C9</color>
     //f7cfc2
     //fddeb3
+    <color name="gray_500">#5F5F5F</color>
+
 
     //dark theme colors
     <color name="orange_900">#C43E00</color>

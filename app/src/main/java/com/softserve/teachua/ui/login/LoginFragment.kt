@@ -34,14 +34,9 @@ class LoginFragment : Fragment(), View.OnClickListener {
 
         binding.loginButton.setOnClickListener(this)
 
-
         updateView()
 
         return view
-    }
-
-    private fun initViews() {
-
     }
 
     private fun loadData(userLoginDto: UserLoginDto) {
@@ -62,6 +57,7 @@ class LoginFragment : Fragment(), View.OnClickListener {
                             Toast.LENGTH_SHORT).show()
                         println("token " + loggedUser.data?.accessToken)
                     }
+                    else -> {}
                 }
 
             }
@@ -74,10 +70,7 @@ class LoginFragment : Fragment(), View.OnClickListener {
             R.id.login_button -> {
                 userLoginDto.email = binding.enterEmail.text?.trim().toString()
                 userLoginDto.password = binding.enterPassword.text?.trim().toString()
-                println("whole user" + userLoginDto.toString())
                 loadData(userLoginDto)
-
-
             }
         }
     }

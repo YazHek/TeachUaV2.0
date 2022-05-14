@@ -1,10 +1,14 @@
 package com.softserve.teachua.app
 
+import android.content.Context
 import com.softserve.teachua.data.retrofit.RetrofitClient
-import com.softserve.teachua.data.retrofit.RetrofitService
+import com.softserve.teachua.data.retrofit.RetrofitApi
 import com.softserve.teachua.data.retrofit.datasource.RemoteDataSource
+import com.softserve.teachua.data.sharedpreferences.CurrentUserSharedPreferencesInterface
+import com.softserve.teachua.data.sharedpreferences.SharedPreferences
 import com.softserve.teachua.service.BannersService
 import com.softserve.teachua.service.CategoriesService
+import com.softserve.teachua.service.CurrentUserService
 import com.softserve.teachua.service.challenge.ChallengeUseCases
 import com.softserve.teachua.service.challenge.ChallengesUseCasesInterface
 import com.softserve.teachua.service.task.TaskUseCases
@@ -12,6 +16,7 @@ import com.softserve.teachua.service.task.TaskUseCasesInterface
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -23,6 +28,12 @@ class DomainModule () {
     //
     //Service
     //
+    @Singleton
+    @Provides
+    fun providesCurrentUserService(@ApplicationContext appContext: Context):CurrentUserService{
+        return CurrentUserService(providesCurrentUserInterface(appContext))
+    }
+
     @Singleton
     @Provides
     fun provideCategoriesService() : CategoriesService {
@@ -58,8 +69,13 @@ class DomainModule () {
 
     @Singleton
     @Provides
-    fun providesRetrofitService():RetrofitService{
+    fun providesRetrofitService():RetrofitApi{
         return RetrofitClient().getClient()
     }
 
+    @Singleton
+    @Provides
+    fun providesCurrentUserInterface( @ApplicationContext appContext: Context ):CurrentUserSharedPreferencesInterface{
+        return SharedPreferences(appContext)
+    }
 }

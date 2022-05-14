@@ -39,4 +39,8 @@
     <string name="todo">TODO</string>
     <string name="login">Увійти</string>
     <string name="category">категорії</string>
+    <string name="enter_account">Увійти до акаунту</string>
+    <string name="exit_account">Вийти з акаунту</string>
+    <string name="account_image">Account Image</string>
+    <string name="user_name">Ваше Ім\'я</string>
 </resources>

@@ -10,6 +10,7 @@ import android.widget.ProgressBar
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.core.os.bundleOf
+import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
@@ -39,7 +40,7 @@ class HomeFragment : Fragment() {
     private val homeViewModel: HomeViewModel by viewModels()
 
     private lateinit var adapter: CategoriesAdapter
-    private val bans: ImageSlider by lazy{ binding.imageSlider }
+    private lateinit var bans: ImageSlider
 
     private lateinit var connectionProblemTextView: TextView
     private lateinit var progressBar: ProgressBar
@@ -51,6 +52,7 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
+        super.onCreateView(inflater, container, savedInstanceState)
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
@@ -106,6 +108,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initViews() {
+        bans = binding.imageSlider
         adapter = CategoriesAdapter(requireContext())
         progressBar = binding.progressBarHome
         connectionProblemTextView = binding.connectionProblemHome
@@ -123,22 +126,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun updateBanners() {
-        if (homeViewModel.banners.value.data == null) {
-            return
-        }
-
-        val bansList = ArrayList<SlideModel>()
-
-        for (ban in homeViewModel.banners.value.data!!) {
-            bansList.add(
-                SlideModel(
-                    baseImageUrl + ban.bannerPicture,
-                    ban.bannerTitle + "\n\n" + ban.bannerSubtitle,
-                )
-            )
-        }
-
-        bans.setImageList(bansList, ScaleTypes.CENTER_CROP)
+        bans.setImageList(homeViewModel.bansList, ScaleTypes.CENTER_CROP)
         bans.setItemClickListener(object : ItemClickListener {
 
             override fun onItemSelected(position: Int) {
@@ -152,7 +140,6 @@ class HomeFragment : Fragment() {
                             val substring = link.substring("/challenges".length + 1)
                             val id = substring.toInt()
                             val bundle = bundleOf("id" to id)
-                            Log.e("bundleID", id.toString())
                             Navigation.findNavController(it).navigate(R.id.action_nav_home_to_challengeFragment, bundle)
                         }
                     }
@@ -161,7 +148,6 @@ class HomeFragment : Fragment() {
             }
 
         })
-
     }
 
 

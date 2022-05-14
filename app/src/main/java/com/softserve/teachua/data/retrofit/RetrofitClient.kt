@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitClient {
 
-    fun getClient(): RetrofitService {
+    fun getClient(): RetrofitApi {
         val loggingInterceptor = HttpLoggingInterceptor()
         loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
 
@@ -18,10 +18,10 @@ class RetrofitClient {
 
         return Retrofit.Builder()
             .baseUrl(baseUrl)
-            //.client(okHttpClient)
+            .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(RetrofitService::class.java)
+            .create(RetrofitApi::class.java)
 
     }
 }

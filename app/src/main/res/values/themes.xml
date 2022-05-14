@@ -21,9 +21,9 @@
         <!-- Customize your theme here. -->
         <item name="colorBackgroundFloating">@color/gray_200</item>
         <item name="android:colorBackground">@color/gray_200</item>
-        <item name="colorOnBackground">@color/black</item>
+        <item name="colorOnBackground">@color/gray_900</item>
         <item name="colorSurface">@color/orange_100 </item>
-        <item name="colorOnSurface">@color/black</item>
+        <item name="colorOnSurface">@color/gray_900</item>
     </style>
 
     <style name="Theme.TeachUaV20.NoActionBar">
@@ -38,9 +38,9 @@
 
     <style name="ThemeOverlay.MyApp.NavigationView" parent="ThemeOverlay.AppCompat.Light">
         <!-- This is the menu item text color. -->
-        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:textColorPrimary">@color/gray_900</item>
         <!-- This is the menu header text color. -->
-        <item name="android:textColorSecondary">@color/black</item>
+        <item name="android:textColorSecondary">@color/gray_900</item>
         <!-- This is the selected color. -->
         <item name="colorPrimary">@color/toolbar_orange</item>
     </style>
