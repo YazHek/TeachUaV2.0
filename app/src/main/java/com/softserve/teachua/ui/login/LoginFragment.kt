@@ -8,10 +8,12 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.Navigation
 import com.softserve.teachua.R
 import com.softserve.teachua.app.tools.Resource
 import com.softserve.teachua.data.dto.UserLoginDto
 import com.softserve.teachua.databinding.FragmentLoginBinding
+import com.softserve.teachua.ui.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -55,7 +57,8 @@ class LoginFragment : Fragment(), View.OnClickListener {
                         Toast.makeText(requireContext(),
                             "Successfully loged user with id " + loggedUser.data?.id,
                             Toast.LENGTH_SHORT).show()
-                        println("token " + loggedUser.data?.accessToken)
+                        (activity as MainActivity).changeLoginNavSection()
+                        view?.let { Navigation.findNavController(view = it).navigateUp() }
                     }
                     else -> {}
                 }

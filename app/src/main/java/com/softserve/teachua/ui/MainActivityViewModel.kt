@@ -13,6 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(private val currentUserService: CurrentUserService) : ViewModel() {
+
     private var _userToken : MutableStateFlow<Resource<CurrentUserDto>> = MutableStateFlow(Resource.loading())
 
     val userToken : StateFlow<Resource<CurrentUserDto>>
@@ -22,5 +23,12 @@ class MainActivityViewModel @Inject constructor(private val currentUserService: 
         viewModelScope.launch {
             _userToken.value = currentUserService.getCurrentUser()
         }
+
+    fun logOut() {
+        viewModelScope.launch {
+            _userToken.value = Resource.error()
+            currentUserService.clearCurrentUser()
+        }
+    }
 
 }

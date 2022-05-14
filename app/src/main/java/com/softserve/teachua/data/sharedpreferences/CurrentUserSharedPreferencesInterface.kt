@@ -9,4 +9,6 @@ interface CurrentUserSharedPreferencesInterface {
 
     fun setCurrentUser(currentUserDto: CurrentUserDto)
 
+    fun clearCurrentUser()
+
 }
