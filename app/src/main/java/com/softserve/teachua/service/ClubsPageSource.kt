@@ -6,11 +6,11 @@ import com.softserve.teachua.data.dto.AdvancedSearchClubDto
 import com.softserve.teachua.data.dto.SearchClubDto
 import com.softserve.teachua.app.tools.toClub
 import com.softserve.teachua.data.model.ClubModel
-import com.softserve.teachua.data.retrofit.RetrofitService
+import com.softserve.teachua.data.retrofit.RetrofitApi
 import retrofit2.HttpException
 
 class ClubsPageSource(
-    private val service: RetrofitService,
+    private val service: RetrofitApi,
     var searchClubDto: SearchClubDto,
     var advancedSearchClubDto: AdvancedSearchClubDto,
 ) : PagingSource<Int, ClubModel>() {

@@ -1,7 +1,7 @@
 package com.softserve.teachua.data.retrofit.datasource
 
 import com.softserve.teachua.data.dto.UserLoginDto
-import com.softserve.teachua.data.retrofit.RetrofitService
+import com.softserve.teachua.data.retrofit.RetrofitApi
 import javax.inject.Inject
 
 //
@@ -10,7 +10,7 @@ import javax.inject.Inject
 //
 //
 
-class RemoteDataSource @Inject constructor(private val retrofitService: RetrofitService) :
+class RemoteDataSource @Inject constructor(private val retrofitService: RetrofitApi) :
     BaseDataSource() {
 
     suspend fun getChallengeById(id: Int) = getResult { retrofitService.getChallengeById(id) }

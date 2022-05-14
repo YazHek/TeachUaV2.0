@@ -3,7 +3,6 @@ package com.softserve.teachua.ui.clubs
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
-import android.app.ProgressDialog
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
@@ -25,7 +24,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.softserve.teachua.MainActivity
+import com.softserve.teachua.ui.MainActivity
 import com.softserve.teachua.R
 import com.softserve.teachua.app.adapters.ClubsAdapter
 import com.softserve.teachua.app.adapters.ClubsLoadStateAdapter
@@ -34,7 +33,6 @@ import com.softserve.teachua.app.tools.Resource
 import com.softserve.teachua.databinding.FragmentClubsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.adv_search.*
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
