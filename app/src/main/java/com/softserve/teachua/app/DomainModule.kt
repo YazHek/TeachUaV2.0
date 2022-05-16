@@ -9,6 +9,7 @@ import com.softserve.teachua.data.sharedpreferences.SharedPreferences
 import com.softserve.teachua.service.BannersService
 import com.softserve.teachua.service.CategoriesService
 import com.softserve.teachua.service.CurrentUserService
+import com.softserve.teachua.service.UserService
 import com.softserve.teachua.service.challenge.ChallengeUseCases
 import com.softserve.teachua.service.challenge.ChallengesUseCasesInterface
 import com.softserve.teachua.service.task.TaskUseCases
@@ -38,6 +39,12 @@ class DomainModule () {
     @Provides
     fun provideCategoriesService() : CategoriesService {
         return CategoriesService(providesRemoteDataSource())
+    }
+
+    @Singleton
+    @Provides
+    fun provideUserService() : UserService {
+        return UserService(providesRemoteDataSource())
     }
 
     @Singleton

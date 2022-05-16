@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.ViewFlipper
 import androidx.activity.viewModels
@@ -31,20 +32,26 @@ import kotlinx.android.synthetic.main.login_nav_section.view.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.android.synthetic.main.login_nav_section.view.userPhoto as userPhoto1
 
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private val mainActivityViewModel : MainActivityViewModel by viewModels()
+    private val mainActivityViewModel: MainActivityViewModel by viewModels()
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private lateinit var navView: NavigationView
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var toolbar: Toolbar
+    private lateinit var logOutBtn: TextView
     private lateinit var enterToAccountBtn: TextView
-    private lateinit var accountContainer : ViewFlipper
+    private lateinit var userLogo: ImageView
+
+
+    //private lateinit var enterToAccountBtn: TextView
+    private lateinit var accountContainer: ViewFlipper
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,9 +71,12 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun initViews(){
+    private fun initViews() {
         toolbar = binding.appBarMain.tool.toolbar
         drawerLayout = binding.drawerLayout
+        logOutBtn = binding.navView.getHeaderView(0).account_exit_btn
+        enterToAccountBtn = binding.navView.getHeaderView(0).account_login_btn
+        userLogo = binding.navView.getHeaderView(0).userPhoto
         appBarConfiguration = AppBarConfiguration(
             setOf(R.id.nav_home, R.id.nav_clubs, R.id.nav_challenges, R.id.nav_about_us),
             drawerLayout)
@@ -98,21 +108,36 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initDrawer() {
+        mainActivityViewModel.loadUser()
         loadImagesToDrawer()
-        mainActivityViewModel.loadData()
+        //mainActivityViewModel.loadData()
+//        mainActivityViewModel.loadUser(mainActivityViewModel.userToken.value.data?.token!!,
+//            mainActivityViewModel.userToken.value.data?.id!!)
 
         lifecycleScope.launch {
-            mainActivityViewModel.userToken.collectLatest { userToken ->
-                when (userToken.status) {
+            mainActivityViewModel.user.collectLatest { user ->
+                when (user.status) {
                     SUCCESS -> {
-                        val logOutBtn = binding.navView.getHeaderView(0).account_exit_btn
+
+                        // mainActivityViewModel.loadUser(userToken.data?.token!!, userToken.data.id)
+
                         logOutBtn.setOnClickListener {
                             mainActivityViewModel.logOut()
+
                         }
+                        val userRole = binding.navView.getHeaderView(0).userRole
+                        (user.data?.roleName).also { userRole.text = it }
+                        val userName = binding.navView.getHeaderView(0).userName
+                        (user.data?.firstName + " " + user.data?.lastName).also { userName.text = it }
+                        Glide.with(this@MainActivity)
+                            .load(baseImageUrl + user.data?.urlLogo)
+                            .optionalCircleCrop()
+                            .into(userLogo)
+
                         showLoggedInView()
                     }
                     else -> {
-                        enterToAccountBtn = binding.navView.getHeaderView(0).account_login_btn
+
                         enterToAccountBtn.setOnClickListener {
                             navController.navigate(R.id.nav_login)
                             drawerLayout.closeDrawer(navView)
@@ -121,6 +146,8 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
+
+
         }
     }
 
@@ -146,12 +173,12 @@ class MainActivity : AppCompatActivity() {
             .into(navigationImageInDrawer)
     }
 
-    private fun setToolbar(toolbar: Toolbar){
+    private fun setToolbar(toolbar: Toolbar) {
         setSupportActionBar(toolbar)
         setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
-    fun showToolbar(){
+    fun showToolbar() {
         toolbar.visibility = VISIBLE
     }
 
@@ -164,7 +191,7 @@ class MainActivity : AppCompatActivity() {
         drawerLayout.openDrawer(navView)
     }
 
-    fun changeLoginNavSection(){
-        mainActivityViewModel.loadData()
+    fun changeLoginNavSection() {
+        mainActivityViewModel.loadUser()
     }
 }

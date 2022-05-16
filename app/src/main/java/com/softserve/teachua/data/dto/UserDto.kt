@@ -1,7 +1,13 @@
 package com.softserve.teachua.data.dto
 
 data class UserDto(
-    val firstName: String,
     val id: Int,
-    val lastName: String
+    val firstName: String,
+    val lastName: String,
+    val phone: String,
+    val email: String,
+    val password: String,
+    val roleName: String,
+    val urlLogo: String,
+    val status: Boolean,
 )

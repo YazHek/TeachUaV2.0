@@ -11,6 +11,14 @@ interface RetrofitApi {
     suspend fun getAllBanners(
     ): Response<List<BannersDto>>
 
+    @GET("user/{userId}")
+    suspend fun getUserById(
+        @Header("Authorization")
+        authHeader: String,
+        @Path("userId")
+        userId: Int? = null,
+    ): Response<UserDto>
+
     @GET("categories")
     suspend fun getAllCategories(
     ): Response<List<CategoryDto>>

@@ -48,17 +48,41 @@ class LoginFragment : Fragment(), View.OnClickListener {
         }
     }
 
+    private fun loadUser(token: String, id: Int) {
+
+        loginViewModel.viewModelScope.launch {
+            loginViewModel.loadUser(token, id)
+        }
+    }
+
     private fun updateView() {
         loginViewModel.viewModelScope.launch {
             loginViewModel.loggedDto.collectLatest { loggedUser ->
                 when (loggedUser.status) {
 
                     Resource.Status.SUCCESS -> {
+                        loadUser("Bearer " + loggedUser.data?.accessToken!!, loggedUser.data.id)
                         Toast.makeText(requireContext(),
-                            "Successfully loged user with id " + loggedUser.data?.id,
+                            "Successfully loged user with id " + loggedUser.data.id,
                             Toast.LENGTH_SHORT).show()
-                        (activity as MainActivity).changeLoginNavSection()
-                        view?.let { Navigation.findNavController(view = it).navigateUp() }
+
+                        loginViewModel.user.collectLatest { user ->
+
+                            when(user.status){
+
+                                Resource.Status.SUCCESS -> {
+                                    println("userr " + user)
+                                    (activity as MainActivity).changeLoginNavSection()
+                                    view?.let { Navigation.findNavController(view = it).navigateUp() }
+                                }
+                            }
+
+                        }
+
+
+
+
+
                     }
                     else -> {}
                 }
@@ -74,6 +98,7 @@ class LoginFragment : Fragment(), View.OnClickListener {
                 userLoginDto.email = binding.enterEmail.text?.trim().toString()
                 userLoginDto.password = binding.enterPassword.text?.trim().toString()
                 loadData(userLoginDto)
+
             }
         }
     }
