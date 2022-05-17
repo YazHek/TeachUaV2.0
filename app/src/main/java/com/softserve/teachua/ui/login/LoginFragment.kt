@@ -68,20 +68,18 @@ class LoginFragment : Fragment(), View.OnClickListener {
 
                         loginViewModel.user.collectLatest { user ->
 
-                            when(user.status){
+                            when (user.status) {
 
                                 Resource.Status.SUCCESS -> {
                                     println("userr " + user)
                                     (activity as MainActivity).changeLoginNavSection()
-                                    view?.let { Navigation.findNavController(view = it).navigateUp() }
+                                    view?.let {
+                                        Navigation.findNavController(view = it).navigateUp()
+                                    }
                                 }
                             }
 
                         }
-
-
-
-
 
                     }
                     else -> {}
