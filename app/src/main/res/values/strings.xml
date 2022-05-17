@@ -43,4 +43,12 @@
     <string name="exit_account">Вийти з акаунту</string>
     <string name="account_image">Account Image</string>
     <string name="user_name">Ваше Ім\'я</string>
+    <string name="surname">Прізвище</string>
+    <string name="name">Ім\'я</string>
+    <string name="number">Номер телефону</string>
+    <string name="email">Email</string>
+    <string name="password">Пароль</string>
+    <string name="passwordVerification">Підтвердження паролю</string>
+    <string name="signUp">Зареєструватися</string>
+    <string name="register">Зареєструватися</string>
 </resources>

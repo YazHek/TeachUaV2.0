@@ -85,6 +85,15 @@
         android:id="@+id/nav_login"
         android:name="com.softserve.teachua.ui.login.LoginFragment"
         android:label="Увійти"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_nav_login_to_nav_register"
+            app:destination="@id/nav_register" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_register"
+        android:name="com.softserve.teachua.ui.register.RegisterFragment"
+        android:label="@string/signUp"
+        tools:layout="@layout/fragment_register" />
 
 </navigation>

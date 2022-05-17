@@ -23,11 +23,5 @@
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/menu_about_us"
             />
-
-        <item
-            android:id="@+id/nav_login"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/login"
-            />
     </group>
 </menu>
