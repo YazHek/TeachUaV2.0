@@ -1,5 +1,6 @@
 package com.softserve.teachua.ui.clubs
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -107,4 +108,9 @@ class ClubsViewModel @Inject constructor(
             searchClubDto.value!!,
             advancedSearchClubDto.value!!)
     }).flow.cachedIn(viewModelScope)
+
+    override fun onCleared() {
+        super.onCleared()
+    }
+
 }

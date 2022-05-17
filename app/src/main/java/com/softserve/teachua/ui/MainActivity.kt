@@ -1,7 +1,6 @@
 package com.softserve.teachua.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -24,7 +23,7 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.softserve.teachua.R
 import com.softserve.teachua.app.baseImageUrl
-import com.softserve.teachua.app.tools.Resource.Status.*
+import com.softserve.teachua.app.tools.Resource.Status.SUCCESS
 import com.softserve.teachua.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.logged_in_user_nav_section.view.*
@@ -32,7 +31,6 @@ import kotlinx.android.synthetic.main.login_nav_section.view.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.android.synthetic.main.login_nav_section.view.userPhoto as userPhoto1
 
 
 @AndroidEntryPoint
