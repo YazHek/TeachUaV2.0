@@ -35,6 +35,7 @@ class LoginFragment : Fragment(), View.OnClickListener {
         val view: View = binding.root
 
         binding.loginButton.setOnClickListener(this)
+        binding.signUpBtn.setOnClickListener(this)
 
         updateView()
 
@@ -63,24 +64,22 @@ class LoginFragment : Fragment(), View.OnClickListener {
                     Resource.Status.SUCCESS -> {
                         loadUser("Bearer " + loggedUser.data?.accessToken!!, loggedUser.data.id)
                         Toast.makeText(requireContext(),
-                            "Successfully loged user with id " + loggedUser.data.id,
+                            "Successfully logged in with id " + loggedUser.data.id,
                             Toast.LENGTH_SHORT).show()
 
                         loginViewModel.user.collectLatest { user ->
 
-                            when (user.status) {
+                            when(user.status){
 
                                 Resource.Status.SUCCESS -> {
-                                    println("userr " + user)
+                                    println("user $user")
                                     (activity as MainActivity).changeLoginNavSection()
-                                    view?.let {
-                                        Navigation.findNavController(view = it).navigateUp()
-                                    }
+                                    view?.let { Navigation.findNavController(view = it).navigateUp() }
                                 }
+                                else -> {}
                             }
 
                         }
-
                     }
                     else -> {}
                 }
@@ -91,12 +90,15 @@ class LoginFragment : Fragment(), View.OnClickListener {
 
     override fun onClick(p0: View?) {
         when (p0?.id) {
-
             R.id.login_button -> {
                 userLoginDto.email = binding.enterEmail.text?.trim().toString()
                 userLoginDto.password = binding.enterPassword.text?.trim().toString()
                 loadData(userLoginDto)
-
+            }
+            R.id.signUpBtn -> {
+                view?.let { Navigation.findNavController(it)
+                    .navigate(R.id.action_nav_login_to_nav_register)
+                }
             }
         }
     }

@@ -3,10 +3,8 @@ package com.softserve.teachua.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.softserve.teachua.app.tools.Resource
-import com.softserve.teachua.data.dto.CurrentUserDto
 import com.softserve.teachua.data.dto.UserDto
 import com.softserve.teachua.service.CurrentUserService
-import com.softserve.teachua.service.UserService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,12 +15,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
     private val currentUserService: CurrentUserService,
-    private val userService: UserService,
 ) :
     ViewModel() {
-
-    private var _userToken: MutableStateFlow<Resource<CurrentUserDto>> =
-        MutableStateFlow(Resource.loading())
 
     private var _user: MutableStateFlow<Resource<UserDto>> =
         MutableStateFlow(Resource.loading())
@@ -32,16 +26,7 @@ class MainActivityViewModel @Inject constructor(
         get() = _user
 
 
-    val userToken: StateFlow<Resource<CurrentUserDto>>
-        get() = _userToken
-
-
-    fun loadData() =
-        viewModelScope.launch {
-            delay(1)
-            _userToken.value = currentUserService.getCurrentUser()
-        }
-
+    //Delay is made
     fun loadUser() =
         viewModelScope.launch {
             delay(1)

@@ -83,7 +83,8 @@ interface RetrofitApi {
     @GET("challenge/{id}")
     suspend fun getChallengeById(@Path("id") id: Int): Response<ChallengeDto>
 
-    @GET("challenges")
+    //?active=true - added this as on site, so we get only active challenges
+    @GET("challenges?active=true")
     suspend fun getChallenges(): Response<List<ChallengeDto>>
 
     @GET("challenge/task/{id}")

@@ -31,7 +31,6 @@ import kotlinx.android.synthetic.main.login_nav_section.view.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.android.synthetic.main.logged_in_user_nav_section.view.userPhoto as userPhoto1
 
 
 @AndroidEntryPoint
@@ -48,8 +47,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var enterToAccountBtn: TextView
     private lateinit var userLogo: ImageView
 
-    private var roles = listOf("ВІДВІДУВАЧ", "АДМІНІСТРАТОР", "КЕРІВНИК")
 
+    //private lateinit var enterToAccountBtn: TextView
     private lateinit var accountContainer: ViewFlipper
 
 
@@ -125,16 +124,9 @@ class MainActivity : AppCompatActivity() {
 
                         }
                         val userRole = binding.navView.getHeaderView(0).userRole
-                        when (user.data?.roleName) {
-
-                            "ROLE_USER" -> userRole.text = roles[0]
-                            "ROLE_ADMIN" -> userRole.text = roles[1]
-                            "ROLE_MANAGER" -> userRole.text = roles[2]
-                        }
+                        (user.data?.roleName).also { userRole.text = it }
                         val userName = binding.navView.getHeaderView(0).userName
-                        (user.data?.firstName + " " + user.data?.lastName).also {
-                            userName.text = it
-                        }
+                        (user.data?.firstName + " " + user.data?.lastName).also { userName.text = it }
                         Glide.with(this@MainActivity)
                             .load(baseImageUrl + user.data?.urlLogo)
                             .optionalCircleCrop()
@@ -142,7 +134,6 @@ class MainActivity : AppCompatActivity() {
 
                         showLoggedInView()
                     }
-
                     else -> {
 
                         enterToAccountBtn.setOnClickListener {

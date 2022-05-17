@@ -662,17 +662,18 @@ class ClubsFragment : Fragment(), View.OnClickListener {
         super.onResume()
         updateToolbar()
         initAdapterState()
+
     }
 
     override fun onPause() {
         super.onPause()
         destroyToolbar()
+
     }
 
     override fun onDestroy() {
         super.onDestroy()
         binding.rcv.visibility = View.GONE
         checkboxCounter = 0
-
     }
 }
