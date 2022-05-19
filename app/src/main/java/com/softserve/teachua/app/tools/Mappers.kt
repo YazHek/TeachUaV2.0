@@ -44,7 +44,10 @@ internal fun ClubDescriptionDto.toClub(): ClubModel {
         clubDescription = description,
         clubImage = categories[0].urlLogo,
         clubBackgroundColor = categories[0].backgroundColor,
-        clubCategoryName = categories[0].name
+        clubCategoryName = categories[0].name,
+        clubRating = rating,
+        clubBanner = urlBackground
+
     )
 
 }

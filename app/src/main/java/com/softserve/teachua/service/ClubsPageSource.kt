@@ -82,7 +82,7 @@ class ClubsPageSource(
 
                 if (searchResponse.isSuccessful) {
                     val clubs = checkNotNull(searchResponse.body()).content.map { it.toClub() }
-                    println(searchResponse.body()!!?.content[0].categories)
+                    println(searchResponse.body()!!.content[0].categories)
                     println(page)
                     val nextKey = if (clubs.size < pageSize) null else page + 1
                     val prevKey = if (page == 0) null else page - 1

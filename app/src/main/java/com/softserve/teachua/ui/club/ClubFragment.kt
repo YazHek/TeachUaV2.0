@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
+import com.softserve.teachua.app.baseImageUrl
 import com.softserve.teachua.databinding.FragmentClubBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -42,11 +44,14 @@ class ClubFragment : Fragment() {
 
         binding.clubNameText.text = arguments?.getString("clubName")
         binding.clubDescriptionText.text = arguments?.getString("clubDescription")
+        Glide.with(requireContext())
+            .load(baseImageUrl + arguments?.getString("clubPicture"))
+            .optionalCenterCrop()
+            .placeholder(com.denzcoskun.imageslider.R.drawable.placeholder)
+            .into(binding.clubPicture)
 
 
     }
-
-
 
 
     override fun onResume() {

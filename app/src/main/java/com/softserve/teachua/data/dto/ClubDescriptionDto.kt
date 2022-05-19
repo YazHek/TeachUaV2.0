@@ -5,8 +5,9 @@ class ClubDescriptionDto(
     var name: String,
     var description: String,
     var urlLogo: String,
-    var urlBackground: String,
+    var urlBackground: String?,
     var categories: List<CategoryDto>,
+    var rating: Float
 ) {
 
 

@@ -6,6 +6,8 @@ data class ClubModel(
     var clubDescription: String,
     var clubImage: String,
     var clubBackgroundColor: String,
-    var clubCategoryName: String
+    var clubCategoryName: String,
+    var clubRating: Float,
+    var clubBanner: String?
 ) {
 }
