@@ -47,8 +47,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var enterToAccountBtn: TextView
     private lateinit var userLogo: ImageView
 
-
-    //private lateinit var enterToAccountBtn: TextView
+    private var roles = listOf("ВІДВІДУВАЧ", "АДМІНІСТРАТОР", "КЕРІВНИК")
     private lateinit var accountContainer: ViewFlipper
 
 
@@ -124,7 +123,12 @@ class MainActivity : AppCompatActivity() {
 
                         }
                         val userRole = binding.navView.getHeaderView(0).userRole
-                        (user.data?.roleName).also { userRole.text = it }
+                        when(user.data?.roleName){
+
+                            "ROLE_USER" -> also { userRole.text = roles[0] }
+                            "ROLE_ADMIN" -> also { userRole.text = roles[1] }
+                            "ROLE_MANAGER" -> also { userRole.text = roles[2] }
+                        }
                         val userName = binding.navView.getHeaderView(0).userName
                         (user.data?.firstName + " " + user.data?.lastName).also { userName.text = it }
                         Glide.with(this@MainActivity)

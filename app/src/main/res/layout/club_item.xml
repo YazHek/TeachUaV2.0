@@ -48,10 +48,24 @@
         <TextView
             android:id="@+id/clubDescription"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="83dp"
             android:layout_marginTop="90dp"
             android:text="This Would be a description of Club"
             android:textColor="@color/black" />
+
+        <RatingBar
+            android:layout_marginTop="90dp"
+            android:layout_alignTop="@id/clubDescription"
+            android:id="@+id/clubRating"
+            android:theme="@style/RatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:foregroundGravity="left|bottom"
+            android:isIndicator="true"
+            android:rating="0.0"
+            android:scaleX=".6"
+            android:scaleY=".6"
+            android:numStars="5"/>
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

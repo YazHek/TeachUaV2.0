@@ -48,28 +48,37 @@ class LoginViewModel @Inject constructor(
                 token = "Bearer " + loggedDto.value.data?.accessToken!!
             )
             currentUserService.setCurrentUser(currentUserDto)
+
+            val userCredentials = UserLoginDto(
+                email = userLoginDto.email,
+                password = userLoginDto.password
+            )
+
+            currentUserService.setUserCredentials(userCredentials)
+
+
         }
 
     }
 
     fun loadUser(token: String, id: Int) = viewModelScope.launch {
-            _user.value = Resource.loading()
-            _user.value = userService.getUserById(token, id)
+        _user.value = Resource.loading()
+        _user.value = userService.getUserById(token, id)
 
-            if (user.value.status == Resource.Status.SUCCESS) {
-                val userDto = UserDto(
-                    id = user.value.data?.id!!,
-                    firstName = user.value.data?.firstName!!,
-                    lastName = user.value.data?.lastName!!,
-                    phone = user.value.data?.phone!!,
-                    email = user.value.data?.email!!,
-                    password = user.value.data?.password!!,
-                    roleName = user.value.data?.roleName!!,
-                    urlLogo = user.value.data?.urlLogo!!,
-                    status = user.value.data?.status!!
-                )
-                currentUserService.setUser(userDto)
-            }
+        if (user.value.status == Resource.Status.SUCCESS) {
+            val userDto = UserDto(
+                id = user.value.data?.id!!,
+                firstName = user.value.data?.firstName!!,
+                lastName = user.value.data?.lastName!!,
+                phone = user.value.data?.phone!!,
+                email = user.value.data?.email!!,
+                password = user.value.data?.password!!,
+                roleName = user.value.data?.roleName!!,
+                urlLogo = user.value.data?.urlLogo!!,
+                status = user.value.data?.status!!
+            )
+            currentUserService.setUser(userDto)
         }
+    }
 
 }

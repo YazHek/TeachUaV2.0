@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import com.softserve.teachua.app.tools.Resource
 import com.softserve.teachua.data.dto.CurrentUserDto
 import com.softserve.teachua.data.dto.UserDto
+import com.softserve.teachua.data.dto.UserLoginDto
 
 class SharedPreferences(
     val context: Context,
@@ -12,6 +13,9 @@ class SharedPreferences(
 
     private val userCredentials =
         context.getSharedPreferences("userCredentials", Context.MODE_PRIVATE)
+
+    private val userCredentialsForRefresh =
+        context.getSharedPreferences("userCredentialsRefreshed", Context.MODE_PRIVATE)
 
     override fun getCurrentUser(): Resource<CurrentUserDto> {
         val id = userCredentials.getInt("CurrentUserId", 0)
@@ -76,4 +80,27 @@ class SharedPreferences(
     override fun clearUser() {
         userCredentials.edit().clear().apply()
     }
+
+    override fun getUserCredentials(): Resource<UserLoginDto> {
+        val email = userCredentialsForRefresh.getString("userEmail", "")
+        val password = userCredentialsForRefresh.getString("userPassword", "")
+        if (!email.isNullOrEmpty()) {
+            return Resource.error()
+        }
+        val userCredentials = UserLoginDto(
+            email.toString(),
+            password.toString()
+        )
+        return Resource.success(userCredentials)
+    }
+
+    override fun setUserCredentials(userLoginDto: UserLoginDto) = userCredentialsForRefresh.edit()
+        .putString("userEmail", userLoginDto.email)
+        .putString("userPassword", userLoginDto.password)
+        .apply()
+
+    override fun clearUserCredentials() {
+        userCredentialsForRefresh.edit().clear().apply()
+    }
+
 }

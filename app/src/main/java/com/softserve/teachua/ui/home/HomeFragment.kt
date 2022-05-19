@@ -78,8 +78,14 @@ class HomeFragment : Fragment() {
 
         homeViewModel.viewModelScope.launch {
             homeViewModel.categories.collectLatest { categories ->
-                if (homeViewModel.categories.value.status == Resource.Status.SUCCESS) {
-                    adapter.submitList(categories.data)
+                when (homeViewModel.categories.value.status) {
+                    Resource.Status.SUCCESS -> {
+                        showSuccess()
+                        adapter.submitList(categories.data)
+                    }
+                    Resource.Status.LOADING -> showLoading()
+                    Resource.Status.FAILED -> showError()
+
                 }
             }
         }
@@ -135,12 +141,14 @@ class HomeFragment : Fragment() {
                     if (link != null) {
                         if (link.contains("/clubs")) {
 
-                            Navigation.findNavController(it).navigate(R.id.action_nav_home_to_nav_clubs)
-                        } else if (link.contains("/challenges")){
+                            Navigation.findNavController(it)
+                                .navigate(R.id.action_nav_home_to_nav_clubs)
+                        } else if (link.contains("/challenges")) {
                             val substring = link.substring("/challenges".length + 1)
                             val id = substring.toInt()
                             val bundle = bundleOf("id" to id)
-                            Navigation.findNavController(it).navigate(R.id.action_nav_home_to_challengeFragment, bundle)
+                            Navigation.findNavController(it)
+                                .navigate(R.id.action_nav_home_to_challengeFragment, bundle)
                         }
                     }
 

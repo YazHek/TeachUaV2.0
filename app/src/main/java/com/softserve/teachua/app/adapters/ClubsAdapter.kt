@@ -54,6 +54,7 @@ class ClubsAdapter(context: Context) :
                 bundle.putString("clubDescription", desc.blocks[0].text)
             }
         }
+        bundle.putString("clubPicture", getItem(position)?.clubBanner)
         val navBuilder = NavOptions.Builder()
         navBuilder
             .setExitAnim(android.R.anim.fade_out)
@@ -119,6 +120,7 @@ class ClubsAdapter(context: Context) :
             itemView.clubCategory.text = model.clubCategoryName
             itemView.clubCategory.setBackgroundColor(Color.parseColor(model.clubBackgroundColor))
             itemView.categoryBackground.background.setTint(Color.parseColor(model.clubBackgroundColor))
+            itemView.clubRating.rating = model.clubRating
 
         }
 
