@@ -2,9 +2,9 @@ package com.softserve.teachua.ui.challenges
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.softserve.teachua.app.tools.Resource
+import com.softserve.teachua.app.enums.Resource
 import com.softserve.teachua.data.model.ChallengeModel
-import com.softserve.teachua.service.challenge.ChallengesUseCasesInterface
+import com.softserve.teachua.domain.interfaces.ChallengesUseCasesInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

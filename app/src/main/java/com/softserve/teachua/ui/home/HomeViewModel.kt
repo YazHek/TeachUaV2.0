@@ -4,11 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.denzcoskun.imageslider.models.SlideModel
 import com.softserve.teachua.app.baseImageUrl
-import com.softserve.teachua.app.tools.Resource
+import com.softserve.teachua.app.enums.Resource
 import com.softserve.teachua.data.model.BannerModel
 import com.softserve.teachua.data.model.CategoryModel
-import com.softserve.teachua.service.BannersService
-import com.softserve.teachua.service.CategoriesService
+import com.softserve.teachua.domain.interfaces.BannerUseCasesInterface
+import com.softserve.teachua.domain.interfaces.CategoriesUseCasesInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,8 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val categoriesService: CategoriesService,
-    private val bannersService: BannersService,
+    private val categoriesUseCases: CategoriesUseCasesInterface,
+    private val bannerUseCases: BannerUseCasesInterface,
 ) : ViewModel() {
 
     //might be some problems due to implementing "by lazy". It changes only once.
@@ -59,11 +59,11 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun loadBanners() {
-        _banners.value = bannersService.getAllBanners()
+        _banners.value = bannerUseCases.getAllBanners()
     }
 
     private suspend fun loadCategories() {
-        _categories.value = categoriesService.getAllCategories()
+        _categories.value = categoriesUseCases.getAllCategories()
     }
 
 }

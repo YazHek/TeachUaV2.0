@@ -1,28 +1,23 @@
 package com.softserve.teachua.ui.login
 
-import android.os.Build
-import androidx.annotation.RequiresApi
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.softserve.teachua.app.tools.Resource
+import com.softserve.teachua.app.enums.Resource
 import com.softserve.teachua.data.dto.*
-import com.softserve.teachua.service.CurrentUserService
-import com.softserve.teachua.service.LoggingService
-import com.softserve.teachua.service.UserService
+import com.softserve.teachua.domain.LoggingUseCases
+import com.softserve.teachua.domain.UserUseCases
+import com.softserve.teachua.domain.interfaces.CurrentUserUseCasesInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val loggingService: LoggingService,
-    private val userService: UserService,
-    private val currentUserService: CurrentUserService,
+    private val loggingUseCases: LoggingUseCases,
+    private val userUseCases: UserUseCases,
+    private val currentUserUseCases: CurrentUserUseCasesInterface,
 ) : ViewModel() {
 
 
@@ -43,7 +38,7 @@ class LoginViewModel @Inject constructor(
 
     fun load(userLoginDto: UserLoginDto) = viewModelScope.launch {
         _loggedDto.value = Resource.loading()
-        _loggedDto.value = loggingService.getLoggedUser(userLoginDto)
+        _loggedDto.value = loggingUseCases.getLoggedUser(userLoginDto)
 
         if (loggedDto.value.status == Resource.Status.SUCCESS) {
             val currentUserDto = CurrentUserDto(
@@ -51,14 +46,14 @@ class LoginViewModel @Inject constructor(
                 email = loggedDto.value.data?.email!!,
                 token = "Bearer " + loggedDto.value.data?.accessToken!!
             )
-            currentUserService.setCurrentUser(currentUserDto)
+            currentUserUseCases.setCurrentUser(currentUserDto)
 
             val userCredentials = UserLoginDto(
                 email = userLoginDto.email,
                 password = userLoginDto.password
             )
 
-            currentUserService.setUserCredentials(userCredentials)
+            currentUserUseCases.setUserCredentials(userCredentials)
 
 
         }
@@ -68,7 +63,7 @@ class LoginViewModel @Inject constructor(
 
     fun loadUser(token: String, id: Int) = viewModelScope.launch {
         _user.value = Resource.loading()
-        _user.value = userService.getUserById(token, id)
+        _user.value = userUseCases.getUserById(token, id)
 
         if (user.value.status == Resource.Status.SUCCESS) {
             val userDto = UserDto(
@@ -83,7 +78,7 @@ class LoginViewModel @Inject constructor(
                 status = user.value.data?.status!!,
                 logInTime = System.currentTimeMillis()
             )
-            currentUserService.setUser(userDto)
+            currentUserUseCases.setUser(userDto)
         }
     }
 

@@ -2,9 +2,9 @@ package com.softserve.teachua.ui.task
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.softserve.teachua.app.tools.Resource
+import com.softserve.teachua.app.enums.Resource
 import com.softserve.teachua.data.dto.TaskDto
-import com.softserve.teachua.service.task.TaskUseCasesInterface
+import com.softserve.teachua.domain.interfaces.TaskUseCasesInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

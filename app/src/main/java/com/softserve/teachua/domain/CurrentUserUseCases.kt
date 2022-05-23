@@ -1,48 +1,49 @@
-package com.softserve.teachua.service
+package com.softserve.teachua.domain
 
-import com.softserve.teachua.app.tools.Resource
+import com.softserve.teachua.app.enums.Resource
 import com.softserve.teachua.data.dto.CurrentUserDto
 import com.softserve.teachua.data.dto.UserDto
 import com.softserve.teachua.data.dto.UserLoginDto
 import com.softserve.teachua.data.sharedpreferences.CurrentUserSharedPreferencesInterface
-import kotlinx.coroutines.delay
+import com.softserve.teachua.domain.interfaces.CurrentUserUseCasesInterface
 
-class CurrentUserService(
+class CurrentUserUseCases(
     private val userSource: CurrentUserSharedPreferencesInterface,
-) {
-    fun clearCurrentUser() {
+) : CurrentUserUseCasesInterface
+{
+    override fun clearCurrentUser() {
         userSource.clearCurrentUser()
     }
 
-    fun getCurrentUser(): Resource<CurrentUserDto> {
+    override fun getCurrentUser(): Resource<CurrentUserDto> {
         return userSource.getCurrentUser()
     }
 
-    fun setCurrentUser(currentUserDto: CurrentUserDto) {
+    override fun setCurrentUser(currentUserDto: CurrentUserDto) {
         userSource.setCurrentUser(currentUserDto)
     }
 
-    fun clearUser() {
+    override fun clearUser() {
         userSource.clearUser()
     }
 
-    fun getUser(): Resource<UserDto> {
+    override fun getUser(): Resource<UserDto> {
         return userSource.getUser()
     }
 
-    fun setUser(userDto: UserDto) {
+    override fun setUser(userDto: UserDto) {
         userSource.setUser(userDto)
     }
 
-    fun clearUserCredentials() {
+    override fun clearUserCredentials() {
         userSource.clearUserCredentials()
     }
 
-    fun getUserCredentials(): Resource<UserLoginDto> {
+    override fun getUserCredentials(): Resource<UserLoginDto> {
         return userSource.getUserCredentials()
     }
 
-    fun setUserCredentials(userLoginDto: UserLoginDto) {
+    override fun setUserCredentials(userLoginDto: UserLoginDto) {
         userSource.setUserCredentials(userLoginDto)
     }
 

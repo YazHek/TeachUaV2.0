@@ -10,10 +10,8 @@ import androidx.lifecycle.viewModelScope
 import com.bumptech.glide.Glide
 import com.softserve.teachua.app.baseImageUrl
 import com.softserve.teachua.app.tools.CategoryToUrlTransformer
-import com.softserve.teachua.app.tools.Resource
-import com.softserve.teachua.databinding.ChallengeFragmentBinding
+import com.softserve.teachua.app.enums.Resource
 import com.softserve.teachua.databinding.TaskFragmentBinding
-import com.softserve.teachua.ui.challenge.ChallengeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -33,11 +31,8 @@ class TaskFragment : Fragment() {
         _binding = TaskFragmentBinding.inflate(inflater, container, false)
         val view: View = binding.root
         taskId = arguments?.getInt("taskId")!!
-
-
         loadData()
         initViews()
-
         return view
     }
 

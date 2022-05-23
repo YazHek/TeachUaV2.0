@@ -1,6 +1,6 @@
 package com.softserve.teachua.data.retrofit.datasource
 
-import com.softserve.teachua.app.tools.Resource
+import com.softserve.teachua.app.enums.Resource
 import retrofit2.Response
 
 //
