@@ -11,16 +11,16 @@
             tools:targetApi="o" />
         <item
             android:id="@+id/nav_clubs"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_clubs_icon"
             android:title="@string/menu_clubs" />
         <item
             android:id="@+id/nav_challenges"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_challenges_icon"
             android:title="@string/menu_challenge" />
 
         <item
             android:id="@+id/nav_about_us"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_about_icon"
             android:title="@string/menu_about_us"
             />
     </group>

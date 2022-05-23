@@ -10,4 +10,5 @@ data class UserDto(
     val roleName: String,
     val urlLogo: String,
     val status: Boolean,
+    val logInTime: Long
 )

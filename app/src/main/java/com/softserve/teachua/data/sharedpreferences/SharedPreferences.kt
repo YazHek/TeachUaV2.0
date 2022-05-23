@@ -48,6 +48,7 @@ class SharedPreferences(
         val roleName = userCredentials.getString("userRoleName", "")
         val urlLogo = userCredentials.getString("userUrlLogo", "")
         val status = userCredentials.getBoolean("userStatus", false)
+        val logInTime = userCredentials.getLong("userLogInTime", 0)
         if (!status) {
             return Resource.error()
         }
@@ -60,7 +61,8 @@ class SharedPreferences(
             password.toString(),
             roleName.toString(),
             urlLogo.toString(),
-            status
+            status,
+            logInTime
         )
         return Resource.success(userDto)
     }
@@ -75,6 +77,7 @@ class SharedPreferences(
         .putString("userRoleName", userDto.roleName)
         .putString("userUrlLogo", userDto.urlLogo)
         .putBoolean("userStatus", userDto.status)
+        .putLong("userLogInTime", userDto.logInTime)
         .apply()
 
     override fun clearUser() {
