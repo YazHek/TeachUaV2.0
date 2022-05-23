@@ -37,7 +37,10 @@
         <entry key="app/src/main/res/drawable/circle.xml" value="0.135" />
         <entry key="app/src/main/res/drawable/ic_baseline_facebook_24.xml" value="0.158" />
         <entry key="app/src/main/res/drawable/ic_baseline_youtube_24.xml" value="0.158" />
+        <entry key="app/src/main/res/drawable/ic_challenges_icon.xml" value="0.1945" />
+        <entry key="app/src/main/res/drawable/ic_clubs_icon.xml" value="0.125" />
         <entry key="app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.158" />
+        <entry key="app/src/main/res/drawable/ic_menu_gallery.xml" value="0.165" />
         <entry key="app/src/main/res/drawable/main_background.xml" value="0.135" />
         <entry key="app/src/main/res/drawable/selected_dot.xml" value="0.135" />
         <entry key="app/src/main/res/drawable/side_nav_bar.xml" value="0.135" />

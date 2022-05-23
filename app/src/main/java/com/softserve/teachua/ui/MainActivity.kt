@@ -116,27 +116,34 @@ class MainActivity : AppCompatActivity() {
                 when (user.status) {
                     SUCCESS -> {
 
-                        // mainActivityViewModel.loadUser(userToken.data?.token!!, userToken.data.id)
+                        if (System.currentTimeMillis() <= user.data?.logInTime?.plus(24 * 60 * 60 * 1000)!!) {
+                            logOutBtn.setOnClickListener {
+                                mainActivityViewModel.logOut()
 
-                        logOutBtn.setOnClickListener {
+                            }
+                            val userRole = binding.navView.getHeaderView(0).userRole
+                            when (user.data.roleName) {
+
+                                "ROLE_USER" -> also { userRole.text = roles[0] }
+                                "ROLE_ADMIN" -> also { userRole.text = roles[1] }
+                                "ROLE_MANAGER" -> also { userRole.text = roles[2] }
+                            }
+                            val userName = binding.navView.getHeaderView(0).userName
+                            (user.data.firstName + " " + user.data.lastName).also {
+                                userName.text = it
+                            }
+                            Glide.with(this@MainActivity)
+                                .load(baseImageUrl + user.data.urlLogo)
+                                .optionalCircleCrop()
+                                .into(userLogo)
+
+                            showLoggedInView()
+                        } else
                             mainActivityViewModel.logOut()
 
-                        }
-                        val userRole = binding.navView.getHeaderView(0).userRole
-                        when(user.data?.roleName){
+                        // mainActivityViewModel.loadUser(userToken.data?.token!!, userToken.data.id)
 
-                            "ROLE_USER" -> also { userRole.text = roles[0] }
-                            "ROLE_ADMIN" -> also { userRole.text = roles[1] }
-                            "ROLE_MANAGER" -> also { userRole.text = roles[2] }
-                        }
-                        val userName = binding.navView.getHeaderView(0).userName
-                        (user.data?.firstName + " " + user.data?.lastName).also { userName.text = it }
-                        Glide.with(this@MainActivity)
-                            .load(baseImageUrl + user.data?.urlLogo)
-                            .optionalCircleCrop()
-                            .into(userLogo)
 
-                        showLoggedInView()
                     }
                     else -> {
 

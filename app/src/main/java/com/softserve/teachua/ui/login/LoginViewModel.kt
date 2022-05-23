@@ -1,5 +1,7 @@
 package com.softserve.teachua.ui.login
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,6 +14,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -61,6 +65,7 @@ class LoginViewModel @Inject constructor(
 
     }
 
+
     fun loadUser(token: String, id: Int) = viewModelScope.launch {
         _user.value = Resource.loading()
         _user.value = userService.getUserById(token, id)
@@ -75,7 +80,8 @@ class LoginViewModel @Inject constructor(
                 password = user.value.data?.password!!,
                 roleName = user.value.data?.roleName!!,
                 urlLogo = user.value.data?.urlLogo!!,
-                status = user.value.data?.status!!
+                status = user.value.data?.status!!,
+                logInTime = System.currentTimeMillis()
             )
             currentUserService.setUser(userDto)
         }
