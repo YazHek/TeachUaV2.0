@@ -10,31 +10,31 @@ import javax.inject.Inject
 //
 //
 
-class RemoteDataSource @Inject constructor(private val retrofitService: RetrofitApi) :
+class RemoteDataSource @Inject constructor(private val retrofitApi: RetrofitApi) :
     BaseDataSource() {
 
-    suspend fun getChallengeById(id: Int) = getResult { retrofitService.getChallengeById(id) }
+    suspend fun getChallengeById(id: Int) = getResult { retrofitApi.getChallengeById(id) }
 
-    suspend fun getChallenges() = getResult { retrofitService.getChallenges() }
+    suspend fun getChallenges() = getResult { retrofitApi.getChallenges() }
 
-    suspend fun getTask(id: Int) = getResult { retrofitService.getTask(id) }
+    suspend fun getTask(id: Int) = getResult { retrofitApi.getTask(id) }
 
     suspend fun getUserById(token: String, id: Int) =
-        getResult { retrofitService.getUserById(token, id) }
+        getResult { retrofitApi.getUserById(token, id) }
 
-    suspend fun getAllBanners() = getResult { retrofitService.getAllBanners() }
+    suspend fun getAllBanners() = getResult { retrofitApi.getAllBanners() }
 
-    suspend fun getAllCategories() = getResult { retrofitService.getAllCategories() }
+    suspend fun getAllCategories() = getResult { retrofitApi.getAllCategories() }
 
-    suspend fun getAllCities() = getResult { retrofitService.getAllCities() }
+    suspend fun getAllCities() = getResult { retrofitApi.getAllCities() }
 
     suspend fun getLoggedUser(userLoginDto: UserLoginDto) =
-        getResult { retrofitService.getLoggedUser(userLoginDto) }
+        getResult { retrofitApi.getLoggedUser(userLoginDto) }
 
     suspend fun getAllDistricts(cityName: String) =
-        getResult { retrofitService.getDistrictsByCityName(cityName) }
+        getResult { retrofitApi.getDistrictsByCityName(cityName) }
 
     suspend fun getAllStations(cityName: String) =
-        getResult { retrofitService.getStationsByCityName(cityName) }
+        getResult { retrofitApi.getStationsByCityName(cityName) }
 
 }

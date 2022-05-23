@@ -25,8 +25,7 @@ class CategoriesAdapter(context: Context) :
     val layoutInflater: LayoutInflater = LayoutInflater.from(context)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoriesViewHolder {
-        return CategoriesViewHolder(layoutInflater
-            .inflate(R.layout.category_item, parent, false))
+        return CategoriesViewHolder(layoutInflater.inflate(R.layout.category_item, parent, false))
     }
 
     override fun onBindViewHolder(holder: CategoriesViewHolder, position: Int) {
@@ -39,8 +38,7 @@ class CategoriesAdapter(context: Context) :
         fun bind(model: CategoryModel) {
             itemView.categoryTitle.text = model.categoryName
             itemView.categoryDescription.text = model.categoryDescription
-
-
+            
             if (model.categoryUrlLogo.endsWith(".svg"))
                 GlideToVectorYou
                     .init()
