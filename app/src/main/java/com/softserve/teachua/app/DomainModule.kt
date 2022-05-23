@@ -6,14 +6,8 @@ import com.softserve.teachua.data.retrofit.RetrofitApi
 import com.softserve.teachua.data.retrofit.datasource.RemoteDataSource
 import com.softserve.teachua.data.sharedpreferences.CurrentUserSharedPreferencesInterface
 import com.softserve.teachua.data.sharedpreferences.SharedPreferences
-import com.softserve.teachua.service.BannersService
-import com.softserve.teachua.service.CategoriesService
-import com.softserve.teachua.service.CurrentUserService
-import com.softserve.teachua.service.UserService
-import com.softserve.teachua.service.challenge.ChallengeUseCases
-import com.softserve.teachua.service.challenge.ChallengesUseCasesInterface
-import com.softserve.teachua.service.task.TaskUseCases
-import com.softserve.teachua.service.task.TaskUseCasesInterface
+import com.softserve.teachua.domain.*
+import com.softserve.teachua.domain.interfaces.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,43 +21,65 @@ class DomainModule () {
 
 
     //
-    //Service
+    //Domain
     //
     @Singleton
     @Provides
-    fun providesCurrentUserService(@ApplicationContext appContext: Context):CurrentUserService{
-        return CurrentUserService(providesCurrentUserInterface(appContext))
+    fun providesCitiesUseCasesInterface() : CitiesUseCasesInterface{
+        return CitiesUseCases(providesRemoteDataSource())
+    }
+
+
+    @Singleton
+    @Provides
+    fun providesCurrentUserUseCasesInterface(@ApplicationContext appContext: Context) : CurrentUserUseCasesInterface{
+        return CurrentUserUseCases(providesCurrentUserSharedPreferencesInterface(appContext))
+    }
+
+
+    @Singleton
+    @Provides
+    fun providesStationsUseCasesInterface() : StationsUseCasesInterface{
+        return StationsUseCases(providesRemoteDataSource())
+    }
+
+
+    @Singleton
+    @Provides
+    fun providesDistrictUseCasesInterface():DistrictUseCasesInterface{
+        return DistrictUseCases(providesRemoteDataSource())
     }
 
     @Singleton
     @Provides
-    fun provideCategoriesService() : CategoriesService {
-        return CategoriesService(providesRemoteDataSource())
+    fun provideCategoriesUseCases() : CategoriesUseCasesInterface {
+        return CategoriesUseCases(providesRemoteDataSource())
     }
 
     @Singleton
     @Provides
-    fun provideUserService() : UserService {
-        return UserService(providesRemoteDataSource())
+    fun provideUserUseCases() : UserUseCasesInterface {
+        return UserUseCases(providesRemoteDataSource())
     }
 
     @Singleton
     @Provides
-    fun provideBannersService() : BannersService {
-        return BannersService(providesRemoteDataSource())
+    fun provideBannersUseCases() : BannerUseCasesInterface {
+        return BannerUseCases(providesRemoteDataSource())
     }
 
     @Singleton
     @Provides
-    fun providesChallengeUseCasesInterface():ChallengesUseCasesInterface{
+    fun providesChallengeUseCasesUseCases(): ChallengesUseCasesInterface {
         return ChallengeUseCases(providesRemoteDataSource())
     }
 
     @Singleton
     @Provides
-    fun providesTaskUseCasesInterface():TaskUseCasesInterface{
+    fun providesTaskUseCases():TaskUseCasesInterface{
         return TaskUseCases(providesRemoteDataSource())
     }
+
 
     //
     //Remote Data Source (RETROFIT, RemoteDataSource)
@@ -82,7 +98,7 @@ class DomainModule () {
 
     @Singleton
     @Provides
-    fun providesCurrentUserInterface( @ApplicationContext appContext: Context ):CurrentUserSharedPreferencesInterface{
+    fun providesCurrentUserSharedPreferencesInterface( @ApplicationContext appContext: Context ):CurrentUserSharedPreferencesInterface{
         return SharedPreferences(appContext)
     }
 }

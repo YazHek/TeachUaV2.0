@@ -1,8 +1,7 @@
 package com.softserve.teachua.data.sharedpreferences
 
 import android.content.Context
-import android.content.SharedPreferences
-import com.softserve.teachua.app.tools.Resource
+import com.softserve.teachua.app.enums.Resource
 import com.softserve.teachua.data.dto.CurrentUserDto
 import com.softserve.teachua.data.dto.UserDto
 import com.softserve.teachua.data.dto.UserLoginDto

@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.Navigation
 import com.softserve.teachua.R
-import com.softserve.teachua.app.tools.Resource
+import com.softserve.teachua.app.enums.Resource
 import com.softserve.teachua.data.dto.UserLoginDto
 import com.softserve.teachua.databinding.FragmentLoginBinding
 import com.softserve.teachua.ui.MainActivity

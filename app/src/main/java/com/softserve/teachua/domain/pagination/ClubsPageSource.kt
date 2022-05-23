@@ -1,4 +1,4 @@
-package com.softserve.teachua.service
+package com.softserve.teachua.domain.pagination
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
@@ -11,8 +11,8 @@ import retrofit2.HttpException
 
 class ClubsPageSource(
     private val service: RetrofitApi,
-    var searchClubDto: SearchClubDto,
-    var advancedSearchClubDto: AdvancedSearchClubDto,
+    private var searchClubDto: SearchClubDto,
+    private var advancedSearchClubDto: AdvancedSearchClubDto,
 ) : PagingSource<Int, ClubModel>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ClubModel> {
@@ -22,7 +22,7 @@ class ClubsPageSource(
         val isOnline = false
         val categoryName = ""
         val page = params.key ?: 0
-        var pageSize = 8
+        val pageSize = 8
 
         println(advancedSearchClubDto.categoriesName)
         println("in datasource " + searchClubDto.cityName)

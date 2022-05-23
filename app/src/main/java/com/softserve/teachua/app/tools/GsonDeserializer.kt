@@ -2,7 +2,7 @@ package com.softserve.teachua.app.tools
 
 import com.google.gson.Gson
 
-class GsonDeserializer() {
+class GsonDeserializer {
 
     fun <T> deserialize(json: String?, clazz: Class<T>): T {
         return Gson().fromJson(json, clazz)

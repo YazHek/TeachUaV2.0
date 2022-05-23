@@ -20,10 +20,11 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.snackbar.Snackbar
 import com.softserve.teachua.R
 import com.softserve.teachua.app.baseImageUrl
-import com.softserve.teachua.app.tools.Resource.Status.SUCCESS
+import com.softserve.teachua.app.roles
+import com.softserve.teachua.app.enums.Resource.Status.SUCCESS
+import com.softserve.teachua.app.enums.Role
 import com.softserve.teachua.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.logged_in_user_nav_section.view.*
@@ -46,8 +47,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var logOutBtn: TextView
     private lateinit var enterToAccountBtn: TextView
     private lateinit var userLogo: ImageView
-
-    private var roles = listOf("ВІДВІДУВАЧ", "АДМІНІСТРАТОР", "КЕРІВНИК")
     private lateinit var accountContainer: ViewFlipper
 
 
@@ -60,11 +59,6 @@ class MainActivity : AppCompatActivity() {
         initViews()
         initNavController()
         initDrawer()
-
-        binding.appBarMain.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
     }
 
 
@@ -96,10 +90,6 @@ class MainActivity : AppCompatActivity() {
     private fun initNavController() {
         setToolbar(toolbar)
         val navController = findNavController(R.id.nav_host_fragment_content_main)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-
-        //findViewById<Toolbar>(R.id.toolbar).setupWithNavController(navController, appBarConfiguration)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }
@@ -107,10 +97,6 @@ class MainActivity : AppCompatActivity() {
     private fun initDrawer() {
         mainActivityViewModel.loadUser()
         loadImagesToDrawer()
-        //mainActivityViewModel.loadData()
-//        mainActivityViewModel.loadUser(mainActivityViewModel.userToken.value.data?.token!!,
-//            mainActivityViewModel.userToken.value.data?.id!!)
-
         lifecycleScope.launch {
             mainActivityViewModel.user.collectLatest { user ->
                 when (user.status) {
@@ -124,9 +110,9 @@ class MainActivity : AppCompatActivity() {
                             val userRole = binding.navView.getHeaderView(0).userRole
                             when (user.data.roleName) {
 
-                                "ROLE_USER" -> also { userRole.text = roles[0] }
-                                "ROLE_ADMIN" -> also { userRole.text = roles[1] }
-                                "ROLE_MANAGER" -> also { userRole.text = roles[2] }
+                                "ROLE_USER" -> also { userRole.text = Role.user().uaName }
+                                "ROLE_ADMIN" -> also { userRole.text =  Role.admin().uaName }
+                                "ROLE_MANAGER" -> also { userRole.text =  Role.manager().uaName }
                             }
                             val userName = binding.navView.getHeaderView(0).userName
                             (user.data.firstName + " " + user.data.lastName).also {

@@ -1,4 +1,4 @@
-package com.softserve.teachua.app.adapters
+package com.softserve.teachua.ui.home
 
 import android.content.Context
 import android.graphics.Color

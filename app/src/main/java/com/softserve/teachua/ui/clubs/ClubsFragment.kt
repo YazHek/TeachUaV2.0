@@ -26,10 +26,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.softserve.teachua.ui.MainActivity
 import com.softserve.teachua.R
-import com.softserve.teachua.app.adapters.ClubsAdapter
-import com.softserve.teachua.app.adapters.ClubsLoadStateAdapter
 import com.softserve.teachua.app.tools.CategoryToUrlTransformer
-import com.softserve.teachua.app.tools.Resource
+import com.softserve.teachua.app.enums.Resource
 import com.softserve.teachua.databinding.FragmentClubsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.adv_search.*

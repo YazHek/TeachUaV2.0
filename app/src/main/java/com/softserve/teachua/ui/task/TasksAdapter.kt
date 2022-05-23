@@ -1,4 +1,4 @@
-package com.softserve.teachua.app.adapters
+package com.softserve.teachua.ui.task
 
 import android.content.Context
 import android.os.Bundle

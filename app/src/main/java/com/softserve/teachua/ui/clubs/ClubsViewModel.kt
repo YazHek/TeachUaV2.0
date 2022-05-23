@@ -1,6 +1,5 @@
 package com.softserve.teachua.ui.clubs
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import com.softserve.teachua.app.tools.Resource
+import com.softserve.teachua.app.enums.Resource
 import com.softserve.teachua.data.dto.AdvancedSearchClubDto
 import com.softserve.teachua.data.dto.SearchClubDto
 import com.softserve.teachua.data.model.CategoryModel
@@ -16,7 +15,11 @@ import com.softserve.teachua.data.model.CityModel
 import com.softserve.teachua.data.model.DistrictModel
 import com.softserve.teachua.data.model.StationModel
 import com.softserve.teachua.data.retrofit.Common
-import com.softserve.teachua.service.*
+import com.softserve.teachua.domain.interfaces.CategoriesUseCasesInterface
+import com.softserve.teachua.domain.interfaces.CitiesUseCasesInterface
+import com.softserve.teachua.domain.interfaces.DistrictUseCasesInterface
+import com.softserve.teachua.domain.interfaces.StationsUseCasesInterface
+import com.softserve.teachua.domain.pagination.ClubsPageSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -25,10 +28,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ClubsViewModel @Inject constructor(
-    private val districtService: DistrictService,
-    private val stationsService: StationsService,
-    private val citiesService: CitiesService,
-    private val categoriesService: CategoriesService,
+    private val districtUseCases: DistrictUseCasesInterface,
+    private val stationsUseCases: StationsUseCasesInterface,
+    private val citiesUseCases: CitiesUseCasesInterface,
+    private val categoriesUseCases: CategoriesUseCasesInterface,
 
     ) : ViewModel() {
 
@@ -79,29 +82,29 @@ class ClubsViewModel @Inject constructor(
     fun loadCities() =
         viewModelScope.launch {
             println("Loaded Cities")
-            _cities.value = citiesService.getAllCities()
+            _cities.value = citiesUseCases.getAllCities()
         }
 
     fun loadDistricts(cityName: String) =
         viewModelScope.launch {
             _districts.value = Resource.loading()
-            _districts.value = districtService.getAllDistricts(cityName)
+            _districts.value = districtUseCases.getAllDistricts(cityName)
         }
 
     fun loadStations(cityName: String) =
         viewModelScope.launch {
             _stations.value = Resource.loading()
-            _stations.value = stationsService.getAllStations(cityName)
+            _stations.value = stationsUseCases.getAllStations(cityName)
         }
 
     fun loadCategories() =
         viewModelScope.launch {
             _categories.value = Resource.loading()
-            _categories.value = categoriesService.getAllCategories()
+            _categories.value = categoriesUseCases.getAllCategories()
         }
 
     fun loadClubs(cityName: String) =
-        viewModelScope.launch { _stations.value = stationsService.getAllStations(cityName) }
+        viewModelScope.launch { _stations.value = stationsUseCases.getAllStations(cityName) }
 
     val clubs = Pager(config = PagingConfig(pageSize = 2), pagingSourceFactory = {
         ClubsPageSource(Common.retrofitService,

@@ -1,6 +1,6 @@
-package com.softserve.teachua.service.task
+package com.softserve.teachua.domain.interfaces
 
-import com.softserve.teachua.app.tools.Resource
+import com.softserve.teachua.app.enums.Resource
 import com.softserve.teachua.data.dto.TaskDto
 
 interface TaskUseCasesInterface {

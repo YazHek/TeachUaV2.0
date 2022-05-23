@@ -1,4 +1,4 @@
-package com.softserve.teachua.app.tools
+package com.softserve.teachua.app.enums
 
 /*
 Data class made to deliver information about response and data itself

@@ -14,11 +14,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
 import com.softserve.teachua.R
-import com.softserve.teachua.app.adapters.TasksAdapter
+import com.softserve.teachua.ui.task.TasksAdapter
 import com.softserve.teachua.app.baseImageUrl
 import com.softserve.teachua.app.baseMailImage
 import com.softserve.teachua.app.tools.CategoryToUrlTransformer
-import com.softserve.teachua.app.tools.Resource
+import com.softserve.teachua.app.enums.Resource
 import com.softserve.teachua.databinding.ChallengeFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest

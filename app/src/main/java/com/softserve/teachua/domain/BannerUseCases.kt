@@ -1,18 +1,19 @@
-package com.softserve.teachua.service
+package com.softserve.teachua.domain
 
-import com.softserve.teachua.app.tools.Resource
+import com.softserve.teachua.app.enums.Resource
 import com.softserve.teachua.app.tools.toBanner
 import com.softserve.teachua.app.tools.performGetFromRemoteAndMapData
 import com.softserve.teachua.data.model.BannerModel
 import com.softserve.teachua.data.retrofit.datasource.RemoteDataSource
-import kotlinx.coroutines.delay
+import com.softserve.teachua.domain.interfaces.BannerUseCasesInterface
 import javax.inject.Inject
 
 
-class BannersService @Inject constructor(
+class BannerUseCases @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
-) {
-    suspend fun getAllBanners(): Resource<List<BannerModel>> {
+) : BannerUseCasesInterface
+{
+    override suspend fun getAllBanners(): Resource<List<BannerModel>> {
         return performGetFromRemoteAndMapData(
             networkCall = {
                 remoteDataSource.getAllBanners()
